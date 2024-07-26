@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerComp_OP2 : MonoBehaviour
@@ -8,6 +8,8 @@ public class PlayerComp_OP2 : MonoBehaviour
     [SerializeField] TP2_Manager_ProfeAestrella _Manager;
     public Node_Script_OP2 NearestNode;
     public float speed;
+    private Vector3 _targetPos;
+    private bool isMoving;
 
     public void Start()
     {
@@ -20,21 +22,33 @@ public class PlayerComp_OP2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetMouseButtonDown(0))
         {
-            this.transform.position = this.transform.position + (new Vector3(0, 1, 0) * Time.deltaTime) * speed;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 hitPoint = hit.point;
+
+                if (Vector3.Distance(NearestNode.transform.position, hitPoint) < 1f)
+                {
+                    _targetPos = hitPoint;
+                    isMoving = true;
+                }
+            }
+
+           
         }
-        else if (Input.GetKey(KeyCode.S))
+        if (isMoving && Vector3.Distance(transform.position, _targetPos) > 0.1f)
         {
-            this.transform.position = this.transform.position + (new Vector3(0, -1, 0) * Time.deltaTime) * speed;
+            _Manager.PathFinding(_Manager._Path, _Manager._NearestPlayerNode, _Manager.EndNode);
+            Vector3 moveDirection = (_targetPos - transform.position).normalized;
+            transform.position += moveDirection * speed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else
         {
-            this.transform.position = this.transform.position + (new Vector3(-1, 0, 0) * Time.deltaTime) * speed;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            this.transform.position = this.transform.position + (new Vector3(1, 0, 0) * Time.deltaTime) * speed;
+            isMoving = false;
         }
 
         _Manager._NearestPlayerNode = NearestNode;

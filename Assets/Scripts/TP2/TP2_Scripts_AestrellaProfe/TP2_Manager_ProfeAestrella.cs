@@ -77,6 +77,7 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                     current = cameFrom.ContainsKey(current) ? cameFrom[current] : null;
                 }
                 _IaPath.Reverse();
+                SmoothPath(_IaPath);
                 return;
             }
 
@@ -101,4 +102,27 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     {
         return Vector3.Distance(a, b);
     }
+
+    private void SmoothPath(List<Transform> path)
+    {
+        int current = 0;
+        while (current + 2 < path.Count)
+        {
+            if (InLineOfSight(path[current].position, path[current + 2].position))
+            {
+                path.RemoveAt(current + 1);
+            }
+            else
+            {
+                current++;
+            }
+        }
+    }
+
+    private bool InLineOfSight(Vector3 start, Vector3 goal)
+    {
+        Vector3 dir = goal - start;
+        return !Physics.Raycast(start, dir, dir.magnitude, LayerMask.GetMask("Obstacle"));
+    }
+
 }
