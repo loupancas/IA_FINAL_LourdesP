@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dragon : Agent
+public class Dragon : MonoBehaviour
 {
-    public Agent player;
+    //public Agent player;
     public bool playerSpotted;
     public DecisionNode decisionTree;
 
@@ -15,44 +15,44 @@ public class Dragon : Agent
 
     void Start()
     {
-        ChangeColor(myInitialMaterialColor);
+        //ChangeColor(myInitialMaterialColor);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if(InFieldOfView(player.transform.position))
-        {
-            playerSpotted = true;
-            player.ChangeColor(Color.red);
-        }
-        else
-        {
-            playerSpotted = false;
-            player.ChangeColor(player.myInitialMaterialColor);
-        }
+        //if(InFieldOfView(player.transform.position))
+        //{
+        //    playerSpotted = true;
+        //    player.ChangeColor(Color.red);
+        //}
+        //else
+        //{
+        //    playerSpotted = false;
+        //    player.ChangeColor(player.myInitialMaterialColor);
+        //}
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            decisionTree.Execute(this);
-        }
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    decisionTree.Execute(this);
+        //}
     }
 
-    public void SleepTime()
-    {
-        Debug.Log($"{gameObject.name} esta en modo ZZZ");
-    }
+    //public void SleepTime()
+    //{
+    //    Debug.Log($"{gameObject.name} esta en modo ZZZ");
+    //}
 
-    public void ChaseTime()
-    {
-        Debug.Log($"{gameObject.name} esta persiguiendo a {player.gameObject.name}");
-    }
+    //public void ChaseTime()
+    //{
+    //    Debug.Log($"{gameObject.name} esta persiguiendo a {player.gameObject.name}");
+    //}
 
-    public void AttackTime()
-    {
-        Debug.Log($"{gameObject.name} esta atacando a {player.gameObject.name}");
-    }
+    //public void AttackTime()
+    //{
+    //    Debug.Log($"{gameObject.name} esta atacando a {player.gameObject.name}");
+    //}
 
     #region FOV
     //FOV (Field of View)
