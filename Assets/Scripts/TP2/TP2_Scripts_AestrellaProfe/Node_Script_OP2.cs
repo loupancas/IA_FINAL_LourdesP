@@ -66,16 +66,23 @@ public class Node_Script_OP2 : MonoBehaviour
             {
                 // vecino
                 _Neighbors.Add(_CurrentNode.NodeTransform);
+                //añadir una linea entre los nodos
+                Debug.DrawLine(this.NodeTransform.position, _CurrentNode.NodeTransform.position, Color.green);
+
             }
+
         }
     }
     private bool InLOS(Transform _currennode)
     {
         Vector3 dir = (_currennode.transform.position - this.NodeTransform.position);
 
+       
 
         //calculo fisica si hay algo en el medio
         return !Physics2D.Raycast(this.NodeTransform.position, dir, dir.magnitude, _Obstacles );
+
+
 
     }
     public void SetNodeType(string NodeType)
@@ -103,5 +110,26 @@ public class Node_Script_OP2 : MonoBehaviour
             Debug.Log("SetNodeType: invalid String, check the call");
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        foreach (var item in _Neighbors)
+        {
+            Vector3 Dir = item.transform.position - transform.position;
+            if (Physics.Raycast(transform.position, Dir, out RaycastHit hitInfo, Dir.magnitude, _Obstacles))
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position, hitInfo.point);
+            }
+            else
+            {
+                Gizmos.color = Color.white;
+
+                Gizmos.DrawLine(transform.position, item.transform.position);
+            }
+
+        }
+    }
+
 }
 

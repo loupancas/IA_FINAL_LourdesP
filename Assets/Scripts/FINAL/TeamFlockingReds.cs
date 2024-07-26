@@ -12,6 +12,9 @@ public class TeamFlockingReds : SteeringAgent
     [SerializeField] private float speed;
     // Bools
     public bool isFlocking;
+    FSM _fsm;
+    [SerializeField] ProyectilesBase _proyectil;
+    [SerializeField] Transform _spawnBullet;
 
     Vector3 dir;
 
@@ -19,6 +22,14 @@ public class TeamFlockingReds : SteeringAgent
     {
               
         GameManager.instance.allAgents.Add(this);
+        _fsm = new FSM();
+        _fsm.CreateState("Attack", new EnemyAttack(_fsm, _proyectil, _spawnBullet, _wallLayer, _viewRadius, _viewAngle, _cdShot, this));
+        _fsm.CreateState("Lost view", new EnemyLostView(_fsm, transform, _wallLayer, _viewRadius, _viewAngle));
+        _fsm.CreateState("Movement", new EnemyMovement(_fsm, _maxVelocity, _maxForce, _viewRadius, _viewAngle, _wallLayer, this));
+
+        _fsm.ChangeState("Movement");
+
+
     }
 
 
