@@ -12,6 +12,7 @@ public class PlayerComp_OP2 : MonoBehaviour
     private Vector3 _targetPos;
     private bool isMoving;
     private Queue<Vector3> pathQueue;
+  
 
     public void Start()
     {

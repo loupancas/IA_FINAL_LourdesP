@@ -6,8 +6,8 @@ public class EnemyAttack : IState
 {
     FSM _fsm;
     ProyectilesBase _proyectil;
-    TeamFlockingReds _me;
-    List<TeamFlockingReds> _boids;
+    TeamFlockingBase _me;
+    List<EnemigoBase> _boids;
     Transform _transform;
     Transform _bulletSpawn;
     LayerMask _maskPlayer;
@@ -17,7 +17,7 @@ public class EnemyAttack : IState
     float _cdShot;
     float _currCdShot;
 
-    public EnemyAttack(FSM fsm, ProyectilesBase proyectil, Transform bulletSpawn, LayerMask maskPlayer, float viewRadius, float viewAngle, float cdShot, TeamFlockingReds me)
+    public EnemyAttack(FSM fsm, ProyectilesBase proyectil, Transform bulletSpawn, LayerMask maskPlayer, float viewRadius, float viewAngle, float cdShot, TeamFlockingBase me)
     {
         _fsm = fsm;
         _proyectil = proyectil;

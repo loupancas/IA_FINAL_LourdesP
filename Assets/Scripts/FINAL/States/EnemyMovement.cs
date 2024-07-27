@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyMovement : IState
 {
     FSM _fsm;
-    TeamFlockingReds _me;
+    TeamFlockingBase _me;
     Transform _transform;
-    List<TeamFlockingReds> _boids;
+    List<EnemigoBase> _boids;
     float _maxVelocity;
     float _maxForce;
     float _viewRadius;
@@ -15,7 +15,7 @@ public class EnemyMovement : IState
     Vector3 _velocity;
     LayerMask _wallLayer;
 
-    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingReds me)
+    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingBase me)
     {
         _me = me;
         _fsm = fsm;
@@ -41,22 +41,19 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-        //if (InLineOfSight(_transform.position, GameManager.instance.pj.transform.position))
-        //{
-        //    AddForce(Seek(GameManager.instance.pj.transform.position));
-        //    AddForce(Separation(_boids, 1));
+        if (InLineOfSight(_transform.position, GameManager.instance._pinkLeader.transform.position))
+        {
+            AddForce(Seek(GameManager.instance._pinkLeader.transform.position));
+            AddForce(Separation(_boids, 1));
 
-        //    _transform.position += _velocity * Time.deltaTime;
-        //    _transform.forward = _velocity;
+            _transform.position += _velocity * Time.deltaTime;
+            _transform.forward = _velocity;
 
-        //}
-
-
-
-        //if (Vector3.Distance(_transform.position, GameManager.instance.pj.transform.position) < 5)
-        //{
-        //    _fsm.ChangeState("Attack");
-        //}
+        }
+        if (Vector3.Distance(_transform.position, GameManager.instance._blueLeader.transform.position) < 5)
+        {
+            _fsm.ChangeState("Attack");
+        }
     }
 
     void AddForce(Vector3 dir)
@@ -99,27 +96,27 @@ public class EnemyMovement : IState
         return false;
     }
 
-    //Vector3 Separation(List<EnemigoBase> boids, float radius)
-    //{
-    //    Vector3 desired = Vector3.zero;
+    Vector3 Separation(List<EnemigoBase> boids, float radius)
+    {
+        Vector3 desired = Vector3.zero;
 
-    //    foreach (var item in boids)
-    //    {
-    //        var dir = item.transform.position - _transform.position;
-    //        if (dir.magnitude > radius || item == _me)
-    //            continue;
+        foreach (var item in boids)
+        {
+            var dir = item.transform.position - _transform.position;
+            if (dir.magnitude > radius || item == _me)
+                continue;
 
-    //        desired -= dir;
-    //    }
+            desired -= dir;
+        }
 
-    //    if (desired == Vector3.zero)
-    //        return desired;
+        if (desired == Vector3.zero)
+            return desired;
 
-    //    desired.Normalize();
-    //    desired *= _maxVelocity;
+        desired.Normalize();
+        desired *= _maxVelocity;
 
-    //    return CalculateSteering(desired);
-    //}
+        return CalculateSteering(desired);
+    }
 
     Vector3 CalculateSteering(Vector3 desired)
     {

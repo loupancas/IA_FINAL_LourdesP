@@ -29,16 +29,16 @@ public class Arena : ArenaBase
     public override void IniciarHorda()
     {
         _arenaEmpezada = true;
-        for (int i = 0; i < 5; i++)
-        {
-            SpawnEnemy();
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    SpawnEnemy();
+        //}
 
     }
 
     public void SpawnEnemy()
     {
-        int NumeroRandom1 = Random.Range(0, spawnPoints.Length);
+        //int NumeroRandom1 = Random.Range(0, spawnPoints.Length);
         //int NumeroRandom2 = Random.Range(0, enemigos.Length);
         //enemigos[NumeroRandom2].SpawnEnemy(spawnPoints[NumeroRandom1].transform);
     }

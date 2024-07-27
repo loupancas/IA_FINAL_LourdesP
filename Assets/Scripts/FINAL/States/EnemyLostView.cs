@@ -33,10 +33,10 @@ public class EnemyLostView : IState
 
     public void OnUpdate()
     {
-        //if (InFOV(GameManager.instance.pj.transform))
-        //{
-        //    _fsm.ChangeState("Attack");
-        //}
+        if (InFOV(GameManager.instance._blueLeader.transform))
+        {
+            _fsm.ChangeState("Attack");
+        }
 
 
 
