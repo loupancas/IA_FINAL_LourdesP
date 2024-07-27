@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public List<EnemigoBase> allAgents = new List<EnemigoBase>();
-    public List<EnemigoBase> pinkAgents = new List<EnemigoBase>();
-    public List<EnemigoBase> cyanAgents = new List<EnemigoBase>();
+    public List<TeamFlockingBase> pinkAgents = new List<TeamFlockingBase>();
+    public List<TeamFlockingBase> cyanAgents = new List<TeamFlockingBase>();
     //public TeamFlockingPinks pink;
     //public TeamFlockingBlues cyan;
     public PlayerComp_OP2 _pinkLeader;
@@ -19,34 +19,33 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        allAgents = FindObjectsOfType<EnemigoBase>().ToList();
+        //allAgents = FindObjectsOfType<EnemigoBase>().ToList();
     }
     void Start()
     {
         //SeparateAgentsIntoTeams();
+        InitializeAllAgents();
+        SeparateAgentsIntoTeams();
 
     }
-
+    void InitializeAllAgents()
+    {
+        allAgents = FindObjectsOfType<EnemigoBase>().ToList();
+    }
     void SeparateAgentsIntoTeams()
     {
-        pinkAgents = allAgents.Where(agent => agent.team == Team.Pink).ToList();
-        cyanAgents = allAgents.Where(agent => agent.team == Team.Cyan).ToList();
-
-        foreach (var agent in pinkAgents)
+        foreach (var agent in allAgents)
         {
-
-            if (agent is TeamFlockingBase)
+            if (agent is TeamFlockingBase teamAgent)
             {
-                ((TeamFlockingBase)agent).AddToTeam();
-            }
-
-        }
-
-        foreach (var agent in cyanAgents)
-        {
-            if (agent is TeamFlockingBase)
-            {
-                ((TeamFlockingBase)agent).AddToTeam();
+                if (teamAgent is TeamFlockingPinks)
+                {
+                    pinkAgents.Add(teamAgent as TeamFlockingPinks);
+                }
+                else if (teamAgent is TeamFlockingCyan)
+                {
+                    cyanAgents.Add(teamAgent as TeamFlockingCyan);
+                }
             }
         }
     }

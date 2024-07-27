@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeamFlockingPinks : TeamFlockingBase
 {
-    public override void AddToTeam()
+    protected override void AddToTeam()
     {
         GameManager.instance.pinkAgents.Add(this);
     }

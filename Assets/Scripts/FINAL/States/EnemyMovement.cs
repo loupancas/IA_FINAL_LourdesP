@@ -7,7 +7,7 @@ public class EnemyMovement : IState
     FSM _fsm;
     TeamFlockingBase _me;
     Transform _transform;
-    List<EnemigoBase> _boids;
+    List<TeamFlockingBase> _boids;
     float _maxVelocity;
     float _maxForce;
     float _viewRadius;
@@ -15,7 +15,7 @@ public class EnemyMovement : IState
     Vector3 _velocity;
     LayerMask _wallLayer;
 
-    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingBase me)
+    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingBase me, List<TeamFlockingBase> boids)
     {
         _me = me;
         _fsm = fsm;
@@ -26,7 +26,7 @@ public class EnemyMovement : IState
         _viewAngle = viewAngle;
         _wallLayer = wallLayer;
         //_boids = GameManager.instance.arenaManager.enemigosEnLaArena;
-
+        _boids = boids;
     }
 
     public void OnEnter()
@@ -44,7 +44,7 @@ public class EnemyMovement : IState
         if (InLineOfSight(_transform.position, GameManager.instance._pinkLeader.transform.position))
         {
             AddForce(Seek(GameManager.instance._pinkLeader.transform.position));
-            AddForce(Separation(_boids, 1));
+            //AddForce(Separation(_boids, 1));
 
             _transform.position += _velocity * Time.deltaTime;
             _transform.forward = _velocity;

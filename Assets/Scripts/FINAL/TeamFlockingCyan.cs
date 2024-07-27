@@ -15,7 +15,7 @@ public class TeamFlockingCyan : TeamFlockingBase
     {
         
     }
-    public override void AddToTeam()
+    protected override void AddToTeam()
     {
         GameManager.instance.cyanAgents.Add(this);
     }
