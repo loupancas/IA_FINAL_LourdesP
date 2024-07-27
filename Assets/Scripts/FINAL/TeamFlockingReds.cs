@@ -15,6 +15,11 @@ public class TeamFlockingReds : SteeringAgent
     FSM _fsm;
     [SerializeField] ProyectilesBase _proyectil;
     [SerializeField] Transform _spawnBullet;
+    [SerializeField] LayerMask _Obstacles;
+    float _viewRadius;
+    float _viewAngle;
+    float _cdShot;
+    float _maxVelocity;
 
     Vector3 dir;
 
@@ -23,9 +28,9 @@ public class TeamFlockingReds : SteeringAgent
               
         GameManager.instance.allAgents.Add(this);
         _fsm = new FSM();
-        _fsm.CreateState("Attack", new EnemyAttack(_fsm, _proyectil, _spawnBullet, _wallLayer, _viewRadius, _viewAngle, _cdShot, this));
-        _fsm.CreateState("Lost view", new EnemyLostView(_fsm, transform, _wallLayer, _viewRadius, _viewAngle));
-        _fsm.CreateState("Movement", new EnemyMovement(_fsm, _maxVelocity, _maxForce, _viewRadius, _viewAngle, _wallLayer, this));
+        _fsm.CreateState("Attack", new EnemyAttack(_fsm, _proyectil, _spawnBullet, _Obstacles, _viewRadius, _viewAngle, _cdShot, this));
+        _fsm.CreateState("Lost view", new EnemyLostView(_fsm, transform, _Obstacles, _viewRadius, _viewAngle));
+        _fsm.CreateState("Movement", new EnemyMovement(_fsm, _maxVelocity, _maxForce, _viewRadius, _viewAngle, _Obstacles, this));
 
         _fsm.ChangeState("Movement");
 

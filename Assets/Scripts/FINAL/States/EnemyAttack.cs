@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAttack : IState
 {
     FSM _fsm;
-    //ProyectilesBase _proyectil;
+    ProyectilesBase _proyectil;
     TeamFlockingReds _me;
     List<TeamFlockingReds> _boids;
     Transform _transform;
@@ -20,7 +20,7 @@ public class EnemyAttack : IState
     public EnemyAttack(FSM fsm, ProyectilesBase proyectil, Transform bulletSpawn, LayerMask maskPlayer, float viewRadius, float viewAngle, float cdShot, TeamFlockingReds me)
     {
         _fsm = fsm;
-        //_proyectil = proyectil;
+        _proyectil = proyectil;
         _transform = me.transform;
         _bulletSpawn = bulletSpawn;
         _maskPlayer = maskPlayer;
@@ -42,7 +42,7 @@ public class EnemyAttack : IState
 
     public void OnUpdate()
     {
-        //_currCdShot += Time.deltaTime;
+        _currCdShot += Time.deltaTime;
 
 
 

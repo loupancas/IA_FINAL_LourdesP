@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -78,6 +79,7 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                 }
                 _IaPath.Reverse();
                 SmoothPath(_IaPath);
+                Debug.Log("Generated Path: " + string.Join(", ", _IaPath.Select(t => t.name))); // Depuración
                 return;
             }
 
@@ -123,6 +125,24 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     {
         Vector3 dir = goal - start;
         return !Physics.Raycast(start, dir, dir.magnitude, LayerMask.GetMask("Obstacle"));
+    }
+
+
+    public Node_Script_OP2 FindNodeNearPoint(Vector3 point)
+    {
+        Node_Script_OP2 nearestNode = null;
+        float nearestDist = float.MaxValue;
+
+        foreach (var node in _NodeList)
+        {
+            float dist = Vector3.Distance(node.transform.position, point);
+            if (dist < nearestDist)
+            {
+                nearestDist = dist;
+                nearestNode = node;
+            }
+        }
+        return nearestNode;
     }
 
 }

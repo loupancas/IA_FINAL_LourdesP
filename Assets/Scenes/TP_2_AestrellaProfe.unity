@@ -1249,7 +1249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &300040467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2155,7 +2155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &442334689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4502,7 +4502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1365224372
 Transform:
   m_ObjectHideFlags: 0
@@ -5468,7 +5468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &1646369051
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5565,6 +5565,11 @@ MonoBehaviour:
   _target: {fileID: 1939941589}
   speed: 5
   isFlocking: 0
+  _proyectil: {fileID: 0}
+  _spawnBullet: {fileID: 0}
+  _Obstacles:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!33 &1646369055
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6277,7 +6282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef6db9d8ab35034bb44e691bf6c57fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Manager: {fileID: 0}
+  _Manager: {fileID: 89732476}
   NearestNode: {fileID: 0}
   speed: 5
 --- !u!1001 &1944913502

@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyMovement : IState
 {
     FSM _fsm;
-    //EnemigoBase _me;
+    TeamFlockingReds _me;
     Transform _transform;
-    //List<EnemigoBase> _boids;
+    List<TeamFlockingReds> _boids;
     float _maxVelocity;
     float _maxForce;
     float _viewRadius;
@@ -15,19 +15,19 @@ public class EnemyMovement : IState
     Vector3 _velocity;
     LayerMask _wallLayer;
 
-    //public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, EnemigoBase me)
-    //{
-    //    _me = me;
-    //    _fsm = fsm;
-    //    _transform = me.transform;
-    //    _maxVelocity = maxVelocity;
-    //    _maxForce = maxForce;
-    //    _viewRadius = viewRadius;
-    //    _viewAngle = viewAngle;
-    //    _wallLayer = wallLayer;
-    //    _boids = GameManager.instance.arenaManager.enemigosEnLaArena;
+    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingReds me)
+    {
+        _me = me;
+        _fsm = fsm;
+        _transform = me.transform;
+        _maxVelocity = maxVelocity;
+        _maxForce = maxForce;
+        _viewRadius = viewRadius;
+        _viewAngle = viewAngle;
+        _wallLayer = wallLayer;
+        //_boids = GameManager.instance.arenaManager.enemigosEnLaArena;
 
-    //}
+    }
 
     public void OnEnter()
     {

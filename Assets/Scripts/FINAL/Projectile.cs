@@ -9,12 +9,9 @@ public class Projectile : ProyectilesBase
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
 
-    CountdownTimer _Freezetime;
     void Start()
     {
         delegateUpdate = NormalUpdate;
-        _Freezetime = new CountdownTimer(3);
-        _Freezetime.OnTimerStop = BackToNormal;
         //GameManager.instance.pj.theWorld += StoppedTime;
         _modifiedDmg = _dmg;
         _modifiedSpeed = _speed;
@@ -94,13 +91,11 @@ public class Projectile : ProyectilesBase
 
     public void Freezed()
     {
-        _Freezetime.Tick(Time.deltaTime);
     }
 
     public void StoppedTime()
     {
         delegateUpdate = Freezed;
-        _Freezetime.Start();
     }
     public void BackToNormal()
     {
