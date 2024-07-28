@@ -52,6 +52,7 @@ public class PlayerComp_OP2 : MonoBehaviour
                 _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
                 _Manager.StartNode = NearestNode;
                 _Manager.PathFinding(_Manager._Path, NearestNode, _Manager.EndNode,LayerMask);
+                pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(_Manager._Path.Select(node => node.position));
                 isMoving = true;
                 Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
@@ -70,6 +71,14 @@ public class PlayerComp_OP2 : MonoBehaviour
 
     private void MoveAlongPath()
     {
+
+        if (pathQueue.Count == 0)
+        {
+            isMoving = false;
+            return; // Asegúrate de detener el movimiento si la cola está vacía
+
+        }
+
         Vector3 targetPos = pathQueue.Peek();
         if (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {

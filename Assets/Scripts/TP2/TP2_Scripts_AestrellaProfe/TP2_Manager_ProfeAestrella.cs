@@ -29,23 +29,11 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
         }
     }
    
-    //public void RaiseAlarm(Tp2_Sentinel_OP2 Caller)
-    //{
-    //    foreach (Tp2_Sentinel_OP2 Guard in _SentinelList)
-    //    {
-    //        if (Guard == Caller)
-    //        {
-    //            continue;
-    //        }
-    //        else
-    //        {
-    //            Guard._Alarmed = true;
-    //        }
-    //    }
-    //}
+  
 
     public void PathFinding(List<Transform> _IaPath, Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)
     {
+        _IaPath.Clear();
         PriorityQueue<Node_Script_OP2> frontier = new PriorityQueue<Node_Script_OP2>();
         frontier.Enqueue(start, 0);
 
