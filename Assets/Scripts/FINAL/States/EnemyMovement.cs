@@ -25,7 +25,6 @@ public class EnemyMovement : IState
         _viewRadius = viewRadius;
         _viewAngle = viewAngle;
         _wallLayer = wallLayer;
-        //_boids = GameManager.instance.arenaManager.enemigosEnLaArena;
         _boids = boids;
     }
 
@@ -44,7 +43,7 @@ public class EnemyMovement : IState
         if (InLineOfSight(_transform.position, GameManager.instance._pinkLeader.transform.position))
         {
             AddForce(Seek(GameManager.instance._pinkLeader.transform.position));
-            //AddForce(Separation(_boids, 1));
+            AddForce(Separation(_boids, 1));
 
             _transform.position += _velocity * Time.deltaTime;
             _transform.forward = _velocity;
@@ -96,7 +95,7 @@ public class EnemyMovement : IState
         return false;
     }
 
-    Vector3 Separation(List<EnemigoBase> boids, float radius)
+    Vector3 Separation(List<TeamFlockingBase> boids, float radius)
     {
         Vector3 desired = Vector3.zero;
 

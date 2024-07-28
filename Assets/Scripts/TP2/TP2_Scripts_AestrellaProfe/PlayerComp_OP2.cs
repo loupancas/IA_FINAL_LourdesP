@@ -12,7 +12,7 @@ public class PlayerComp_OP2 : MonoBehaviour
     private Vector3 _targetPos;
     private bool isMoving;
     private Queue<Vector3> pathQueue;
-  
+    public LayerMask LayerMask;
 
     public void Start()
     {
@@ -26,75 +26,67 @@ public class PlayerComp_OP2 : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPoint = hit.point;
-                Debug.Log("Hit Point: " + hitPoint);
-                //_targetPos = hitPoint;
-                //isMoving = true;
-
-                //if (Vector3.Distance(NearestNode.transform.position, hitPoint) < 1f)
-                //{
-                //    _targetPos = hitPoint;
-                //    isMoving = true;
-                //    Debug.Log("Setting target position: " + _targetPos);
-                //}
-
-                if (Vector3.Distance(NearestNode.transform.position, hitPoint) >0.1f)
-                {
-                    _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint); // Encontrar el nodo más cercano al punto de impacto
-                    _Manager.PathFinding(_Manager._Path, NearestNode, _Manager.EndNode);
-                    pathQueue = new Queue<Vector3>(_Manager._Path.Select(node => node.position)); // Convertir el camino en una cola de posiciones
-                    isMoving = true;
-                    Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
-                }
-                else
-                {
-                    Debug.Log("Hit point is too far from NearestNode");
-                }
-
-            }
-
-           
+            HandleMouseClick();
         }
-        //if (isMoving && Vector3.Distance(transform.position, _targetPos) > 0.1f)
-        //{
-        //    _Manager.PathFinding(_Manager._Path, _Manager._NearestPlayerNode, _Manager.EndNode);
-        //    Vector3 moveDirection = (_targetPos - transform.position).normalized;
-        //    Debug.Log("Moving towards: " + _targetPos + " with direction: " + moveDirection);
-        //    transform.position += moveDirection * speed * Time.deltaTime;
-        //}
-        //else
-        //{
-        //    isMoving = false;
-        //}
 
         if (isMoving && pathQueue.Count > 0)
         {
-            Vector3 targetPos = pathQueue.Peek(); // Obtener el siguiente objetivo en el camino
-            if (Vector3.Distance(transform.position, targetPos) > 0.1f)
-            {
-                Vector3 moveDirection = (targetPos - transform.position).normalized;
-                Debug.Log("Moving towards: " + targetPos + " with direction: " + moveDirection);
-                transform.position += moveDirection * speed * Time.deltaTime;
-            }
-            else
-            {
-                // Llegó al nodo objetivo, así que pasa al siguiente nodo
-                pathQueue.Dequeue();
-                if (pathQueue.Count == 0)
-                {
-                    isMoving = false; // Ha alcanzado el destino final
-                }
-            }
+            MoveAlongPath();
         }
 
         _Manager._NearestPlayerNode = NearestNode;
 
+       
     }
+
+    private void HandleMouseClick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 hitPoint = hit.point;
+            Debug.Log("Hit Point: " + hitPoint);
+
+            if (Vector3.Distance(transform.position, hitPoint) > 0.1f)
+            {
+                _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
+                _Manager.StartNode = NearestNode;
+                _Manager.PathFinding(_Manager._Path, NearestNode, _Manager.EndNode,LayerMask);
+                pathQueue = new Queue<Vector3>(_Manager._Path.Select(node => node.position));
+                isMoving = true;
+                Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
+                Debug.DrawLine(transform.position, hitPoint, Color.red);
+            }
+            else
+            {
+                Debug.Log("Hit point is too close to the NearestNode");
+            }
+        }
+
+
+
+    }
+
+
+    private void MoveAlongPath()
+    {
+        Vector3 targetPos = pathQueue.Peek();
+        if (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        {
+            Vector3 moveDirection = (targetPos - transform.position).normalized;
+            Debug.Log("Moving towards: " + targetPos + " with direction: " + moveDirection);
+            transform.position += moveDirection * speed * Time.deltaTime;
+        }
+        else
+        {
+            pathQueue.Dequeue();
+            if (pathQueue.Count == 0)
+            {
+                isMoving = false;
+            }
+        }
+    }
+
 
     float NearestVal = float.MaxValue;
     IEnumerator CoorutineFindNearestNode()
@@ -105,7 +97,6 @@ public class PlayerComp_OP2 : MonoBehaviour
         while (true)
         {
             yield return wait;
-            NearestVal = float.MaxValue;
             NearestNode = FindNearestNode();
         }
 
@@ -115,6 +106,7 @@ public class PlayerComp_OP2 : MonoBehaviour
     private Node_Script_OP2 FindNearestNode()
     {
         Node_Script_OP2 nearest = null;
+        float NearestVal = float.MaxValue;
         foreach (Node_Script_OP2 CurrentNode in _Manager._NodeList)
         {
             float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, transform.position);

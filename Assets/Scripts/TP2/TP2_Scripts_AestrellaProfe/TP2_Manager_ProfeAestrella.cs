@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Networking.Types;
 
 
 public class TP2_Manager_ProfeAestrella : MonoBehaviour
@@ -13,12 +9,12 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     [Header("Variables")]
 
     public List<Node_Script_OP2> _NodeList= new List<Node_Script_OP2>();
-    public List<Tp2_Sentinel_OP2> _SentinelList = new List<Tp2_Sentinel_OP2>(); 
     public Node_Script_OP2 StartNode, EndNode;
     public List<Transform> _Path = new List<Transform>();
     public GameObject _Player;
     public PlayerComp_OP2 _PlayerComp;
     public Node_Script_OP2 _NearestPlayerNode;
+    public LayerMask _ObstacleLayer;
 
     private void Start()
     {
@@ -29,35 +25,35 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) && StartNode != null && EndNode != null)
         {
-            PathFinding(_Path, StartNode, EndNode);
+            PathFinding(_Path, StartNode, EndNode, _ObstacleLayer);
         }
     }
    
-    public void RaiseAlarm(Tp2_Sentinel_OP2 Caller)
-    {
-        foreach (Tp2_Sentinel_OP2 Guard in _SentinelList)
-        {
-            if (Guard == Caller)
-            {
-                continue;
-            }
-            else
-            {
-                Guard._Alarmed = true;
-            }
-        }
-    }
+    //public void RaiseAlarm(Tp2_Sentinel_OP2 Caller)
+    //{
+    //    foreach (Tp2_Sentinel_OP2 Guard in _SentinelList)
+    //    {
+    //        if (Guard == Caller)
+    //        {
+    //            continue;
+    //        }
+    //        else
+    //        {
+    //            Guard._Alarmed = true;
+    //        }
+    //    }
+    //}
 
-    public void PathFinding(List<Transform> _IaPath, Node_Script_OP2 start, Node_Script_OP2 goal)
+    public void PathFinding(List<Transform> _IaPath, Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)
     {
         PriorityQueue<Node_Script_OP2> frontier = new PriorityQueue<Node_Script_OP2>();
         frontier.Enqueue(start, 0);
 
         Dictionary<Node_Script_OP2, Node_Script_OP2> cameFrom = new Dictionary<Node_Script_OP2, Node_Script_OP2>();
-        cameFrom.Add(start, null);
+        cameFrom[start] = null;
 
         Dictionary<Node_Script_OP2, float> costSoFar = new Dictionary<Node_Script_OP2, float>();
-        costSoFar.Add(start, 0);
+        costSoFar[start] = 0;
 
         foreach (var node in _NodeList)
         {
@@ -78,8 +74,6 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                     current = cameFrom.ContainsKey(current) ? cameFrom[current] : null;
                 }
                 _IaPath.Reverse();
-                SmoothPath(_IaPath);
-                Debug.Log("Generated Path: " + string.Join(", ", _IaPath.Select(t => t.name))); // Depuración
                 return;
             }
 
@@ -88,13 +82,28 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                 Node_Script_OP2 neighborNode = neighbor.GetComponent<Node_Script_OP2>();
                 if (neighborNode == null) continue;
 
-                float newCost = costSoFar[current] + Vector3.Distance(current.transform.position, neighbor.position);
-                if (newCost < costSoFar[neighborNode])
+                Node_Script_OP2 parent = cameFrom[current];
+                if (parent != null && InLineOfSight(parent, neighborNode, obstacleLayer))
                 {
-                    costSoFar[neighborNode] = newCost;
-                    float priority = newCost + Heuristic(neighbor.position, goal.transform.position);
-                    frontier.Enqueue(neighborNode, priority);
-                    cameFrom[neighborNode] = current;
+                    float newCost = costSoFar[parent] + Vector3.Distance(parent.transform.position, neighborNode.transform.position);
+                    if (newCost < costSoFar[neighborNode])
+                    {
+                        costSoFar[neighborNode] = newCost;
+                        float priority = newCost + Heuristic(neighborNode.transform.position, goal.transform.position);
+                        frontier.Enqueue(neighborNode, priority);
+                        cameFrom[neighborNode] = parent;
+                    }
+                }
+                else
+                {
+                    float newCost = costSoFar[current] + Vector3.Distance(current.transform.position, neighbor.position);
+                    if (newCost < costSoFar[neighborNode])
+                    {
+                        costSoFar[neighborNode] = newCost;
+                        float priority = newCost + Heuristic(neighbor.position, goal.transform.position);
+                        frontier.Enqueue(neighborNode, priority);
+                        cameFrom[neighborNode] = current;
+                    }
                 }
             }
         }
@@ -105,26 +114,10 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
         return Vector3.Distance(a, b);
     }
 
-    private void SmoothPath(List<Transform> path)
+    private bool InLineOfSight(Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)
     {
-        int current = 0;
-        while (current + 2 < path.Count)
-        {
-            if (InLineOfSight(path[current].position, path[current + 2].position))
-            {
-                path.RemoveAt(current + 1);
-            }
-            else
-            {
-                current++;
-            }
-        }
-    }
-
-    private bool InLineOfSight(Vector3 start, Vector3 goal)
-    {
-        Vector3 dir = goal - start;
-        return !Physics.Raycast(start, dir, dir.magnitude, LayerMask.GetMask("Obstacle"));
+        Vector3 direction = goal.transform.position - start.transform.position;
+        return !Physics.Raycast(start.transform.position, direction, direction.magnitude, obstacleLayer);
     }
 
 
