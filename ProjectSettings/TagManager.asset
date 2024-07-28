@@ -9,6 +9,8 @@ TagManager:
   - Obstacle
   - Node
   - Wall
+  - KCyan
+  - KPink
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - Player
   - SentinelLayer
   - Wall
-  - 
-  - 
+  - KCyan
+  - kPink
   - 
   - 
   - 

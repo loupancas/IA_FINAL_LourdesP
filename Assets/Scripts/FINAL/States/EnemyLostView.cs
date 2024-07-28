@@ -24,7 +24,7 @@ public class EnemyLostView : IState
 
     public void OnEnter()
     {
-
+        Debug.Log("Entered LostView State");
     }
 
     public void OnExit()

@@ -32,7 +32,7 @@ public class EnemyAttack : IState
     }
     public void OnEnter()
     {
-
+        Debug.Log("Entered Attack State");
     }
 
     public void OnExit()

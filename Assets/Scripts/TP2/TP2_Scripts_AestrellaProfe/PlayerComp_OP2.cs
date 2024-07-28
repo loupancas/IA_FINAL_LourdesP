@@ -45,7 +45,7 @@ public class PlayerComp_OP2 : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Vector3 hitPoint = hit.point;
-            Debug.Log("Hit Point: " + hitPoint);
+            //Debug.Log("Hit Point: " + hitPoint);
 
             if (Vector3.Distance(transform.position, hitPoint) > 0.1f)
             {
@@ -55,8 +55,8 @@ public class PlayerComp_OP2 : MonoBehaviour
                 pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(_Manager._Path.Select(node => node.position));
                 isMoving = true;
-                Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
-                Debug.DrawLine(transform.position, hitPoint, Color.red);
+                //Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
+                //Debug.DrawLine(transform.position, hitPoint, Color.red);
             }
             else
             {
@@ -83,7 +83,7 @@ public class PlayerComp_OP2 : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - transform.position).normalized;
-            Debug.Log("Moving towards: " + targetPos + " with direction: " + moveDirection);
+            //Debug.Log("Moving towards: " + targetPos + " with direction: " + moveDirection);
             transform.position += moveDirection * speed * Time.deltaTime;
         }
         else
@@ -125,7 +125,7 @@ public class PlayerComp_OP2 : MonoBehaviour
                 nearest = CurrentNode;
             }
         }
-        Debug.Log("Nearest Node: " + nearest.name);
+        //Debug.Log("Nearest Node: " + nearest.name);
         return nearest;
 
     }

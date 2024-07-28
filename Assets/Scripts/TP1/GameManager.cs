@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
                 {
                     pinkAgents.Add(teamAgent);
                 }
-                else 
+                else if (teamAgent.Team == Team.Cyan)
                 {
                     cyanAgents.Add(teamAgent);
                 }

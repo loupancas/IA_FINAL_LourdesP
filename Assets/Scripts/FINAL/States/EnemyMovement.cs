@@ -30,7 +30,7 @@ public class EnemyMovement : IState
 
     public void OnEnter()
     {
-
+        Debug.Log("Entered Movement State");
     }
 
     public void OnExit()
@@ -41,10 +41,11 @@ public class EnemyMovement : IState
     public void OnUpdate()
     {
         var targetLeader = GameManager.instance.GetLeader(_me.Team);
+        Debug.Log("Leader position: " + targetLeader.position);
 
-        if (InLineOfSight(_transform.position, targetLeader.transform.position))
+        if (InLineOfSight(_transform.position, targetLeader.position))
         {
-            AddForce(Seek(targetLeader.transform.position));
+            AddForce(Seek(targetLeader.position));
             AddForce(Separation(_boids, 1));
 
             _transform.position += _velocity * Time.deltaTime;
@@ -52,10 +53,10 @@ public class EnemyMovement : IState
 
         }
 
-        if (Vector3.Distance(_transform.position, targetLeader.transform.position) < 5)
-        {
-            _fsm.ChangeState("Attack");
-        }
+        //if (Vector3.Distance(_transform.position, targetLeader.position) < 5)
+        //{
+        //    _fsm.ChangeState("Attack");
+        //}
 
     }
 

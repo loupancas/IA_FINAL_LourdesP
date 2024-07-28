@@ -12,6 +12,7 @@ public abstract class TeamFlockingBase : EnemigoBase
     [SerializeField] ProyectilesBase _proyectil;
     [SerializeField] Transform _spawnBullet;
     [SerializeField] LayerMask _Obstacles;
+    [SerializeField] LayerMask _Leader;
    
     public float _cdShot;
     List<TeamFlockingBase> _boids;
@@ -20,7 +21,7 @@ public abstract class TeamFlockingBase : EnemigoBase
     public DelegateUpdate OnUpdate;
 
 
-    void Start()
+    protected virtual void Start()
     {
         OnUpdate = NormalUpdate;
         _vida = _vidaMax;
@@ -30,6 +31,7 @@ public abstract class TeamFlockingBase : EnemigoBase
 
     }
 
+
     protected abstract void AddToTeam();
 
     private void InitializeFSM()
@@ -38,13 +40,15 @@ public abstract class TeamFlockingBase : EnemigoBase
         _fsm = new FSM();
         _fsm.CreateState("Attack", new EnemyAttack(_fsm, _proyectil, _spawnBullet, _Obstacles, _viewRadius, _viewAngle, _cdShot, this));
         _fsm.CreateState("Lost view", new EnemyLostView(_fsm, transform, _Obstacles, _viewRadius, _viewAngle));
-        _fsm.CreateState("Movement", new EnemyMovement(_fsm, _maxVelocity, _maxForce, _viewRadius, _viewAngle, _Obstacles, this, _boids));
+        _fsm.CreateState("Movement", new EnemyMovement(_fsm, _maxVelocity, _maxForce, _viewRadius, _viewAngle, _Leader, this, _boids));
         _fsm.ChangeState("Movement");
+        Debug.Log("FSM Initialized");
     }
 
     private void Update()
     {
-       OnUpdate.Invoke();
+        Debug.Log("Update called");
+        OnUpdate?.Invoke();
     }
 
     public void NormalUpdate()
@@ -57,7 +61,7 @@ public abstract class TeamFlockingBase : EnemigoBase
         //GameManager.instance.arenaManager.enemigosEnLaArena.Remove(this);
         //EnemigoVoladorFactory.Instance.ReturnProjectile(this);      
         //_vida = _vidaMax;
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 }
