@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public abstract class Entity : MonoBehaviour
 {
     [Header("Values of entity")]
@@ -10,6 +13,8 @@ public abstract class Entity : MonoBehaviour
     public virtual void TakeDamage(int Damage)
     {
         _vida -= Damage;
+        HealthBar healthBar = GetComponent<HealthBar>();
+        healthBar.UpdateHPBar(_vida);
         if (_vida < 0)
         {
             Morir();

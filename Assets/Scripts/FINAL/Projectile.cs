@@ -9,10 +9,10 @@ public class Projectile : ProyectilesBase
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
 
+
     void Start()
     {
-        delegateUpdate = NormalUpdate;
-        //GameManager.instance.pj.theWorld += StoppedTime;
+        delegateUpdate = NormalUpdate;       
         _modifiedDmg = _dmg;
         _modifiedSpeed = _speed;
     }
@@ -45,37 +45,31 @@ public class Projectile : ProyectilesBase
 
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.collider.GetComponent<FirstPersonPlayer>() != null)
-        //{
-        //    collision.collider.GetComponent<FirstPersonPlayer>().TakeDamage(_modifiedDmg);
-        //    ProjectileFactory.Instance.ReturnProjectile(this);
-        //}
+        //var targetLeader = GameManager.instance.GetLeader(_me.Team);
+        if (collision.collider.GetComponent<EnemigoBase>() != null)
+        {
+            collision.collider.GetComponent<EnemigoBase>().TakeDamage(_modifiedDmg);
+            
+            ProjectileFactory.Instance.ReturnProjectile(this);
+        }
 
-        //if (collision.collider.GetComponent<EnemigoBase>() != null && devuelto)
-        //{
-        //    print("Toco al enemigo");
-        //    collision.collider.GetComponent<EnemigoBase>().Morir();
-        //    GameManager.instance.pj.AgregarBuff();
+        if (collision.collider.GetComponent<EnemigoBase>() != null && devuelto)
+        {
+            print("Toco al enemigo");
+            collision.collider.GetComponent<EnemigoBase>().Morir();
+           
 
-        //    ProjectileFactory.Instance.ReturnProjectile(this);
-        //}
+            ProjectileFactory.Instance.ReturnProjectile(this);
+        }
 
     }
-    private void OnTriggerEnter(Collider other)
+
+    public override void SpawnProyectile(UnityEngine.Transform spawnPoint)
     {
-        //if (other.gameObject.GetComponent<AttackMelee>() != null)
-        //{
-        //    print("Toco el trigger");
-
-        //    DevolverBala();
-        //}
+        var p = ProjectileFactory.Instance.pool.GetObject();
+        p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
+        Debug.Log("Disparo proyectil");
     }
-    //public override void SpawnProyectile(Transform spawnPoint)
-    //{
-    //    var p = ProjectileFactory.Instance.pool.GetObject();
-    //    p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
-    //    Debug.Log("Disparo proyectil");
-    //}
 
     public void NormalUpdate()
     {
@@ -89,29 +83,7 @@ public class Projectile : ProyectilesBase
         }
     }
 
-    public void Freezed()
-    {
-    }
+   
+   
 
-    public void StoppedTime()
-    {
-        delegateUpdate = Freezed;
-    }
-    public void BackToNormal()
-    {
-        delegateUpdate = NormalUpdate;
-    }
-    public void DevolverBala()
-    {
-        devuelto = true;
-        //transform.forward = GameManager.instance.pj.cam.transform.forward;
-        //transform.rotation = GameManager.instance.pj.cam.transform.rotation;
-        _modifiedDmg = _dmg * 2;
-        _modifiedSpeed = _speed * 6;
-    }
-
-    public override void SpawnProyectile(UnityEngine.Transform spawnPoint)
-    {
-        throw new System.NotImplementedException();
-    }
 }

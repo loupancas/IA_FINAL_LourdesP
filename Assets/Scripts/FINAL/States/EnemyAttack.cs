@@ -28,7 +28,7 @@ public class EnemyAttack : IState
         _viewRadius = viewRadius;
         _cdShot = cdShot;
         _me = me;
-        //_boids = GameManager.instance.arenaManager.enemigosEnLaArena;
+      
     }
     public void OnEnter()
     {
@@ -44,27 +44,22 @@ public class EnemyAttack : IState
     {
         _currCdShot += Time.deltaTime;
 
+        var targetLeader = GameManager.instance.GetLeader(_me.Team);
 
-
-
-
-        //if (InFOV(GameManager.instance.pj.transform))
-        //{
-
-        //    //Vector3 pos = new Vector3(GameManager.instance.pj.transform.position.x, GameManager.instance.pj.transform.position.y, GameManager.instance.pj.transform.position.z);
-        //    _transform.LookAt(pos);
-        //    Debug.Log("Detectado");
-        //    if (_currCdShot > _cdShot)
-        //    {
-        //        //_proyectil.SpawnProyectile(_bulletSpawn);
-        //        _currCdShot = 0;
-        //    }
-        //}
-        //else
-        //{
-        //    _fsm.ChangeState("Movement");
-        //}
-
+        if (InFOV(targetLeader.transform))
+        {
+            _transform.LookAt(targetLeader.transform.position);
+            Debug.Log("Detectado");
+            if (_currCdShot > _cdShot)
+            {
+                _proyectil.SpawnProyectile(_bulletSpawn);
+                _currCdShot = 0;
+            }
+        }
+        else
+        {
+            _fsm.ChangeState("Movement");
+        }
 
 
 

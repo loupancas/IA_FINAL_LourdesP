@@ -40,19 +40,23 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-        if (InLineOfSight(_transform.position, GameManager.instance._pinkLeader.transform.position))
+        var targetLeader = GameManager.instance.GetLeader(_me.Team);
+
+        if (InLineOfSight(_transform.position, targetLeader.transform.position))
         {
-            AddForce(Seek(GameManager.instance._pinkLeader.transform.position));
+            AddForce(Seek(targetLeader.transform.position));
             AddForce(Separation(_boids, 1));
 
             _transform.position += _velocity * Time.deltaTime;
             _transform.forward = _velocity;
 
         }
-        if (Vector3.Distance(_transform.position, GameManager.instance._blueLeader.transform.position) < 5)
+
+        if (Vector3.Distance(_transform.position, targetLeader.transform.position) < 5)
         {
             _fsm.ChangeState("Attack");
         }
+
     }
 
     void AddForce(Vector3 dir)

@@ -23,8 +23,8 @@ public class ProjectileFactory : MonoBehaviour
         return Instantiate(projectilePrefab, transform);
     }
 
-    public void ReturnProjectile(Projectile p)
+    public void ReturnProjectile(Projectile proy)
     {
-        pool.ReturnObject(p);
+        pool.ReturnObject(proy);
     }
 }

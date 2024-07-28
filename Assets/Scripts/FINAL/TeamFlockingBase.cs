@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class TeamFlockingBase : EnemigoBase
 {    
-  
+   public Team Team { get; set; }
+
     // Bools
     public bool isFlocking;
     
@@ -12,11 +13,12 @@ public abstract class TeamFlockingBase : EnemigoBase
     [SerializeField] Transform _spawnBullet;
     [SerializeField] LayerMask _Obstacles;
    
-    float _cdShot;
+    public float _cdShot;
     List<TeamFlockingBase> _boids;
 
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
+
 
     void Start()
     {
@@ -50,21 +52,12 @@ public abstract class TeamFlockingBase : EnemigoBase
         _fsm.Execute();
     }  
  
-
-    public static void TurnOnOff(TeamFlockingBase p, bool active = true)
-    {
-        if (active)
-        {
-            //p.Reset();
-        }
-        p.gameObject.SetActive(active);
-    }
-
     public override void Morir()
     {
         //GameManager.instance.arenaManager.enemigosEnLaArena.Remove(this);
         //EnemigoVoladorFactory.Instance.ReturnProjectile(this);      
-        _vida = _vidaMax;
+        //_vida = _vidaMax;
+        this.gameObject.SetActive(false);
     }
 
 }

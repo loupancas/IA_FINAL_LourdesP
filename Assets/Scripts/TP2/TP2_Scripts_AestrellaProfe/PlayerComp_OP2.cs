@@ -75,7 +75,7 @@ public class PlayerComp_OP2 : MonoBehaviour
         if (pathQueue.Count == 0)
         {
             isMoving = false;
-            return; // Asegúrate de detener el movimiento si la cola está vacía
+            return; 
 
         }
 

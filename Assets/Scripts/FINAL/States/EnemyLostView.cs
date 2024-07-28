@@ -8,7 +8,7 @@ public class EnemyLostView : IState
     FSM _fsm;
     Transform _transform;
     LayerMask _maskPlayer;
-
+    TeamFlockingBase _me;
     float _viewRadius;
     float _viewAngle;
 
@@ -19,6 +19,7 @@ public class EnemyLostView : IState
         _maskPlayer = layerMask;
         _viewAngle = viewAngle;
         _viewRadius = viewRadius;
+       
     }
 
     public void OnEnter()
@@ -33,7 +34,9 @@ public class EnemyLostView : IState
 
     public void OnUpdate()
     {
-        if (InFOV(GameManager.instance._blueLeader.transform))
+        var targetLeader = GameManager.instance.GetLeader(GameManager.instance.GetOppositeTeam(_me.Team));
+
+        if (InFOV(targetLeader.transform))
         {
             _fsm.ChangeState("Attack");
         }
