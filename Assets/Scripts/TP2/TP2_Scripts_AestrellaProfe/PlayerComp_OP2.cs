@@ -13,9 +13,10 @@ public class PlayerComp_OP2 : MonoBehaviour
     private bool isMoving;
     private Queue<Vector3> pathQueue;
     public LayerMask LayerMask;
-
+    public Team Team { get; set; }
     public void Start()
     {
+        Team = Team.Pink;
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         _Manager._Player = this.gameObject;
         pathQueue = new Queue<Vector3>();
@@ -55,8 +56,7 @@ public class PlayerComp_OP2 : MonoBehaviour
                 pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(_Manager._Path.Select(node => node.position));
                 isMoving = true;
-                //Debug.Log("Setting target path with " + pathQueue.Count + " nodes");
-                //Debug.DrawLine(transform.position, hitPoint, Color.red);
+              
             }
             else
             {

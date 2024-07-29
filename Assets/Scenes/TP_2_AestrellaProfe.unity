@@ -5770,7 +5770,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646369050}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1646369056
 Transform:
   m_ObjectHideFlags: 0
@@ -5803,9 +5803,9 @@ MonoBehaviour:
   _vidaMax: 20
   _vida: 0
   _maxVelocity: 5
-  _maxForce: 5
-  _viewRadius: 2
-  _viewAngle: 1.48
+  _maxForce: 2
+  _viewRadius: 2.52
+  _viewAngle: 2.47
   _wallLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -5833,8 +5833,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hPBar: {fileID: 22459170}
---- !u!136 &1646369059
-CapsuleCollider:
+--- !u!135 &1646369059
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5843,9 +5843,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2.0000005
-  m_Direction: 1
+  serializedVersion: 2
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1678292475
 GameObject:
@@ -6650,6 +6649,8 @@ MonoBehaviour:
   cyanAgents: []
   _pinkLeader: {fileID: 1939941590}
   _blueLeader: {fileID: 881421630}
+  pinkBase: {fileID: 952214372}
+  blueBase: {fileID: 1220098531}
 --- !u!4 &1944592525
 Transform:
   m_ObjectHideFlags: 0

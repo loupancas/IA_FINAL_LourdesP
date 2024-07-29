@@ -9,11 +9,9 @@ public class TeamFlockingCyan : TeamFlockingBase
         Team = Team.Cyan;
         base.Start();
     }
-   
-    protected override void AddToTeam()
+  
+    public override void Huir()
     {
-        GameManager.instance.cyanAgents.Add(this);
+        throw new System.NotImplementedException();
     }
-
-    
 }

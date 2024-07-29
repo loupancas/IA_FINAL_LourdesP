@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DecisionNode : MonoBehaviour
 {
-    public abstract void Execute(Dragon dragon);
+    public abstract void Execute(TeamFlockingBaseTree teamFlockingBaseTree);
 }

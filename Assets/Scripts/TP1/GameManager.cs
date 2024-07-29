@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public List<TeamFlockingBase> cyanAgents = new List<TeamFlockingBase>();   
     public PlayerComp_OP2 _pinkLeader;
     public PlayerComp_Blue _blueLeader;
-
+    public Transform pinkBase;
+    public Transform blueBase;
     void Awake()
     {
         if (instance == null) instance = this;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    
     public Transform GetLeader(Team team)
     {
         return team == Team.Pink ? _pinkLeader.transform : _blueLeader.transform;

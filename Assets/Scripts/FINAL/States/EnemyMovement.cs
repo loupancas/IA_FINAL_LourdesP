@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyMovement : IState
@@ -15,7 +16,10 @@ public class EnemyMovement : IState
     Vector3 _velocity;
     LayerMask _wallLayer;
 
-    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingBase me, List<TeamFlockingBase> boids)
+    private Queue<Vector3> pathQueue;
+    private TP2_Manager_ProfeAestrella _pathfindingManager;
+
+    public EnemyMovement(FSM fsm, float maxVelocity, float maxForce, float viewRadius, float viewAngle, LayerMask wallLayer, TeamFlockingBase me, List<TeamFlockingBase> boids, TP2_Manager_ProfeAestrella pathfindingManager)
     {
         _me = me;
         _fsm = fsm;
@@ -26,6 +30,9 @@ public class EnemyMovement : IState
         _viewAngle = viewAngle;
         _wallLayer = wallLayer;
         _boids = boids;
+
+        pathQueue = new Queue<Vector3>();
+        _pathfindingManager = pathfindingManager;
     }
 
     public void OnEnter()
@@ -40,23 +47,19 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-        var targetLeader = GameManager.instance.GetLeader(_me.Team);
-        Debug.Log("Leader position: " + targetLeader.position);
+        var targetLeader = GameManager.instance._pinkLeader.transform;
+        var otherTeamMembers = GameManager.instance.GetOppositeTeam(_me.Team);
 
-        if (InLineOfSight(_transform.position, targetLeader.position))
-        {
-            AddForce(Seek(targetLeader.position));
-            AddForce(Separation(_boids, 1));
+         if(Vector3.Magnitude(_transform.position-targetLeader.position)>_viewRadius)
+         {
+            // Si el líder no está en el FOV, buscarlo
+            CalculatePath(targetLeader.position);
+            MoveAlongPath();
+         }
 
-            _transform.position += _velocity * Time.deltaTime;
-            _transform.forward = _velocity;
 
-        }
-
-        //if (Vector3.Distance(_transform.position, targetLeader.position) < 5)
-        //{
-        //    _fsm.ChangeState("Attack");
-        //}
+       
+        
 
     }
 
@@ -77,6 +80,46 @@ public class EnemyMovement : IState
 
         return steering;
     }
+
+    void CalculatePath(Vector3 targetPosition)
+    {
+        // Obtener los nodos inicial y final
+        Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_transform.position);
+        Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition);
+
+        // Calcular el camino con Theta*
+        _pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _wallLayer);
+
+        // Convertir el camino a una cola de posiciones
+        pathQueue = new Queue<Vector3>(_pathfindingManager._Path.Select(node => node.position));
+        //pathQueue.Clear();
+
+        foreach (var node in _pathfindingManager._Path)
+        {
+            Debug.DrawLine(node.position, node.position + Vector3.up * 2, Color.red, 2.0f);
+        }
+    }
+
+    void MoveAlongPath()
+    {
+        if (pathQueue.Count == 0)
+            return;
+
+        Vector3 targetPos = pathQueue.Peek();
+        if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
+        {
+            Vector3 moveDirection = (targetPos - _transform.position).normalized;
+            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+            _transform.forward = moveDirection;
+        }
+        else
+        {
+            pathQueue.Dequeue();
+        }
+    }
+
+
+
     protected bool InLineOfSight(Vector3 start, Vector3 end)
     {
         var dir = end - start;
