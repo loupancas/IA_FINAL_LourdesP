@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class FSM
+public class FSM 
 {
     Dictionary<string, IState> _states = new Dictionary<string, IState>();
 
@@ -24,11 +23,17 @@ public class FSM
     {
         if (_states.ContainsKey(name))
         {
-            if (_actualState != null)
-                _actualState.OnExit();
+            //if (_actualState != null)
+            //    _actualState.OnExit();
 
+            //_actualState = _states[name];
+            //_actualState.OnEnter();
+
+            _actualState?.OnExit();
             _actualState = _states[name];
             _actualState.OnEnter();
+
+
         }
     }
 }

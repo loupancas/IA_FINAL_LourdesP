@@ -1,77 +1,20 @@
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EnemyLostView : IState
 {
-    FSM _fsm;
-    Transform _transform;
-    LayerMask _maskPlayer;
-    TeamFlockingBase _me;
-    float _viewRadius;
-    float _viewAngle;
+    private FSM _fsm;
+    private TeamFlockingBaseTree _tree;
 
-    public EnemyLostView(FSM fSM, Transform transform, LayerMask layerMask, float viewRadius, float viewAngle)
+    public EnemyLostView(FSM fsm, TeamFlockingBaseTree tree)
     {
-        _fsm = fSM;
-        _transform = transform;
-        _maskPlayer = layerMask;
-        _viewAngle = viewAngle;
-        _viewRadius = viewRadius;
-       
+        _fsm = fsm;
+        _tree = tree;
     }
 
-    public void OnEnter()
-    {
-        Debug.Log("Entered LostView State");
-    }
+    public void OnEnter() { }
 
-    public void OnExit()
-    {
-
-    }
+    public void OnExit() { }
 
     public void OnUpdate()
     {
-        var targetLeader = GameManager.instance.GetLeader(GameManager.instance.GetOppositeTeam(_me.Team));
-
-        if (InFOV(targetLeader.transform))
-        {
-            _fsm.ChangeState("Attack");
-        }
-
-
-
-    }
-
-    public void FleeTime()
-    {
-        //var basePosition = GameManager.instance.GetTeamBase(team);
-        //CalculatePath(basePosition.position);
-        //MoveAlongPath();
-    }
-
-    protected bool InLineOfSight(Vector3 start, Vector3 end)
-    {
-        var dir = end - start;
-
-        return !Physics.Raycast(start, dir, dir.magnitude, _maskPlayer);
-    }
-
-    public bool InFOV(Transform obj)
-    {
-        var dir = obj.position - _transform.position;
-
-        if (dir.magnitude < _viewRadius)
-        {
-            if (Vector3.Angle(_transform.forward, dir) <= _viewAngle * 0.5f)
-            {
-                return InLineOfSight(_transform.position, obj.position);
-            }
-        }
-
-        return false;
+        _tree.FleeTime();
     }
 }
-

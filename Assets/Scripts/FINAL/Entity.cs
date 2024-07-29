@@ -10,22 +10,19 @@ public abstract class Entity : MonoBehaviour
         HealthBar healthBar = GetComponent<HealthBar>();
         healthBar.UpdateHPBar(_vida);
 
-        if (_vida < 0.15*_vidaMax)
-        {
-            Huir();
-
+      
             if (_vida < 0)
             {
                 Morir();
             }
-        }
+        
 
        
     }
 
     public abstract void Morir();
 
-    public abstract void Huir();
+   
 
 
 }

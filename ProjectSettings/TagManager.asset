@@ -11,6 +11,8 @@ TagManager:
   - Wall
   - KCyan
   - KPink
+  - Cyan
+  - Pink
   layers:
   - Default
   - TransparentFX

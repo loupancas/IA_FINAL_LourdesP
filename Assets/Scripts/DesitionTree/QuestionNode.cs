@@ -13,11 +13,11 @@ public class QuestionNode : DecisionNode
         switch (question)
         {
             case Questions.CanSeeLeader:
-                if (teamFlockingBaseTree.enemySpotted) trueNode.Execute(teamFlockingBaseTree);
+                if (teamFlockingBaseTree.LiderSpotted) trueNode.Execute(teamFlockingBaseTree);
                 else falseNode.Execute(teamFlockingBaseTree);
                 break;
             case Questions.IsEnemyNear:
-                if (Vector3.Distance(teamFlockingBaseTree.transform.position, teamFlockingBaseTree.agents.transform.position) <
+                if (Vector3.Distance(teamFlockingBaseTree.transform.position, teamFlockingBaseTree.Lider.transform.position) <
                     (teamFlockingBaseTree.viewRadius / 4)) trueNode.Execute(teamFlockingBaseTree);
                 else falseNode.Execute(teamFlockingBaseTree);
                 break;

@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class PlayerComp_OP2 : MonoBehaviour
+public class PlayerComp_Pink : MonoBehaviour
 {
     [SerializeField] TP2_Manager_ProfeAestrella _Manager;
     public Node_Script_OP2 NearestNode;

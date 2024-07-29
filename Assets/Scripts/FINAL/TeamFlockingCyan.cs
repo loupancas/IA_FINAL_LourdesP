@@ -9,9 +9,10 @@ public class TeamFlockingCyan : TeamFlockingBase
         Team = Team.Cyan;
         base.Start();
     }
-  
-    public override void Huir()
+
+    protected override void Update()
     {
-        throw new System.NotImplementedException();
+        base.Update();
     }
+
 }

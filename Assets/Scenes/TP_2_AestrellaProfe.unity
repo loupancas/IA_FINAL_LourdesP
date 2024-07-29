@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b975685957ab84cb7c3360f7fb40a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 1
+  action: 2
 --- !u!1 &89732475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,7 +2259,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1659467256}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &447325036
 MonoBehaviour:
@@ -2274,7 +2274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   falseNode: {fileID: 1767350952}
-  trueNode: {fileID: 1179040105}
+  trueNode: {fileID: 2016156827}
   question: 0
 --- !u!1 &476893797
 GameObject:
@@ -2287,11 +2287,12 @@ GameObject:
   - component: {fileID: 476893803}
   - component: {fileID: 476893802}
   - component: {fileID: 476893801}
+  - component: {fileID: 476893805}
   - component: {fileID: 476893800}
   - component: {fileID: 476893804}
   m_Layer: 0
   m_Name: Enemy Blue
-  m_TagString: Untagged
+  m_TagString: Cyan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2355,7 +2356,7 @@ MonoBehaviour:
   _maxVelocity: 5
   _maxForce: 2
   _viewRadius: 2
-  _viewAngle: 0
+  _viewAngle: 5
   _wallLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -2408,6 +2409,27 @@ CapsuleCollider:
   m_Height: 2.0000005
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &476893805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476893797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c09bb9e0a033344b43f135016c59e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lider: {fileID: 881421629}
+  LiderSpotted: 0
+  decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
+  _obstacle:
+    serializedVersion: 2
+    m_Bits: 1024
+  viewRadius: 2.3
+  _viewAngle: 33
 --- !u!1 &478530738
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,7 +4248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b975685957ab84cb7c3360f7fb40a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 2
+  action: 3
 --- !u!1 &1128223103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4478,7 +4500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b975685957ab84cb7c3360f7fb40a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
+  action: 1
 --- !u!1 &1207125620
 GameObject:
   m_ObjectHideFlags: 0
@@ -5899,7 +5921,7 @@ GameObject:
   - component: {fileID: 1646369059}
   m_Layer: 0
   m_Name: Enemy Pink
-  m_TagString: Untagged
+  m_TagString: Pink
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6041,14 +6063,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c09bb9e0a033344b43f135016c59e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agents: {fileID: 1944592524}
-  enemySpotted: 0
+  Lider: {fileID: 1939941589}
+  LiderSpotted: 0
   decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
   _obstacle:
     serializedVersion: 2
     m_Bits: 1024
   viewRadius: 2.9
-  _viewAngle: 40
+  _viewAngle: 57
 --- !u!1 &1659467255
 GameObject:
   m_ObjectHideFlags: 0
@@ -6077,8 +6100,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2016156826}
   - {fileID: 447325035}
+  - {fileID: 2016156826}
   - {fileID: 1767350951}
   - {fileID: 1085813132}
   - {fileID: 66859902}
@@ -7412,7 +7435,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1659467256}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2016156827
 MonoBehaviour:
@@ -7428,7 +7451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   falseNode: {fileID: 66859903}
   trueNode: {fileID: 1085813133}
-  question: 0
+  question: 1
 --- !u!1 &2020902210
 GameObject:
   m_ObjectHideFlags: 0
