@@ -17,13 +17,8 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-        if (_tree != null)
-        {
-            _tree.SearchTime();
-        }
-        else
-        {
-            Console.WriteLine("TeamFlockingBaseTree is null in EnemyMovement");
-        }
+       
+        Console.WriteLine("EnemyMovement");
+        
     }
 }

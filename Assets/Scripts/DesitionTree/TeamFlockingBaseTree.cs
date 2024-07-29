@@ -22,11 +22,14 @@ public class TeamFlockingBaseTree : MonoBehaviour
 
     void Start()
     {
-              
+        _me = GetComponent<TeamFlockingBase>();
 
         _transform = transform;
 
         _pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();  // Asegúrate de tener solo uno en la escena
+
+
+        _fsm = new FSM();
 
         if (_pathfindingManager == null)
         {
@@ -66,29 +69,25 @@ public class TeamFlockingBaseTree : MonoBehaviour
         }
 
        
-       decisionTree.Execute(this);
+       decisionTree?.Execute(this);
         
     }
 
     public void SearchTime()
     {
-        //var targetLeader = GameManager.instance.GetLeader(_me.Team).position;
-        //if (Vector3.Magnitude(_transform.position - targetLeader) > viewRadius)
-        //{
-        //    CalculatePath(targetLeader);
-        //    MoveAlongPath();
-        //}
+        _fsm.ChangeState("Movement");
         Debug.Log("SearchTime");
     }
     public void FollowTime()
     {
-       
+       _fsm.ChangeState("Follow");
         Debug.Log("FollowTime");
 
     }
 
     public void FleeTime()
     {
+        _fsm.ChangeState("Lost view");
         var basePosition = _me.Team == Team.Pink ? GameManager.instance.pinkBase.position : GameManager.instance.blueBase.position;
         CalculatePath(basePosition);
         MoveAlongPath();
@@ -96,16 +95,8 @@ public class TeamFlockingBaseTree : MonoBehaviour
 
     public void AttackTime()
     {
-        //var targetLeader = GameManager.instance.GetLeader(GameManager.instance.GetOppositeTeam(_me.Team));
-        //if (InFOV(targetLeader))
-        //{
-        //    _transform.LookAt(targetLeader.position);
-        //    //if (_me.CanShoot())
-        //    //{
-        //    //    _me.Shoot(targetLeader);
-        //    //}
-        //}
-       Debug.Log("AttackTime");
+        _fsm.ChangeState("Attack");
+        Debug.Log("AttackTime");
     }
 
 

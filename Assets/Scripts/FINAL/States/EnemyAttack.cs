@@ -1,3 +1,5 @@
+using System;
+
 public class EnemyAttack : IState
 {
     private FSM _fsm;
@@ -15,6 +17,6 @@ public class EnemyAttack : IState
 
     public void OnUpdate()
     {
-        _tree.AttackTime();
+        Console.WriteLine("EnemyAttack");
     }
 }

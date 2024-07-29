@@ -52,7 +52,7 @@ public abstract class TeamFlockingBase : EnemigoBase
     {
         Debug.Log("Update called");
         OnUpdate.Invoke();
-        _decisionTree.Update();
+        //_decisionTree.Update();
     }
 
     public void NormalUpdate()

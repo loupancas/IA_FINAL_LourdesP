@@ -1,3 +1,5 @@
+using System;
+
 public class EnemyLostView : IState
 {
     private FSM _fsm;
@@ -15,6 +17,6 @@ public class EnemyLostView : IState
 
     public void OnUpdate()
     {
-        _tree.FleeTime();
+        Console.WriteLine("EnemyFlee");
     }
 }
