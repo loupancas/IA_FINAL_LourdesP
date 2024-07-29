@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class QuestionNode : DecisionNode
@@ -13,11 +12,11 @@ public class QuestionNode : DecisionNode
     {
         switch (question)
         {
-            case Questions.CanSeePlayer:
+            case Questions.CanSeeLeader:
                 if (teamFlockingBaseTree.enemySpotted) trueNode.Execute(teamFlockingBaseTree);
                 else falseNode.Execute(teamFlockingBaseTree);
                 break;
-            case Questions.IsPlayerNear:
+            case Questions.IsEnemyNear:
                 if (Vector3.Distance(teamFlockingBaseTree.transform.position, teamFlockingBaseTree.agents.transform.position) <
                     (teamFlockingBaseTree.viewRadius / 4)) trueNode.Execute(teamFlockingBaseTree);
                 else falseNode.Execute(teamFlockingBaseTree);
@@ -27,8 +26,8 @@ public class QuestionNode : DecisionNode
 
     public enum Questions
     {
-        CanSeePlayer,
-        IsPlayerNear
+        CanSeeLeader,
+        IsEnemyNear
     }
 
 

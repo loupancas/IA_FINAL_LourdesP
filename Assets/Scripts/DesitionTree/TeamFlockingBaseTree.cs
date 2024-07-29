@@ -27,22 +27,27 @@ public class TeamFlockingBaseTree : MonoBehaviour
         {
             enemySpotted = true;
             //player.ChangeColor(Color.red);
+          
         }
         else
         {
             enemySpotted = false;
             //player.ChangeColor(player.myInitialMaterialColor);
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            decisionTree.Execute(this);
-        }
+       
+       decisionTree.Execute(this);
+        
     }
 
     public void SearchTime()
     {
-        
+      
+    }
+    public void FollowTime()
+    {
+
     }
 
     public void FleeTime()
@@ -90,4 +95,28 @@ public class TeamFlockingBaseTree : MonoBehaviour
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
     #endregion
+
+    public void Tree()
+    {
+        var root = new QuestionNode();
+        var canSeePlayerNode = new QuestionNode();
+        var attackNode = new ActionNode { action = ActionNode.Actions.Attack };
+        var searchNode = new ActionNode { action = ActionNode.Actions.Search };
+        var fleeNode = new ActionNode { action = ActionNode.Actions.Flee };
+
+        // Configurar las relaciones entre nodos
+        root.question = QuestionNode.Questions.CanSeeLeader;
+        root.trueNode = canSeePlayerNode;
+        root.falseNode = searchNode;
+
+        canSeePlayerNode.question = QuestionNode.Questions.IsEnemyNear;
+        canSeePlayerNode.trueNode = attackNode;
+        canSeePlayerNode.falseNode = fleeNode;
+
+        // Asignar el árbol de decisiones al agente
+        var agentTree = GetComponent<TeamFlockingBaseTree>();
+        agentTree.decisionTree = root;
+    }
+
+   
 }

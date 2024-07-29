@@ -63,6 +63,17 @@ public class EnemyMovement : IState
 
     }
 
+    public void SearchTime()
+    {
+        var targetLeader = GameManager.instance._pinkLeader.transform;
+        //if (Vector3.Magnitude(transform.position - targetLeader.position) > viewRadius)
+        //{
+        //    CalculatePath(targetLeader.position);
+        //    MoveAlongPath();
+        //}
+    }
+
+
     void AddForce(Vector3 dir)
     {
         _velocity += dir;

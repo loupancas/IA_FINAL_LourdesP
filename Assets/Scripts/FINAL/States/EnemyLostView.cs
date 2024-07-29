@@ -45,6 +45,13 @@ public class EnemyLostView : IState
 
     }
 
+    public void FleeTime()
+    {
+        //var basePosition = GameManager.instance.GetTeamBase(team);
+        //CalculatePath(basePosition.position);
+        //MoveAlongPath();
+    }
+
     protected bool InLineOfSight(Vector3 start, Vector3 end)
     {
         var dir = end - start;

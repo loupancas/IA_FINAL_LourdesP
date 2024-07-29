@@ -24,13 +24,10 @@ public abstract class TeamFlockingBase : EnemigoBase
     {
         OnUpdate = NormalUpdate;
         _vida = _vidaMax;
-        //AddToTeam();
         InitializeFSM();
+        _decisionTree = GetComponent<TeamFlockingBaseTree>();
 
     }
-
-
-    //protected abstract void AddToTeam();
 
     private void InitializeFSM()
     {
@@ -48,6 +45,7 @@ public abstract class TeamFlockingBase : EnemigoBase
     {
         Debug.Log("Update called");
         OnUpdate.Invoke();
+        //_decisionTree.Update();
     }
 
     public void NormalUpdate()

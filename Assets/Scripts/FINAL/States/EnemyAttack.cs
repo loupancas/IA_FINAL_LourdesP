@@ -46,25 +46,44 @@ public class EnemyAttack : IState
 
         var targetLeader = GameManager.instance.GetLeader(_me.Team);
 
-        if (InFOV(targetLeader.transform))
-        {
-            _transform.LookAt(targetLeader.transform.position);
-            Debug.Log("Detectado");
-            if (_currCdShot > _cdShot)
-            {
-                _proyectil.SpawnProyectile(_bulletSpawn);
-                _currCdShot = 0;
-            }
-        }
-        else
-        {
-            _fsm.ChangeState("Movement");
-        }
+        //if (InFOV(targetLeader.transform))
+        //{
+        //    _transform.LookAt(targetLeader.transform.position);
+        //    Debug.Log("Detectado");
+        //    if (_currCdShot > _cdShot)
+        //    {
+        //        _proyectil.SpawnProyectile(_bulletSpawn);
+        //        _currCdShot = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    _fsm.ChangeState("Movement");
+        //}
 
 
 
     }
 
+    public void AttackTime()
+    {
+        //currCdShot += Time.deltaTime;
+
+        //var targetLeader = GameManager.instance.GetLeader(team);
+        //if (InFOV(targetLeader.transform))
+        //{
+        //    transform.LookAt(targetLeader.transform.position);
+        //    if (currCdShot > cdShot)
+        //    {
+        //        proyectil.SpawnProyectile(bulletSpawn);
+        //        currCdShot = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    decisionTree.Execute(this);
+        //}
+    }
 
     protected bool InLineOfSight(Vector3 start, Vector3 end)
     {
