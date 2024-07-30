@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 22459172}
   - component: {fileID: 22459171}
   - component: {fileID: 22459170}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1667,7 +1667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334668463}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2287,7 +2287,7 @@ GameObject:
   - component: {fileID: 476893801}
   - component: {fileID: 476893800}
   - component: {fileID: 476893804}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Enemy Blue
   m_TagString: Cyan
   m_Icon: {fileID: 0}
@@ -2361,6 +2361,10 @@ MonoBehaviour:
   _obstacle:
     serializedVersion: 2
     m_Bits: 1024
+  _enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  visibleTargets: []
   isFlocking: 0
   _home: {fileID: 1060700748}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
@@ -3858,7 +3862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1014853791}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3892,7 +3896,7 @@ GameObject:
   - component: {fileID: 1033268679}
   - component: {fileID: 1033268678}
   - component: {fileID: 1033268677}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5003,7 +5007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1301495013}
   - component: {fileID: 1301495012}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5957,7 +5961,7 @@ GameObject:
   - component: {fileID: 1646369057}
   - component: {fileID: 1646369058}
   - component: {fileID: 1646369059}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Enemy Pink
   m_TagString: Pink
   m_Icon: {fileID: 0}
@@ -6047,8 +6051,8 @@ MonoBehaviour:
   _vida: 0
   _maxVelocity: 5
   _maxForce: 2
-  _viewRadius: 2.52
-  _viewAngle: 2.47
+  _viewRadius: 2.24
+  _viewAngle: 3.43
   team: 0
   LiderSpotted: 0
   decisionTree: {fileID: 447325036}
@@ -6056,6 +6060,10 @@ MonoBehaviour:
   _obstacle:
     serializedVersion: 2
     m_Bits: 1024
+  _enemy:
+    serializedVersion: 2
+    m_Bits: 10240
+  visibleTargets: []
   isFlocking: 0
   _home: {fileID: 1099832511}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
@@ -6277,7 +6285,7 @@ GameObject:
   - component: {fileID: 1731360773}
   - component: {fileID: 1731360775}
   - component: {fileID: 1731360774}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fill (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class TeamFlockingBase : EnemigoBase
 {
@@ -12,8 +14,8 @@ public abstract class TeamFlockingBase : EnemigoBase
     public DecisionNode decisionTree;
     public float healthThreshold = 0.15f;
     [SerializeField] LayerMask _obstacle;
-   
-
+    [SerializeField] LayerMask _enemy;
+    public List<Transform> visibleTargets = new List<Transform>();
     // Variables del FSM y movimiento
     public bool isFlocking;
     public Transform _home;
@@ -38,7 +40,7 @@ public abstract class TeamFlockingBase : EnemigoBase
         StartCoroutine(CorutineFindNearestNode());
         pathQueue = new Queue<Vector3>();
         _transform = transform;
-
+        StartCoroutine(FindTargetsWithDelay(0.2f));
         InitializeFSM();
 
         // Verificar y asignar decisionTree
@@ -149,21 +151,67 @@ public abstract class TeamFlockingBase : EnemigoBase
         return false;
     }
 
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
-        Vector3 DirA = GetAngleFromDir(_viewAngle / 2 + transform.eulerAngles.y);
-        Vector3 DirB = GetAngleFromDir(-_viewAngle / 2 + transform.eulerAngles.y);
+        Vector3 DirA = DirFromAngle(_viewAngle / 2 + transform.eulerAngles.x, false);
+        Vector3 DirB = DirFromAngle(-_viewAngle / 2 + transform.eulerAngles.x, false);
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(transform.position, transform.position + DirA.normalized * _viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
     }
 
-    Vector3 GetAngleFromDir(float angleInDegrees)
+
+
+    IEnumerator FindTargetsWithDelay(float v)
     {
+        while (true)
+        {
+            yield return new WaitForSeconds(v);
+            FindVisibleTargets();
+        }
+    }
+
+    private void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _enemy);
+
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        {
+            Transform targetTransform = targetsInViewRadius[i].transform;
+            Vector3 dirToTarget = (targetTransform.position - transform.position).normalized;
+            if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
+            {
+                float dstToTarget = Vector3.Distance(transform.position, targetTransform.position);
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacle))
+                {
+                    visibleTargets.Add(targetTransform);
+                }
+            }
+        }
+    }
+
+    public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
+    {
+        if (!angleIsGlobal)
+        {
+            angleInDegrees += transform.eulerAngles.y;
+        }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
-    #endregion
+
+
+
 }
+#endregion
+
+
+
+
+
+
+
+
