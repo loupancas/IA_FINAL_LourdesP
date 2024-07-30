@@ -22,7 +22,10 @@ public class EnemyFlee : IState
         _velocity = velocity;
     }
 
-    public void OnEnter() { }
+    public void OnEnter() 
+    {
+        Debug.Log("EnemyFlee");
+    }
 
     public void OnExit() { }
 

@@ -15,27 +15,17 @@ public class TeamFlockingBaseTree : MonoBehaviour
     [SerializeField, Range(1, 360)] float _viewAngle;
 
     private FSM _fsm;
-    private TeamFlockingBase _me;
     private Transform _transform;
-    private TP2_Manager_ProfeAestrella _pathfindingManager;
-
+    
 
     void Start()
     {
-        _me = GetComponent<TeamFlockingBase>();
 
         _transform = transform;
 
-        _pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();  
+        //InitializeFSM();
 
 
-        _fsm = new FSM();
-
-        if (_pathfindingManager == null)
-        {
-            Debug.LogError("TP2_Manager_ProfeAestrella component not found.");
-            return;
-        }
 
         Lider = GetComponent<Transform>();
         if (Lider == null)
@@ -52,7 +42,7 @@ public class TeamFlockingBaseTree : MonoBehaviour
         };
     }
 
-    public void Update()
+    void Update()
     {
 
         if (InFieldOfView(Lider.transform.position))
@@ -69,8 +59,8 @@ public class TeamFlockingBaseTree : MonoBehaviour
         }
 
        
-       decisionTree?.Execute(this);
-        
+       //decisionTree?.Execute(this);
+        _fsm.Execute();
     }
 
     public void SearchTime()
@@ -96,25 +86,34 @@ public class TeamFlockingBaseTree : MonoBehaviour
         _fsm.ChangeState("Attack");
         Debug.Log("AttackTime");
     }
-     
 
+    //private void InitializeFSM()
+    //{
+    //    _fsm = new FSM();
+    //    _fsm.CreateState("Attack", new EnemyAttack());
+    //    _fsm.CreateState("Flee", new EnemyFlee(transform, GameManager.instance.GetBasePosition(Team), 5f, _obstacle));
+    //    _fsm.CreateState("Movement", new EnemyMovement(Lider, transform, 5f, _obstacle));
+    //    _fsm.ChangeState("Movement");
+    //    Debug.Log("FSM Initialized");
+    //}
 
 
     #region FOV
     //FOV (Field of View)
-    bool InFieldOfView(Vector3 endPos)
+    public bool InFieldOfView(Vector3 targetPosition)
     {
-        //Vector3 dir = endPos - transform.position;
-        //if (dir.magnitude > viewRadius) return false;
-        //if (!InLineOfSight(transform.position, endPos)) return false;
-        //if (Vector3.Angle(transform.forward, dir) > _viewAngle / 2) return false;
-        //return true;
+        Vector3 directionToTarget = (targetPosition - _transform.position).normalized;
+        float angle = Vector3.Angle(_transform.forward, directionToTarget);
 
-        Vector3 dir = endPos - transform.position;
-        return dir.magnitude <= viewRadius && InLineOfSight(transform.position, endPos) && Vector3.Angle(transform.forward, dir) <= _viewAngle / 2;
-
+        if (angle <= _viewAngle / 2)
+        {
+            if (!Physics.Raycast(_transform.position, directionToTarget, Vector3.Distance(_transform.position, targetPosition), _obstacle))
+            {
+                return true;
+            }
+        }
+        return false;
     }
-
     //LOS (Line of Sight)
     bool InLineOfSight(Vector3 start, Vector3 end)
     {

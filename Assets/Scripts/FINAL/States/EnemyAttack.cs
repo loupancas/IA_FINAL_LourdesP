@@ -18,7 +18,10 @@ public class EnemyAttack : IState
       
     }
 
-    public void OnEnter() { }
+    public void OnEnter() 
+    {
+        Debug.Log("EnemyAttack");
+    }
 
     public void OnExit() { }
 

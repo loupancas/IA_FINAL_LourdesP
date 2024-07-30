@@ -8,18 +8,17 @@ public class QuestionNode : DecisionNode
 
     public Questions question;
 
-    public override void Execute(TeamFlockingBaseTree teamFlockingBaseTree)
+    public override void Execute(TeamFlockingBase teamFlockingBase)
     {
         switch (question)
         {
             case Questions.CanSeeLeader:
-                if (teamFlockingBaseTree.LiderSpotted) trueNode.Execute(teamFlockingBaseTree);
-                else falseNode.Execute(teamFlockingBaseTree);
+                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) < 2) trueNode.Execute(teamFlockingBase);
+                else falseNode.Execute(teamFlockingBase);
                 break;
             case Questions.IsEnemyNear:
-                if (Vector3.Distance(teamFlockingBaseTree.transform.position, teamFlockingBaseTree.Lider.transform.position) <
-                    (teamFlockingBaseTree.viewRadius / 4)) trueNode.Execute(teamFlockingBaseTree);
-                else falseNode.Execute(teamFlockingBaseTree);
+                if (teamFlockingBase.InFieldOfView(Vector3.forward)) trueNode.Execute(teamFlockingBase);
+                else falseNode.Execute(teamFlockingBase);
                 break;
         }
     }

@@ -28,7 +28,10 @@ public class EnemyMovement : IState
     }
     
 
-    public void OnEnter() { }
+    public void OnEnter() 
+    { 
+      Debug.Log("EnemyMovement");
+    }
 
     public void OnExit() { }
 

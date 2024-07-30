@@ -2271,8 +2271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c519a64a3ab16624da911102084e6000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falseNode: {fileID: 1767350952}
-  trueNode: {fileID: 2016156827}
+  falseNode: {fileID: 1179040105}
+  trueNode: {fileID: 1767350952}
   question: 0
 --- !u!1 &476893797
 GameObject:
@@ -2285,7 +2285,6 @@ GameObject:
   - component: {fileID: 476893803}
   - component: {fileID: 476893802}
   - component: {fileID: 476893801}
-  - component: {fileID: 476893805}
   - component: {fileID: 476893800}
   - component: {fileID: 476893804}
   m_Layer: 0
@@ -2355,15 +2354,17 @@ MonoBehaviour:
   _maxForce: 2
   _viewRadius: 2
   _viewAngle: 5
-  _leader: {fileID: 881421629}
   team: 1
+  LiderSpotted: 0
+  decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
+  _obstacle:
+    serializedVersion: 2
+    m_Bits: 1024
   isFlocking: 0
   _home: {fileID: 1060700748}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 1014853791}
-  _Obstacles:
-    serializedVersion: 2
-    m_Bits: 1024
   _Leader: {fileID: 881421629}
   _cdShot: 2
   pathfindingManager: {fileID: 89732476}
@@ -2406,27 +2407,6 @@ CapsuleCollider:
   m_Height: 2.0000005
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &476893805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476893797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c09bb9e0a033344b43f135016c59e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Lider: {fileID: 881421629}
-  LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
-  healthThreshold: 0.15
-  _obstacle:
-    serializedVersion: 2
-    m_Bits: 1024
-  viewRadius: 2.3
-  _viewAngle: 33
 --- !u!1 &478530738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5974,7 +5954,6 @@ GameObject:
   - component: {fileID: 1646369056}
   - component: {fileID: 1646369055}
   - component: {fileID: 1646369053}
-  - component: {fileID: 1646369060}
   - component: {fileID: 1646369057}
   - component: {fileID: 1646369058}
   - component: {fileID: 1646369059}
@@ -6070,15 +6049,17 @@ MonoBehaviour:
   _maxForce: 2
   _viewRadius: 2.52
   _viewAngle: 2.47
-  _leader: {fileID: 1939941589}
   team: 0
+  LiderSpotted: 0
+  decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
+  _obstacle:
+    serializedVersion: 2
+    m_Bits: 1024
   isFlocking: 0
   _home: {fileID: 1099832511}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 334668463}
-  _Obstacles:
-    serializedVersion: 2
-    m_Bits: 8
   _Leader: {fileID: 1939941589}
   _cdShot: 2
   pathfindingManager: {fileID: 89732476}
@@ -6109,27 +6090,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1646369060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646369050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c09bb9e0a033344b43f135016c59e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Lider: {fileID: 1939941589}
-  LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
-  healthThreshold: 0.15
-  _obstacle:
-    serializedVersion: 2
-    m_Bits: 1024
-  viewRadius: 2.9
-  _viewAngle: 57
 --- !u!1 &1659467255
 GameObject:
   m_ObjectHideFlags: 0

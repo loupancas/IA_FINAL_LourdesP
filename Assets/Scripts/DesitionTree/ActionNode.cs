@@ -6,21 +6,21 @@ public class ActionNode : DecisionNode
 {
     public Actions action;
 
-    public override void Execute(TeamFlockingBaseTree teamFlockingBaseTree)
+    public override void Execute(TeamFlockingBase teamFlockingBase)
     {
         switch (action)
         {
             case Actions.Search:
-                teamFlockingBaseTree.SearchTime();
+                teamFlockingBase.SearchTime();
                 break;
             case Actions.Flee:
-                teamFlockingBaseTree.FleeTime();
+                teamFlockingBase.FleeTime();
                 break;
             case Actions.Follow:
-                teamFlockingBaseTree.FollowTime();
+                teamFlockingBase.FollowTime();
                 break;
             case Actions.Attack:
-                teamFlockingBaseTree.AttackTime();
+                teamFlockingBase.AttackTime();
                 break;
         }
     }

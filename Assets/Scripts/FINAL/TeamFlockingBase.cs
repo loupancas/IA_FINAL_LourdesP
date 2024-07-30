@@ -6,21 +6,29 @@ public abstract class TeamFlockingBase : EnemigoBase
 {
     public Team Team { get; set; }
 
-    // Bools
+    // Variables del árbol de decisiones
+    
+    public bool LiderSpotted;
+    public DecisionNode decisionTree;
+    public float healthThreshold = 0.15f;
+    [SerializeField] LayerMask _obstacle;
+   
+
+    // Variables del FSM y movimiento
     public bool isFlocking;
     public Transform _home;
     [SerializeField] ProyectilesBase _proyectil;
     [SerializeField] Transform _spawnBullet;
-    [SerializeField] LayerMask _Obstacles;
-    [SerializeField] Transform _Leader;
-    private Queue<Vector3> pathQueue;
+    public Transform _Leader;
     public float _cdShot;
     public TP2_Manager_ProfeAestrella pathfindingManager;
-  
+
+    private Queue<Vector3> pathQueue;
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
     public Node_Script_OP2 NearestNode;
-    private TeamFlockingBaseTree _decisionTree;
+   
+    private Transform _transform;
 
     protected virtual void Start()
     {
@@ -29,39 +37,41 @@ public abstract class TeamFlockingBase : EnemigoBase
 
         StartCoroutine(CorutineFindNearestNode());
         pathQueue = new Queue<Vector3>();
-        InitializeFSM();
-        _decisionTree = GetComponent<TeamFlockingBaseTree>();
+        _transform = transform;
 
-        if (_decisionTree == null)
+        InitializeFSM();
+
+        // Verificar y asignar decisionTree
+        if (decisionTree == null)
         {
-            Debug.LogError("DecisionTree component not found.");
+            Debug.LogError("DecisionTree not assigned.");
             return;
         }
-        TP2_Manager_ProfeAestrella pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
 
+       
+
+        pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
     }
 
     private void InitializeFSM()
     {
         _fsm = new FSM();
         _fsm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _Obstacles, pathfindingManager));
-        _fsm.CreateState("Movement", new EnemyMovement(_Leader,transform, _maxVelocity, _Obstacles, pathfindingManager, NearestNode));
+        _fsm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _obstacle, pathfindingManager));
+        _fsm.CreateState("Movement", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
         _fsm.ChangeState("Movement");
         Debug.Log("FSM Initialized");
     }
 
     protected virtual void Update()
     {
-        Debug.Log("Update called");
         OnUpdate.Invoke();
-        //_decisionTree.Update();
     }
 
     public void NormalUpdate()
     {
-        Debug.Log("FSM Execute called");
         _fsm.Execute();
+        decisionTree?.Execute(this);
     }
 
     public override void Morir()
@@ -79,9 +89,8 @@ public abstract class TeamFlockingBase : EnemigoBase
             yield return wait;
             NearestNode = FindNearestNode();
         }
-
-
     }
+
     private Node_Script_OP2 FindNearestNode()
     {
         Node_Script_OP2 nearest = null;
@@ -95,8 +104,66 @@ public abstract class TeamFlockingBase : EnemigoBase
                 nearest = CurrentNode;
             }
         }
-        //Debug.Log("Nearest Node: " + nearest.name);
         return nearest;
-
     }
+
+    #region Decision Tree Methods
+    public void SearchTime()
+    {
+        _fsm.ChangeState("Movement");
+        Debug.Log("SearchTime");
+    }
+
+    public void FollowTime()
+    {
+        _fsm.ChangeState("Follow");
+        Debug.Log("FollowTime");
+    }
+
+    public void FleeTime()
+    {
+        _fsm.ChangeState("Flee");
+        Debug.Log("FleeTime");
+    }
+
+    public void AttackTime()
+    {
+        _fsm.ChangeState("Attack");
+        Debug.Log("AttackTime");
+    }
+    #endregion
+
+    #region FOV
+    public bool InFieldOfView(Vector3 targetPosition)
+    {
+        Vector3 directionToTarget = (targetPosition - _transform.position).normalized;
+        float angle = Vector3.Angle(_transform.forward, directionToTarget);
+
+        if (angle <= _viewAngle / 2)
+        {
+            if (!Physics.Raycast(_transform.position, directionToTarget, Vector3.Distance(_transform.position, targetPosition), _obstacle))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, _viewRadius);
+
+        Vector3 DirA = GetAngleFromDir(_viewAngle / 2 + transform.eulerAngles.y);
+        Vector3 DirB = GetAngleFromDir(-_viewAngle / 2 + transform.eulerAngles.y);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + DirA.normalized * _viewRadius);
+        Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
+    }
+
+    Vector3 GetAngleFromDir(float angleInDegrees)
+    {
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+    #endregion
 }
