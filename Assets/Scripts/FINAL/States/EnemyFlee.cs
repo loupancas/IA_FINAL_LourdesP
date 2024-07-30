@@ -1,32 +1,26 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using System.Linq;
 
-public class EnemyMovement : IState
+public class EnemyFlee : IState
 {
-    
     Transform _transform;
-    float _maxVelocity;
-    Vector3 _velocity;
     Transform _target;
-    LayerMask _wallLayer;
+    LayerMask _maskObstacle;
     private Queue<Vector3> pathQueue;
+  
     private TP2_Manager_ProfeAestrella _pathfindingManager;
-    public Node_Script_OP2 NearestNode;
-
-    public EnemyMovement(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node)
+    float _velocity;
+    public EnemyFlee(Transform transform, Transform target, float velocity, LayerMask layerMask, TP2_Manager_ProfeAestrella pathfindingManager)
     {
-       
-        _maxVelocity = maxVelocity;
-        _wallLayer = wallLayer;
-        _pathfindingManager = pathfindingManager;
+      
+        _transform = transform;
+        _maskObstacle = layerMask;
         _target = target;
-        NearestNode = node;
-        _transform = me;
+        _pathfindingManager = pathfindingManager;
+        _velocity = velocity;
     }
-    
 
     public void OnEnter() { }
 
@@ -34,38 +28,28 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-       
-        Console.WriteLine("EnemyMovement");
-         
-          CalculatePath(_target);
-          MoveAlongPath();
-        
+        Console.WriteLine("EnemyFlee");
+        FleeTime(_transform);
+        MoveAlongPath();
     }
 
-    void AddForce(Vector3 dir)
-    {
-        _velocity += dir;
+  
 
-        _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
-    }
-   
-
-    void CalculatePath(Transform targetPosition)
+    void FleeTime(Transform targetPosition)
     {
         // Obtener los nodos inicial y final
         Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_transform.position);
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
 
         // Calcular el camino con Theta*
-        _pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _wallLayer);
+        _pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _maskObstacle);
 
         // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(_pathfindingManager._Path.Select(node => node.position));
         //pathQueue.Clear();
 
-        
-    }
 
+    }
     void MoveAlongPath()
     {
         if (pathQueue.Count == 0)
@@ -74,7 +58,7 @@ public class EnemyMovement : IState
         if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
-            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+            _transform.position += moveDirection * _velocity * Time.deltaTime;
             _transform.forward = moveDirection;
         }
         else
@@ -83,7 +67,4 @@ public class EnemyMovement : IState
         }
 
     }
-
-   
-
 }

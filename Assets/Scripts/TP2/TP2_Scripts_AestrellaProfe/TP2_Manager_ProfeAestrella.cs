@@ -10,15 +10,13 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
 
     public List<Node_Script_OP2> _NodeList= new List<Node_Script_OP2>();
     public Node_Script_OP2 StartNode, EndNode;
-    public List<Transform> _Path = new List<Transform>();
-    public GameObject _Player;
-    public PlayerComp_Pink _PlayerComp;
+    public List<Transform> _Path = new List<Transform>();   
     public Node_Script_OP2 _NearestPlayerNode;
     public LayerMask _ObstacleLayer;
 
     private void Start()
     {
-        _PlayerComp = _Player.GetComponent<PlayerComp_Pink>();
+      
     }
 
     public void Update()

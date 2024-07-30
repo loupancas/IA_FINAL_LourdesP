@@ -26,7 +26,7 @@ public class TeamFlockingBaseTree : MonoBehaviour
 
         _transform = transform;
 
-        _pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();  // Asegúrate de tener solo uno en la escena
+        _pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();  
 
 
         _fsm = new FSM();
@@ -87,10 +87,8 @@ public class TeamFlockingBaseTree : MonoBehaviour
 
     public void FleeTime()
     {
-        _fsm.ChangeState("Lost view");
-        var basePosition = _me.Team == Team.Pink ? GameManager.instance.pinkBase.position : GameManager.instance.blueBase.position;
-        CalculatePath(basePosition);
-        MoveAlongPath();
+        _fsm.ChangeState("Flee");
+        Debug.Log("FleeTime");
     }
 
     public void AttackTime()
@@ -98,33 +96,7 @@ public class TeamFlockingBaseTree : MonoBehaviour
         _fsm.ChangeState("Attack");
         Debug.Log("AttackTime");
     }
-
-
-    private void CalculatePath(Vector3 targetPosition)
-    {
-        Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_transform.position);
-        Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition);
-        _pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _obstacle);
-        //_me.pathQueue = new Queue<Vector3>(_pathfindingManager._Path.Select(node => node.position));
-    }
-
-    private void MoveAlongPath()
-    {
-        //if (_me.pathQueue.Count == 0)
-            return;
-
-        //Vector3 targetPos = _me.pathQueue.Peek();
-        //if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
-        //{
-        //    Vector3 moveDirection = (targetPos - _transform.position).normalized;
-        //    _transform.position += moveDirection * _me.maxVelocity * Time.deltaTime;
-        //    _transform.forward = moveDirection;
-        //}
-        //else
-        //{
-        //    _me.pathQueue.Dequeue();
-        //}
-    }
+     
 
 
 

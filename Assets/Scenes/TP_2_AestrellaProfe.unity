@@ -692,8 +692,6 @@ MonoBehaviour:
   StartNode: {fileID: 0}
   EndNode: {fileID: 0}
   _Path: []
-  _Player: {fileID: 1939941585}
-  _PlayerComp: {fileID: 1939941590}
   _NearestPlayerNode: {fileID: 0}
   _ObstacleLayer:
     serializedVersion: 2
@@ -2357,20 +2355,19 @@ MonoBehaviour:
   _maxForce: 2
   _viewRadius: 2
   _viewAngle: 5
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+  _leader: {fileID: 881421629}
   team: 1
   isFlocking: 0
+  _home: {fileID: 1060700748}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 1014853791}
   _Obstacles:
     serializedVersion: 2
-    m_Bits: 8
-  _Leader:
-    serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
+  _Leader: {fileID: 881421629}
   _cdShot: 2
+  pathfindingManager: {fileID: 89732476}
+  NearestNode: {fileID: 0}
 --- !u!33 &476893802
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4098,6 +4095,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1060700747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1060700748}
+  m_Layer: 0
+  m_Name: BlueHome
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1060700748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060700747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.88, y: -12.62, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1080756491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4249,6 +4277,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   action: 3
+--- !u!1 &1099832510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1099832511}
+  m_Layer: 0
+  m_Name: PinkHome
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1099832511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099832510}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.18, y: -3.78, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1128223103
 GameObject:
   m_ObjectHideFlags: 0
@@ -6011,20 +6070,19 @@ MonoBehaviour:
   _maxForce: 2
   _viewRadius: 2.52
   _viewAngle: 2.47
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+  _leader: {fileID: 1939941589}
   team: 0
   isFlocking: 0
+  _home: {fileID: 1099832511}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 334668463}
   _Obstacles:
     serializedVersion: 2
     m_Bits: 8
-  _Leader:
-    serializedVersion: 2
-    m_Bits: 4096
+  _Leader: {fileID: 1939941589}
   _cdShot: 2
+  pathfindingManager: {fileID: 89732476}
+  NearestNode: {fileID: 0}
 --- !u!114 &1646369058
 MonoBehaviour:
   m_ObjectHideFlags: 0

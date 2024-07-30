@@ -16,10 +16,9 @@ public class PlayerComp_Pink : MonoBehaviour
     public void Start()
     {
         Team = Team.Pink;
-        _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-        _Manager._Player = this.gameObject;
+        _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();     
         pathQueue = new Queue<Vector3>();
-        StartCoroutine(CoorutineFindNearestNode());
+        StartCoroutine(CorutineFindNearestNode());
     }
 
     void Update()
@@ -97,7 +96,7 @@ public class PlayerComp_Pink : MonoBehaviour
 
 
     float NearestVal = float.MaxValue;
-    IEnumerator CoorutineFindNearestNode()
+    IEnumerator CorutineFindNearestNode()
     {
         float Delay = 0.25f;
         WaitForSeconds wait = new WaitForSeconds(Delay);

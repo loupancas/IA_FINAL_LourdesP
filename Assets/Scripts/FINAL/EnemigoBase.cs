@@ -8,7 +8,7 @@ public abstract class EnemigoBase : Entity
     [SerializeField] protected float _maxForce;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _viewAngle;
-    [SerializeField] protected LayerMask _wallLayer;
+    [SerializeField] protected Transform _leader;
     public Team team;
 
    
