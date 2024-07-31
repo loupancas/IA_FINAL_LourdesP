@@ -45,10 +45,10 @@ public class EnemyFlee : IState
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
 
         // Calcular el camino con Theta*
-        _pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _maskObstacle);
+        List<Transform> path = _pathfindingManager.CalculatePath(startNode, endNode, _maskObstacle);
 
         // Convertir el camino a una cola de posiciones
-        pathQueue = new Queue<Vector3>(_pathfindingManager._Path.Select(node => node.position));
+        pathQueue = new Queue<Vector3>(path.Select(node => node.position));
         //pathQueue.Clear();
 
 

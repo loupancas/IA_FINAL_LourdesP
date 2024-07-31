@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public abstract class TeamFlockingBase : EnemigoBase
+public class TeamFlockingBase : EnemigoBase
 {
     public Team Team { get; set; }
 
@@ -31,6 +31,7 @@ public abstract class TeamFlockingBase : EnemigoBase
     public Node_Script_OP2 NearestNode;
    
     private Transform _transform;
+    private FSM _fsmm;
 
     protected virtual void Start()
     {
@@ -40,7 +41,6 @@ public abstract class TeamFlockingBase : EnemigoBase
         StartCoroutine(CorutineFindNearestNode());
         pathQueue = new Queue<Vector3>();
         _transform = transform;
-        StartCoroutine(FindTargetsWithDelay(0.2f));
         InitializeFSM();
 
         // Verificar y asignar decisionTree
@@ -53,26 +53,32 @@ public abstract class TeamFlockingBase : EnemigoBase
        
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
+
     }
+
+    
 
     private void InitializeFSM()
     {
-        _fsm = new FSM();
-        _fsm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _obstacle, pathfindingManager));
-        _fsm.CreateState("Movement", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
-        _fsm.ChangeState("Movement");
+        _fsmm = new FSM();
+        _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
+        _fsmm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _obstacle, pathfindingManager));
+        _fsmm.CreateState("Movement", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
+        _fsmm.ChangeState("Movement");
         Debug.Log("FSM Initialized");
     }
 
     protected virtual void Update()
     {
         OnUpdate.Invoke();
+        pathfindingManager._NearestPlayerNode = NearestNode;
+
     }
 
     public void NormalUpdate()
     {
-        _fsm.Execute();
+        _fsmm.Execute();
+        Debug.Log("NormalUpdate");
         decisionTree?.Execute(this);
     }
 
@@ -84,53 +90,38 @@ public abstract class TeamFlockingBase : EnemigoBase
     IEnumerator CorutineFindNearestNode()
     {
         float Delay = 0.25f;
-        WaitForSeconds wait = new WaitForSeconds(Delay);
-
         while (true)
         {
-            yield return wait;
-            NearestNode = FindNearestNode();
+            NearestNode = pathfindingManager.FindNodeNearPoint(_Leader.position);
+            Debug.Log("Nearest Node: " + NearestNode);
+            yield return new WaitForSeconds(Delay);
         }
     }
 
-    private Node_Script_OP2 FindNearestNode()
-    {
-        Node_Script_OP2 nearest = null;
-        float NearestVal = float.MaxValue;
-        foreach (Node_Script_OP2 CurrentNode in pathfindingManager._NodeList)
-        {
-            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, transform.position);
-            if (CurrentDis < NearestVal)
-            {
-                NearestVal = CurrentDis;
-                nearest = CurrentNode;
-            }
-        }
-        return nearest;
-    }
+  
 
     #region Decision Tree Methods
     public void SearchTime()
     {
-        _fsm.ChangeState("Movement");
+        _fsmm.ChangeState("Movement");
         Debug.Log("SearchTime");
     }
 
     public void FollowTime()
     {
-        _fsm.ChangeState("Follow");
+        _fsmm.ChangeState("Follow");
         Debug.Log("FollowTime");
     }
 
     public void FleeTime()
     {
-        _fsm.ChangeState("Flee");
+        _fsmm.ChangeState("Flee");
         Debug.Log("FleeTime");
     }
 
     public void AttackTime()
     {
-        _fsm.ChangeState("Attack");
+        _fsmm.ChangeState("Attack");
         Debug.Log("AttackTime");
     }
     #endregion
@@ -145,6 +136,7 @@ public abstract class TeamFlockingBase : EnemigoBase
         {
             if (!Physics.Raycast(_transform.position, directionToTarget, Vector3.Distance(_transform.position, targetPosition), _obstacle))
             {
+               FindTargetsWithDelay(0.1f);
                 return true;
             }
         }
@@ -156,8 +148,8 @@ public abstract class TeamFlockingBase : EnemigoBase
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
-        Vector3 DirA = DirFromAngle(_viewAngle / 2 + transform.eulerAngles.x, false);
-        Vector3 DirB = DirFromAngle(-_viewAngle / 2 + transform.eulerAngles.x, false);
+        Vector3 DirA = DirFromAngle(_viewAngle / 2 , false);
+        Vector3 DirB = DirFromAngle(-_viewAngle / 2 , false);
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(transform.position, transform.position + DirA.normalized * _viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
@@ -189,6 +181,7 @@ public abstract class TeamFlockingBase : EnemigoBase
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacle))
                 {
                     visibleTargets.Add(targetTransform);
+                    Debug.Log("Enemy Spotted");
                 }
             }
         }
@@ -200,7 +193,7 @@ public abstract class TeamFlockingBase : EnemigoBase
         {
             angleInDegrees += transform.eulerAngles.y;
         }
-        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
     }
 
 

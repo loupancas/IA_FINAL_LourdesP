@@ -10,28 +10,34 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
 
     public List<Node_Script_OP2> _NodeList= new List<Node_Script_OP2>();
     public Node_Script_OP2 StartNode, EndNode;
-    public List<Transform> _Path = new List<Transform>();   
+    //public List<Transform> _Path = new List<Transform>();   
     public Node_Script_OP2 _NearestPlayerNode;
     public LayerMask _ObstacleLayer;
+    public static TP2_Manager_ProfeAestrella Instance;
 
     private void Start()
     {
-      
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && StartNode != null && EndNode != null)
-        {
-            PathFinding(_Path, StartNode, EndNode, _ObstacleLayer);
-        }
+        //if (Input.GetKeyDown(KeyCode.P) && StartNode != null && EndNode != null)
+        //{
+        //    PathFinding(_Path, StartNode, EndNode, _ObstacleLayer);
+        //}
     }
-   
-  
 
-    public void PathFinding(List<Transform> _IaPath, Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)
+    public List<Transform> CalculatePath(Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)
     {
-        _IaPath.Clear();
+        List<Transform> path = new List<Transform>();
         PriorityQueue<Node_Script_OP2> frontier = new PriorityQueue<Node_Script_OP2>();
         frontier.Enqueue(start, 0);
 
@@ -56,11 +62,11 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
             {
                 while (current != null)
                 {
-                    _IaPath.Add(current.transform);
+                    path.Add(current.transform);
                     current = cameFrom.ContainsKey(current) ? cameFrom[current] : null;
                 }
-                _IaPath.Reverse();
-                return;
+                path.Reverse();
+                return path;
             }
 
             foreach (var neighbor in current._Neighbors)
@@ -93,6 +99,7 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                 }
             }
         }
+        return path;
     }
 
     private float Heuristic(Vector3 a, Vector3 b)
@@ -105,7 +112,6 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
         Vector3 direction = goal.transform.position - start.transform.position;
         return !Physics.Raycast(start.transform.position, direction, direction.magnitude, obstacleLayer);
     }
-
 
     public Node_Script_OP2 FindNodeNearPoint(Vector3 point)
     {
@@ -121,7 +127,10 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
                 nearestNode = node;
             }
         }
+
         return nearestNode;
     }
+
+   
 
 }

@@ -627,7 +627,7 @@ GameObject:
   m_Layer: 0
   m_Name: A-Flee
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -639,7 +639,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66859901}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.6, y: -2.58, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -691,7 +691,6 @@ MonoBehaviour:
   _NodeList: []
   StartNode: {fileID: 0}
   EndNode: {fileID: 0}
-  _Path: []
   _NearestPlayerNode: {fileID: 0}
   _ObstacleLayer:
     serializedVersion: 2
@@ -2240,7 +2239,7 @@ GameObject:
   m_Layer: 0
   m_Name: Q-IsLeaderNear?
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2252,7 +2251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447325034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2271,7 +2270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c519a64a3ab16624da911102084e6000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falseNode: {fileID: 1179040105}
+  falseNode: {fileID: 2016156827}
   trueNode: {fileID: 1767350952}
   question: 0
 --- !u!1 &476893797
@@ -2284,8 +2283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 476893803}
   - component: {fileID: 476893802}
-  - component: {fileID: 476893801}
   - component: {fileID: 476893800}
+  - component: {fileID: 476893805}
   - component: {fileID: 476893804}
   m_Layer: 13
   m_Name: Enemy Blue
@@ -2336,43 +2335,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &476893801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476893797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9336f44f96182dd41a5b300acfb2146c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vidaMax: 20
-  _vida: 0
-  _maxVelocity: 5
-  _maxForce: 2
-  _viewRadius: 2
-  _viewAngle: 5
-  team: 1
-  LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
-  healthThreshold: 0.15
-  _obstacle:
-    serializedVersion: 2
-    m_Bits: 1024
-  _enemy:
-    serializedVersion: 2
-    m_Bits: 0
-  visibleTargets: []
-  isFlocking: 0
-  _home: {fileID: 1060700748}
-  _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
-  _spawnBullet: {fileID: 1014853791}
-  _Leader: {fileID: 881421629}
-  _cdShot: 2
-  pathfindingManager: {fileID: 89732476}
-  NearestNode: {fileID: 0}
 --- !u!33 &476893802
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2411,6 +2373,43 @@ CapsuleCollider:
   m_Height: 2.0000005
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &476893805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476893797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785c1263501bcce4ba9c5fea8283d52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vidaMax: 20
+  _vida: 0
+  _maxVelocity: 5
+  _maxForce: 5
+  _viewRadius: 2
+  _viewAngle: 56
+  team: 1
+  LiderSpotted: 0
+  decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
+  _obstacle:
+    serializedVersion: 2
+    m_Bits: 1024
+  _enemy:
+    serializedVersion: 2
+    m_Bits: 20480
+  visibleTargets: []
+  isFlocking: 0
+  _home: {fileID: 1060700748}
+  _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
+  _spawnBullet: {fileID: 1014853791}
+  _Leader: {fileID: 881421629}
+  _cdShot: 1
+  pathfindingManager: {fileID: 89732476}
+  NearestNode: {fileID: 0}
 --- !u!1 &478530738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3413,7 +3412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881421625}
   m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: 14.71, y: 1.31, z: -1.02}
+  m_LocalPosition: {x: 14.71, y: -8.93, z: -1.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4229,7 +4228,7 @@ GameObject:
   m_Layer: 0
   m_Name: A-Attack
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -4241,7 +4240,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085813131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.45, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4512,7 +4511,7 @@ GameObject:
   m_Layer: 0
   m_Name: A-FollowLeader
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -4524,7 +4523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179040103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.02, y: 0, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5958,8 +5957,8 @@ GameObject:
   - component: {fileID: 1646369056}
   - component: {fileID: 1646369055}
   - component: {fileID: 1646369053}
-  - component: {fileID: 1646369057}
   - component: {fileID: 1646369058}
+  - component: {fileID: 1646369060}
   - component: {fileID: 1646369059}
   m_Layer: 14
   m_Name: Enemy Pink
@@ -6025,7 +6024,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646369050}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.48, y: 0.57, z: -1.0218424}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6034,44 +6033,7 @@ Transform:
   - {fileID: 1033268676}
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1646369057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646369050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032ab15ac6c75ce4c8f2dd95458dc1ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vidaMax: 20
-  _vida: 0
-  _maxVelocity: 5
-  _maxForce: 2
-  _viewRadius: 2.24
-  _viewAngle: 3.43
-  team: 0
-  LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
-  healthThreshold: 0.15
-  _obstacle:
-    serializedVersion: 2
-    m_Bits: 1024
-  _enemy:
-    serializedVersion: 2
-    m_Bits: 10240
-  visibleTargets: []
-  isFlocking: 0
-  _home: {fileID: 1099832511}
-  _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
-  _spawnBullet: {fileID: 334668463}
-  _Leader: {fileID: 1939941589}
-  _cdShot: 2
-  pathfindingManager: {fileID: 89732476}
-  NearestNode: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1646369058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6098,6 +6060,43 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1646369060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646369050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785c1263501bcce4ba9c5fea8283d52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vidaMax: 20
+  _vida: 0
+  _maxVelocity: 5
+  _maxForce: 2
+  _viewRadius: 1.83
+  _viewAngle: 83
+  team: 0
+  LiderSpotted: 0
+  decisionTree: {fileID: 447325036}
+  healthThreshold: 0.15
+  _obstacle:
+    serializedVersion: 2
+    m_Bits: 1024
+  _enemy:
+    serializedVersion: 2
+    m_Bits: 10240
+  visibleTargets: []
+  isFlocking: 0
+  _home: {fileID: 952214372}
+  _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
+  _spawnBullet: {fileID: 334668463}
+  _Leader: {fileID: 1939941589}
+  _cdShot: 2
+  pathfindingManager: {fileID: 89732476}
+  NearestNode: {fileID: 0}
 --- !u!1 &1659467255
 GameObject:
   m_ObjectHideFlags: 0
@@ -6122,7 +6121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659467255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 33.4, y: 11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6475,7 +6474,7 @@ GameObject:
   m_Layer: 0
   m_Name: A-SearchLeader
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -6487,7 +6486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767350950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.96, y: -1.15, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7444,7 +7443,7 @@ GameObject:
   m_Layer: 0
   m_Name: Q-EnemySpotted?
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -7456,7 +7455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016156825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.85, y: -1.04, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
