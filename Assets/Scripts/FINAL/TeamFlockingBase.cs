@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class TeamFlockingBase : EnemigoBase
 {
@@ -29,7 +30,7 @@ public class TeamFlockingBase : EnemigoBase
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
     public Node_Script_OP2 NearestNode;
-   
+    protected Vector3 _velocity;
     private Transform _transform;
     private FSM _fsmm;
 
@@ -77,9 +78,48 @@ public class TeamFlockingBase : EnemigoBase
 
     public void NormalUpdate()
     {
-        _fsmm.Execute();
         Debug.Log("NormalUpdate");
-        decisionTree?.Execute(this);
+        //decisionTree?.Execute(this);
+        //_fsmm.Execute();
+
+        if (Vector3.Distance(transform.position, _Leader.position) > 1f)
+        {
+            Vector3 moveDirection = (_Leader.position - transform.position).normalized;
+            transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+        }
+        else
+        {
+            AddForce(Arrive(_Leader.position));
+        }
+
+
+    }
+
+
+    protected void AddForce(Vector3 force)
+    {
+        _velocity = Vector3.ClampMagnitude(_velocity + force, _maxVelocity);
+    }
+
+    protected Vector3 Arrive(Vector3 targetPos)
+    {
+        float dist = Vector3.Distance(transform.position, targetPos);
+        if (dist > _viewRadius) return Seek(targetPos);
+
+        return Seek(targetPos, _maxVelocity * (dist / _viewRadius));
+    }
+
+    protected Vector3 Seek(Vector3 targetPos, float speed)
+    {
+        Vector3 desired = (targetPos - transform.position).normalized * speed;
+        Vector3 steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);
+        return steering;
+    }
+
+    protected Vector3 Seek(Vector3 targetPos)
+    {
+        return Seek(targetPos, _maxVelocity);
     }
 
     public override void Morir()
@@ -103,24 +143,28 @@ public class TeamFlockingBase : EnemigoBase
     #region Decision Tree Methods
     public void SearchTime()
     {
+        _fsmm.Execute();
         _fsmm.ChangeState("Movement");
         Debug.Log("SearchTime");
     }
 
     public void FollowTime()
     {
+        _fsmm.Execute();
         _fsmm.ChangeState("Follow");
         Debug.Log("FollowTime");
     }
 
     public void FleeTime()
     {
+        _fsmm.Execute();
         _fsmm.ChangeState("Flee");
         Debug.Log("FleeTime");
     }
 
     public void AttackTime()
     {
+        _fsmm.Execute();
         _fsmm.ChangeState("Attack");
         Debug.Log("AttackTime");
     }
