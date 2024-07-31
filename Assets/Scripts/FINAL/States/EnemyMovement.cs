@@ -25,6 +25,7 @@ public class EnemyMovement : IState
         _target = target;
         NearestNode = node;
         _transform = me;
+        pathQueue = new Queue<Vector3>();
     }
     
 

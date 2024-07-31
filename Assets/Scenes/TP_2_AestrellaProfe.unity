@@ -2285,7 +2285,7 @@ GameObject:
   - component: {fileID: 476893802}
   - component: {fileID: 476893800}
   - component: {fileID: 476893805}
-  - component: {fileID: 476893804}
+  - component: {fileID: 476893806}
   m_Layer: 13
   m_Name: Enemy Blue
   m_TagString: Cyan
@@ -2342,7 +2342,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476893797}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &476893803
 Transform:
   m_ObjectHideFlags: 0
@@ -2359,20 +2359,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!136 &476893804
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476893797}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2.0000005
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &476893805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,6 +2396,19 @@ MonoBehaviour:
   _cdShot: 1
   pathfindingManager: {fileID: 89732476}
   NearestNode: {fileID: 0}
+--- !u!135 &476893806
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476893797}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &478530738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5959,7 +5958,7 @@ GameObject:
   - component: {fileID: 1646369053}
   - component: {fileID: 1646369058}
   - component: {fileID: 1646369060}
-  - component: {fileID: 1646369059}
+  - component: {fileID: 1646369061}
   m_Layer: 14
   m_Name: Enemy Pink
   m_TagString: Pink
@@ -6047,19 +6046,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hPBar: {fileID: 22459170}
---- !u!135 &1646369059
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646369050}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.6
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1646369060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6097,6 +6083,19 @@ MonoBehaviour:
   _cdShot: 2
   pathfindingManager: {fileID: 89732476}
   NearestNode: {fileID: 0}
+--- !u!135 &1646369061
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646369050}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1659467255
 GameObject:
   m_ObjectHideFlags: 0
