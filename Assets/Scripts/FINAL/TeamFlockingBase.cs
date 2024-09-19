@@ -33,7 +33,7 @@ public class TeamFlockingBase : EnemigoBase
     protected Vector3 _velocity;
     private Transform _transform;
     private FSM _fsmm;
-
+    
     private bool isActionExecuting = false;
 
     protected virtual void Start()
@@ -172,7 +172,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void FleeTime()
     {
-        if (!isActionExecuting)
+        if (!isActionExecuting && Vida<_vidaMax*healthThreshold)
         {
             isActionExecuting = true;
             _fsmm.Execute();

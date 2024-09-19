@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Projectile : ProyectilesBase
 {
-    public bool devuelto = false;
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
-
-
+    public bool isEnemyProjectile;
+    private Team team;
     void Start()
     {
         delegateUpdate = NormalUpdate;       
         _modifiedDmg = _dmg;
         _modifiedSpeed = _speed;
+
     }
 
 
@@ -29,7 +29,6 @@ public class Projectile : ProyectilesBase
         _currentDistance = 0;
         _modifiedDmg = _dmg;
         _modifiedSpeed = _speed;
-        devuelto = false;
         delegateUpdate = NormalUpdate;
     }
 
@@ -44,28 +43,24 @@ public class Projectile : ProyectilesBase
 
     private void OnCollisionEnter(Collision collision)
     {
-        //var targetLeader = GameManager.instance.GetLeader(_me.Team);
-        if (collision.collider.GetComponent<EnemigoBase>() != null)
+       EnemigoBase enemigo = collision.collider.GetComponent<EnemigoBase>();
+        if (enemigo != null && enemigo.team != team)
         {
-            collision.collider.GetComponent<EnemigoBase>().TakeDamage(_modifiedDmg);
-            
+            enemigo.TakeDamage(_modifiedDmg);
             ProjectileFactory.Instance.ReturnProjectile(this);
         }
 
-        if (collision.collider.GetComponent<EnemigoBase>() != null && devuelto)
-        {
-            print("Toco al enemigo");
-            collision.collider.GetComponent<EnemigoBase>().Morir();
-           
-
-            ProjectileFactory.Instance.ReturnProjectile(this);
-        }
 
     }
 
     public override void SpawnProyectile(UnityEngine.Transform spawnPoint)
     {
         var p = ProjectileFactory.Instance.pool.GetObject();
+        EnemigoBase shooter = spawnPoint.GetComponentInParent<EnemigoBase>();
+        if (shooter != null)
+        {
+            p.team = shooter.team;
+        }
         p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
         Debug.Log("Disparo proyectil");
     }
