@@ -34,6 +34,8 @@ public class TeamFlockingBase : EnemigoBase
     private Transform _transform;
     private FSM _fsmm;
 
+    private bool isActionExecuting = false;
+
     protected virtual void Start()
     {
         OnUpdate = NormalUpdate;
@@ -79,8 +81,11 @@ public class TeamFlockingBase : EnemigoBase
     public void NormalUpdate()
     {
         Debug.Log("NormalUpdate");
-        //decisionTree?.Execute(this);
-        //_fsmm.Execute();
+        decisionTree?.Execute(this);
+        if (!isActionExecuting)
+        {
+            _fsmm.Execute();
+        }
 
         if (Vector3.Distance(transform.position, _Leader.position) > 1f)
         {
@@ -143,30 +148,50 @@ public class TeamFlockingBase : EnemigoBase
     #region Decision Tree Methods
     public void SearchTime()
     {
-        _fsmm.Execute();
-        _fsmm.ChangeState("Movement");
-        Debug.Log("SearchTime");
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Movement");
+            Debug.Log("SearchTime");
+            isActionExecuting = false;
+        }
     }
 
     public void FollowTime()
     {
-        _fsmm.Execute();
-        _fsmm.ChangeState("Follow");
-        Debug.Log("FollowTime");
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Follow");
+            Debug.Log("FollowTime");
+            isActionExecuting = false;
+        }
     }
 
     public void FleeTime()
     {
-        _fsmm.Execute();
-        _fsmm.ChangeState("Flee");
-        Debug.Log("FleeTime");
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Flee");
+            Debug.Log("FleeTime");
+            isActionExecuting = false;
+        }
     }
 
     public void AttackTime()
     {
-        _fsmm.Execute();
-        _fsmm.ChangeState("Attack");
-        Debug.Log("AttackTime");
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Attack");
+            Debug.Log("AttackTime");
+            isActionExecuting = false;
+        }
     }
     #endregion
 
