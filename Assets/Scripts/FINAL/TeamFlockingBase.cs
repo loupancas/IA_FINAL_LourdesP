@@ -69,7 +69,8 @@ public class TeamFlockingBase : EnemigoBase
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
         _fsmm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _obstacle, pathfindingManager));
-        _fsmm.CreateState("Movement", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
+        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
+        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
         _fsmm.ChangeState("Movement");
         Debug.Log("FSM Initialized");
     }
@@ -97,16 +98,16 @@ public class TeamFlockingBase : EnemigoBase
 
         _actualLife = _vida;
 
-        if (Vector3.Distance(transform.position, _Leader.position) > 1f)
-        {
-            Vector3 moveDirection = (_Leader.position - transform.position).normalized;
-            moveDirection.z = 0;
-            transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-        }
-        else
-        {
-            AddForce(Arrive(_Leader.position));
-        }
+        //if (Vector3.Distance(transform.position, _Leader.position) > 1f)
+        //{
+        //    Vector3 moveDirection = (_Leader.position - transform.position).normalized;
+        //    moveDirection.z = 0;
+        //    transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+        //}
+        //else
+        //{
+        //    AddForce(Arrive(_Leader.position));
+        //}
 
     }
 
@@ -173,29 +174,29 @@ public class TeamFlockingBase : EnemigoBase
         }
     }
 
-    //public void FollowTime()
-    //{
-    //    if (!isActionExecuting)
-    //    {
-    //        isActionExecuting = true;
-    //        //_fsmm.Execute();
-    //        //_fsmm.ChangeState("Movement");
-    //        if (Vector3.Distance(transform.position, _Leader.position) > 1f)
-    //        {
-    //            Vector3 moveDirection = (_Leader.position - transform.position).normalized;
-    //            moveDirection.z = 0;
-    //            transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-    //        }
-    //        else
-    //        {
-    //            AddForce(Arrive(_Leader.position));
-    //        }
-    //        Debug.Log("FollowTime");
-    //        isActionExecuting = false;
-    //    }
+    public void FollowTime()
+    {
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Follow");
+            //if (Vector3.Distance(transform.position, _Leader.position) > 1f)
+            //{
+            //    Vector3 moveDirection = (_Leader.position - transform.position).normalized;
+            //    moveDirection.z = 0;
+            //    transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+            //}
+            //else
+            //{
+            //    AddForce(Arrive(_Leader.position));
+            //}
+            Debug.Log("FollowTime");
+            isActionExecuting = false;
+        }
 
-        
-    //}
+
+    }
 
     public void FleeTime()
     {

@@ -16,9 +16,9 @@ public class ActionNode : DecisionNode
             case Actions.Flee:
                 teamFlockingBase.FleeTime();
                 break;
-            //case Actions.Follow:
-            //    teamFlockingBase.FollowTime();
-            //    break;
+            case Actions.Follow:
+                teamFlockingBase.FollowTime();
+                break;
             case Actions.Attack:
                 teamFlockingBase.AttackTime();
                 break;
@@ -28,7 +28,7 @@ public class ActionNode : DecisionNode
     public enum Actions
     {
         Search,
-        //Follow,
+        Follow,
         Flee,
         Attack
     }
