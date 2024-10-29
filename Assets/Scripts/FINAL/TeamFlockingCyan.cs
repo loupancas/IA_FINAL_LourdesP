@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class TeamFlockingCyan : TeamFlockingBase
 {
-    protected override  void Start()
-    {
-        Team = Team.Cyan;
-        base.Start();
-    }
+    //protected override  void Start()
+    //{
+    //    Team = Team.Cyan;
+    //    base.Start();
+    //}
 
-    protected override void Update()
-    {
-        base.Update();
-    }
+    //protected override void Update()
+    //{
+    //    base.Update();
+    //}
 
 }

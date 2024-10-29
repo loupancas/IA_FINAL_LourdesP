@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Projectile : ProyectilesBase
 {
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
     public bool isEnemyProjectile;
-    private Team team;
+    private Team teams;
     void Start()
     {
         delegateUpdate = NormalUpdate;       
@@ -43,11 +44,17 @@ public class Projectile : ProyectilesBase
 
     private void OnCollisionEnter(Collision collision)
     {
-       EnemigoBase enemigo = collision.collider.GetComponent<EnemigoBase>();
-        if (enemigo != null && enemigo.team != team)
+        EnemigoBase enemigo = collision.collider.GetComponent<EnemigoBase>();
+
+        if (enemigo != null)
         {
-            enemigo.TakeDamage(_modifiedDmg);
-            ProjectileFactory.Instance.ReturnProjectile(this);
+            Debug.Log("Colisión con enemigo del equipo: " + enemigo.team);
+            if (enemigo.team != teams)
+            {
+                enemigo.TakeDamage(_modifiedDmg);
+                ProjectileFactory.Instance.ReturnProjectile(this);
+                Debug.Log("Damage es " + _modifiedDmg.ToString());
+            }
         }
 
 
@@ -59,10 +66,11 @@ public class Projectile : ProyectilesBase
         EnemigoBase shooter = spawnPoint.GetComponentInParent<EnemigoBase>();
         if (shooter != null)
         {
-            p.team = shooter.team;
+            p.teams = shooter.team;
         }
+        p.isEnemyProjectile = false;
         p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
-        Debug.Log("Disparo proyectil");
+        Debug.Log("Disparo proyectil"+p.teams);
     }
 
     public void NormalUpdate()

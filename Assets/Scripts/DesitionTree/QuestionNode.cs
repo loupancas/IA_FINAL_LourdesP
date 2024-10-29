@@ -12,21 +12,34 @@ public class QuestionNode : DecisionNode
     {
         switch (question)
         {
-            case Questions.IsEnemyNear:
-                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) > 0.1f ) trueNode.Execute(teamFlockingBase);
+            
+            
+            case Questions.IsLeaderNear:
+                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) > 0.1f) trueNode.Execute(teamFlockingBase);
                 else falseNode.Execute(teamFlockingBase);
                 break;
-            case Questions.CanSeeLeader:
-                if (teamFlockingBase.InFieldOfView(teamFlockingBase._Leader.transform.position)) trueNode.Execute(teamFlockingBase);
+            case Questions.Life:
+                if (teamFlockingBase._actualLife <= teamFlockingBase.healthThreshold) trueNode.Execute(teamFlockingBase);
+                else falseNode.Execute(teamFlockingBase);
+                break;        
+            case Questions.AreEnemiesVisible:
+                if (teamFlockingBase.visibleTargets.Count > 0) trueNode.Execute(teamFlockingBase);
                 else falseNode.Execute(teamFlockingBase);
                 break;
+            //case Questions.CanSeeLeader:
+            //    if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) <= 0.1f) trueNode.Execute(teamFlockingBase);
+            //    else falseNode.Execute(teamFlockingBase);
+            //    break;
+
         }
     }
 
     public enum Questions
     {
-        CanSeeLeader,
-        IsEnemyNear
+        
+        IsLeaderNear,
+        Life,
+        AreEnemiesVisible
     }
 
 

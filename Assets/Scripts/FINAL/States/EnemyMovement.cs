@@ -72,7 +72,7 @@ public class EnemyMovement : IState
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
         //pathQueue.Clear();
 
-        Debug.Log("Path Calculated" + targetPosition);
+        //Debug.Log("Path Calculated" + targetPosition);
 
     }
 
@@ -81,23 +81,23 @@ public class EnemyMovement : IState
         if (pathQueue.Count == 0)
         {
 
-            Debug.Log("PathQueue is empty");
+            //Debug.Log("PathQueue is empty");
 
             return;
         }
         Vector3 targetPos = pathQueue.Peek();
-        Debug.Log("Moving to next waypoint");
+        //Debug.Log("Moving to next waypoint");
         if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
             _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
             _transform.forward = moveDirection;
-            Debug.Log("Moving");
+            //Debug.Log("Moving");
         }
         else
         {
             pathQueue.Dequeue();
-            Debug.Log("Reached waypoint, dequeuing next point.");
+            //Debug.Log("Reached waypoint, dequeuing next point.");
         }
 
     }
