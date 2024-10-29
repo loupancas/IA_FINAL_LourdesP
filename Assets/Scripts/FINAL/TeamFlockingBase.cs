@@ -21,7 +21,7 @@ public class TeamFlockingBase : EnemigoBase
     // Variables del FSM y movimiento
     public bool isFlocking;
     public Transform _home;
-    [SerializeField] ProyectilesBase _proyectil;
+    [SerializeField] Projectile _proyectil;
     [SerializeField] Transform _spawnBullet;
     public Transform _Leader;
     Transform _targetEnemy;
@@ -98,16 +98,7 @@ public class TeamFlockingBase : EnemigoBase
 
         _actualLife = _vida;
 
-        //if (Vector3.Distance(transform.position, _Leader.position) > 1f)
-        //{
-        //    Vector3 moveDirection = (_Leader.position - transform.position).normalized;
-        //    moveDirection.z = 0;
-        //    transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-        //}
-        //else
-        //{
-        //    AddForce(Arrive(_Leader.position));
-        //}
+    
 
     }
 
@@ -181,16 +172,7 @@ public class TeamFlockingBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Follow");
-            //if (Vector3.Distance(transform.position, _Leader.position) > 1f)
-            //{
-            //    Vector3 moveDirection = (_Leader.position - transform.position).normalized;
-            //    moveDirection.z = 0;
-            //    transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-            //}
-            //else
-            //{
-            //    AddForce(Arrive(_Leader.position));
-            //}
+          
             Debug.Log("FollowTime");
             isActionExecuting = false;
         }
@@ -252,6 +234,7 @@ public class TeamFlockingBase : EnemigoBase
             {
                 visibleTargets.Add(targetTransform);
                 Debug.Log("Enemy Spotted");
+                //AttackTime();
             }
         }
     }

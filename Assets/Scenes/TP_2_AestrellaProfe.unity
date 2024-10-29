@@ -2375,8 +2375,8 @@ MonoBehaviour:
   _vida: 0
   _maxVelocity: 5
   _maxForce: 5
-  _viewRadius: 2
-  _viewAngle: 56
+  _viewRadius: 3
+  _viewAngle: 50
   team: 1
   LiderSpotted: 0
   decisionTree: {fileID: 447325036}
@@ -6338,8 +6338,8 @@ MonoBehaviour:
   _vida: 0
   _maxVelocity: 5
   _maxForce: 2
-  _viewRadius: 1.83
-  _viewAngle: 83
+  _viewRadius: 3
+  _viewAngle: 50
   team: 0
   LiderSpotted: 0
   decisionTree: {fileID: 447325036}

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyAttack : IState
 {
-    ProyectilesBase _proyectil;
+    Projectile _proyectil;
     Transform _bulletSpawn;   
     float _cdShot;
     float _currCdShot;
     
 
-    public EnemyAttack(ProyectilesBase proyectil, Transform bulletSpawn, float cdShot)
+    public EnemyAttack(Projectile proyectil, Transform bulletSpawn, float cdShot)
     {
         _proyectil = proyectil;
         _bulletSpawn = bulletSpawn;       
