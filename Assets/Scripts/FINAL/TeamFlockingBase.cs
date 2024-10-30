@@ -64,7 +64,7 @@ public class TeamFlockingBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(transform, _home, _maxVelocity, _obstacle, pathfindingManager));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager,NearestNode));
         _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
         _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
         _fsmm.ChangeState("Movement");
@@ -73,9 +73,16 @@ public class TeamFlockingBase : EnemigoBase
 
     protected virtual void Update()
     {
+        _actualLife = _vida;
+
+        if (_actualLife <= 0)
+        {
+            Morir();
+        }
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
         FindVisibleTargets();
+       
 
     }
 
@@ -86,18 +93,13 @@ public class TeamFlockingBase : EnemigoBase
        
          decisionTree?.Execute(this);
 
+        Debug.Log($"isActionExecuting: {isActionExecuting}, _actualLife: {_actualLife}, healthThreshold: {healthThreshold}");
 
         if (!isActionExecuting)
         {
             _fsmm.Execute();
         }
-
-        _actualLife = _vida;
-
-        if (_actualLife <= 0)
-        {
-            Morir();
-        }
+            
        
 
     }
@@ -155,7 +157,7 @@ public class TeamFlockingBase : EnemigoBase
     #region Decision Tree Methods
     public void SearchTime()
     {
-        if (!isActionExecuting)
+        if (!isActionExecuting )
         {
             isActionExecuting = true;
             _fsmm.Execute();
@@ -167,7 +169,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void FollowTime()
     {
-        if (!isActionExecuting)
+        if (!isActionExecuting )
         {
             isActionExecuting = true;
             _fsmm.Execute();
@@ -194,7 +196,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void AttackTime()
     {
-        if (!isActionExecuting)
+        if (!isActionExecuting && _actualLife > healthThreshold)
         {
             isActionExecuting = true;
             _fsmm.Execute();

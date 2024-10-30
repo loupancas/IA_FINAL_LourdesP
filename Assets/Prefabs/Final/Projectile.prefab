@@ -114,7 +114,7 @@ MonoBehaviour:
   _speed: 7
   _maxDistance: 5
   _currentDistance: 5
-  _dmg: 7
+  _dmg: 4
   isEnemyProjectile: 0
   teams: 0
 --- !u!54 &-657610324498795279
