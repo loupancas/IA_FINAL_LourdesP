@@ -14,16 +14,40 @@ public class QuestionNode : DecisionNode
         {
 
             case Questions.Life:
-                if (teamFlockingBase._actualLife <= teamFlockingBase.healthThreshold) trueNode.Execute(teamFlockingBase);
-                else falseNode.Execute(teamFlockingBase);
+                if (teamFlockingBase._actualLife <= teamFlockingBase.healthThreshold)
+                {
+                    Debug.Log("Executing trueNode for Life question");
+                    trueNode.Execute(teamFlockingBase);
+                }
+                else
+                {
+                    Debug.Log("Executing falseNode for Life question");
+                    falseNode.Execute(teamFlockingBase);
+                }
                 break;
             case Questions.IsLeaderNear:
-                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) > 3f) trueNode.Execute(teamFlockingBase);
-                else falseNode.Execute(teamFlockingBase);
+                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) > 3f)
+                {
+                    Debug.Log("Executing trueNode for IsLeaderNear question");
+                    trueNode.Execute(teamFlockingBase);
+                }
+                else
+                {
+                    Debug.Log("Executing falseNode for IsLeaderNear question");
+                    falseNode.Execute(teamFlockingBase);
+                }
                 break;                 
             case Questions.AreEnemiesVisible:
-                if (teamFlockingBase.visibleTargets.Count > 0) trueNode.Execute(teamFlockingBase);
-                else falseNode.Execute(teamFlockingBase);
+                if (teamFlockingBase.visibleTargets.Count > 0)
+                {
+                    Debug.Log("Executing trueNode for AreEnemiesVisible question");
+                    trueNode.Execute(teamFlockingBase);
+                }
+                else
+                {
+                    Debug.Log("Executing falseNode for AreEnemiesVisible question");
+                    falseNode.Execute(teamFlockingBase);
+                }
                 break;
            
 

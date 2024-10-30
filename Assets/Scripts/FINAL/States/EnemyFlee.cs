@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class EnemyFlee : IState
 {
@@ -12,7 +13,7 @@ public class EnemyFlee : IState
   
     private TP2_Manager_ProfeAestrella _pathfindingManager;
     float _velocity;
-    public Node_Script_OP2 NearestNode;
+    public Node_Script_OP2 NearestEnemyNode;
 
     public EnemyFlee(Transform target, Transform me, float velocity, LayerMask layerMask, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node)
     {
@@ -22,7 +23,7 @@ public class EnemyFlee : IState
         _target = target;
         _pathfindingManager = pathfindingManager;
         _velocity = velocity;
-         NearestNode = node;
+         NearestEnemyNode = node;
          pathQueue = new Queue<Vector3>();
 
     }
@@ -47,7 +48,7 @@ public class EnemyFlee : IState
     void FleeTime(Transform targetPosition)
     {
         // Obtener los nodos inicial y final
-        Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_me.position);
+        Node_Script_OP2 startNode = NearestEnemyNode;
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
 
         // Calcular el camino con Theta*
@@ -61,10 +62,11 @@ public class EnemyFlee : IState
     }
     void MoveAlongPath()
     {
-        Debug.Log("Moving along path");
         if (pathQueue.Count == 0)
             return;
         Vector3 targetPos = pathQueue.Peek();
+        Debug.Log("Moving along path");
+
         if (Vector3.Distance(_me.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _me.position).normalized;
@@ -77,4 +79,8 @@ public class EnemyFlee : IState
         }
 
     }
+
+
+
+
 }

@@ -29,8 +29,9 @@ public class TeamFlockingBase : EnemigoBase
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
     public Node_Script_OP2 NearestNode;
+    public Node_Script_OP2 NearestEnemyNode;
     protected Vector3 _velocity;
-    private Transform _transform;
+    [SerializeField] private Transform _transform;
     private FSM _fsmm;
     
     private bool isActionExecuting = false;
@@ -42,6 +43,7 @@ public class TeamFlockingBase : EnemigoBase
         healthThreshold = 0.3f*_vidaMax;
 
         StartCoroutine(CorutineFindNearestNode());
+        StartCoroutine(CorutineFindNearestEnemyNode());
         pathQueue = new Queue<Vector3>();
         _transform = transform;
         InitializeFSM();
@@ -64,7 +66,7 @@ public class TeamFlockingBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager,NearestNode));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestEnemyNode));
         _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
         _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
         _fsmm.ChangeState("Movement");
@@ -81,6 +83,7 @@ public class TeamFlockingBase : EnemigoBase
         }
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
+        pathfindingManager._NearestEnemyNode = NearestEnemyNode;
         FindVisibleTargets();
        
 
@@ -152,7 +155,32 @@ public class TeamFlockingBase : EnemigoBase
         }
     }
 
-  
+    IEnumerator CorutineFindNearestEnemyNode()
+    {
+        float Delay = 0.25f;
+        while (true)
+        {
+            NearestEnemyNode = FindNearestNode();
+            //Debug.Log("Nearest Node: " + NearestNode);
+            yield return new WaitForSeconds(Delay);
+        }
+    }
+
+    private Node_Script_OP2 FindNearestNode()
+    {
+        Node_Script_OP2 nearest = null;
+        float NearestVal = float.MaxValue;
+        foreach (Node_Script_OP2 CurrentNode in pathfindingManager._NodeList)
+        {
+            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, transform.position);
+            if (CurrentDis < NearestVal)
+            {
+                NearestVal = CurrentDis;
+                nearest = CurrentNode;
+            }
+        }
+        return nearest;
+    }
 
     #region Decision Tree Methods
     public void SearchTime()
@@ -187,6 +215,7 @@ public class TeamFlockingBase : EnemigoBase
         if (!isActionExecuting)
         {
             isActionExecuting = true;
+            
             _fsmm.Execute();
             _fsmm.ChangeState("Flee");
             Debug.Log("FleeTime");

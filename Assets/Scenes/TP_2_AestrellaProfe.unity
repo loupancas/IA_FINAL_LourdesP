@@ -2179,7 +2179,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389982437}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2457,7 +2457,7 @@ MonoBehaviour:
   _viewAngle: 50
   team: 1
   LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
+  decisionTree: {fileID: 2016156827}
   healthThreshold: 0.15
   _actualLife: 0
   _obstacle:
@@ -3737,8 +3737,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.5, y: 0.3}
+  m_AnchoredPosition: {x: 0, y: -0.13000014}
+  m_SizeDelta: {x: 2.5, y: 0.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856721885
 MonoBehaviour:
@@ -6779,7 +6779,7 @@ MonoBehaviour:
   _viewAngle: 50
   team: 0
   LiderSpotted: 0
-  decisionTree: {fileID: 447325036}
+  decisionTree: {fileID: 2016156827}
   healthThreshold: 0.15
   _actualLife: 0
   _obstacle:
@@ -8137,18 +8137,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951296739}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.8}
+  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 856721884}
   m_Father: {fileID: 1776256819}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1.3}
+  m_AnchoredPosition: {x: 0, y: -1.2600006}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1951296741
