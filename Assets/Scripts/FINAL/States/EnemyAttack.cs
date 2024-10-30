@@ -15,7 +15,7 @@ public class EnemyAttack : IState
         _proyectil = proyectil;
         _bulletSpawn = bulletSpawn;       
         _cdShot = cdShot;
-      
+
     }
 
     public void OnEnter() 
@@ -31,7 +31,7 @@ public class EnemyAttack : IState
        
             if (_currCdShot <= 0)
             {
-                SpawnProyectile(_bulletSpawn);
+                _proyectil.SpawnProyectile(_bulletSpawn);
                 _currCdShot = _cdShot;
             }
             else
@@ -42,12 +42,7 @@ public class EnemyAttack : IState
     }
      
 
-    void SpawnProyectile(Transform spawnPoint)
-    {
-        var p = ProjectileFactory.Instance.pool.GetObject();
-        p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
-        Debug.Log("Disparo proyectil");
-    }
+  
 
 
 }

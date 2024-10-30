@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        _hPBar = gameObject.GetComponent<Image>();
+        _hPBar = gameObject.GetComponentInChildren<Image>();
     }
 
     public void UpdateHPBar(int vidaActual)

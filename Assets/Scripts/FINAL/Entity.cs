@@ -27,7 +27,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     public abstract void Morir();
-
+    
    
 
 

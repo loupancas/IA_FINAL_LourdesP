@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class TeamFlockingBase : EnemigoBase
 {
@@ -56,7 +53,6 @@ public class TeamFlockingBase : EnemigoBase
             return;
         }
 
-       
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
 
@@ -98,7 +94,11 @@ public class TeamFlockingBase : EnemigoBase
 
         _actualLife = _vida;
 
-    
+        if (_actualLife <= 0)
+        {
+            Morir();
+        }
+       
 
     }
 

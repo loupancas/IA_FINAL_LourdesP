@@ -8,7 +8,8 @@ public class Projectile : ProyectilesBase
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
     public bool isEnemyProjectile;
-    private Team teams;
+    [SerializeField] private Team teams;
+    
     void Start()
     {
         delegateUpdate = NormalUpdate;       
@@ -49,12 +50,16 @@ public class Projectile : ProyectilesBase
         if (enemigo != null)
         {
             Debug.Log("Colisión con enemigo del equipo: " + enemigo.team);
-            if (enemigo.team != teams)
+            if (teams != enemigo.team)
             {
                 enemigo.TakeDamage(_modifiedDmg);
                 ProjectileFactory.Instance.ReturnProjectile(this);
-                Debug.Log("Damage es " + _modifiedDmg.ToString());
+                Debug.Log("Damage es " + _modifiedDmg);
             }
+        }
+        else
+        {
+            Debug.Log("Colisión detectada con un objeto no enemigo.");
         }
 
 
@@ -67,8 +72,7 @@ public class Projectile : ProyectilesBase
         if (shooter != null)
         {
             p.teams = shooter.team;
-        }
-        p.isEnemyProjectile = false;
+        }        
         p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
         Debug.Log("Disparo proyectil"+p.teams);
     }
