@@ -692,6 +692,7 @@ MonoBehaviour:
   StartNode: {fileID: 0}
   EndNode: {fileID: 0}
   _NearestPlayerNode: {fileID: 0}
+  _NearestEnemyNode: {fileID: 0}
   _ObstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -2468,13 +2469,15 @@ MonoBehaviour:
     m_Bits: 20480
   visibleTargets: []
   isFlocking: 0
-  _home: {fileID: 1060700748}
+  _home: {fileID: 1220098531}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 1014853791}
   _Leader: {fileID: 881421629}
   _cdShot: 3
   pathfindingManager: {fileID: 89732476}
   NearestNode: {fileID: 0}
+  NearestEnemyNode: {fileID: 0}
+  _transform: {fileID: 0}
 --- !u!135 &476893806
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6797,6 +6800,8 @@ MonoBehaviour:
   _cdShot: 3
   pathfindingManager: {fileID: 89732476}
   NearestNode: {fileID: 0}
+  NearestEnemyNode: {fileID: 0}
+  _transform: {fileID: 0}
 --- !u!135 &1646369061
 SphereCollider:
   m_ObjectHideFlags: 0

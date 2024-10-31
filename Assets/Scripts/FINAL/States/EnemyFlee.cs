@@ -48,12 +48,27 @@ public class EnemyFlee : IState
     void FleeTime(Transform targetPosition)
     {
         // Obtener los nodos inicial y final
-        Node_Script_OP2 startNode = NearestEnemyNode;
+        Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_me.position);
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
+
+        if (startNode == null )
+        {
+            Debug.LogError("StartNode is null.");
+            return;
+        }
+        if (endNode == null)
+        {
+            Debug.LogError("EndNode is null.");
+            return;
+        }
 
         // Calcular el camino con Theta*
         List<Transform> path = _pathfindingManager.CalculatePath(startNode, endNode, _maskObstacle);
-
+        if (path == null || path.Count == 0)
+        {
+            Debug.LogError("El camino calculado está vacío o es nulo.");
+            return;
+        }
         // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
         //pathQueue.Clear();
@@ -65,13 +80,14 @@ public class EnemyFlee : IState
         if (pathQueue.Count == 0)
             return;
         Vector3 targetPos = pathQueue.Peek();
-        Debug.Log("Moving along path");
 
         if (Vector3.Distance(_me.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _me.position).normalized;
             _me.position += moveDirection * _velocity * Time.deltaTime;
             _me.forward = moveDirection;
+            Debug.Log("Moving along path");
+
         }
         else
         {

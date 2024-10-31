@@ -43,7 +43,6 @@ public class TeamFlockingBase : EnemigoBase
         healthThreshold = 0.3f*_vidaMax;
 
         StartCoroutine(CorutineFindNearestNode());
-        StartCoroutine(CorutineFindNearestEnemyNode());
         pathQueue = new Queue<Vector3>();
         _transform = transform;
         InitializeFSM();
@@ -57,7 +56,7 @@ public class TeamFlockingBase : EnemigoBase
 
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-
+        NearestEnemyNode = FindNearestNode();
     }
 
     
@@ -81,9 +80,10 @@ public class TeamFlockingBase : EnemigoBase
         {
             Morir();
         }
+        NearestEnemyNode = FindNearestNode();
+
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
-        pathfindingManager._NearestEnemyNode = NearestEnemyNode;
         FindVisibleTargets();
        
 
@@ -118,7 +118,6 @@ public class TeamFlockingBase : EnemigoBase
 
     protected Vector3 Arrive(Vector3 targetPos)
     {
-        targetPos.z = transform.position.z;
         float dist = Vector3.Distance(transform.position, targetPos);
         if (dist > _viewRadius) return Seek(targetPos);
 
@@ -127,7 +126,6 @@ public class TeamFlockingBase : EnemigoBase
 
     protected Vector3 Seek(Vector3 targetPos, float speed)
     {
-        targetPos.z = transform.position.z;
         Vector3 desired = (targetPos - transform.position).normalized * speed;
         Vector3 steering = desired - _velocity;
         steering = Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);
@@ -155,16 +153,7 @@ public class TeamFlockingBase : EnemigoBase
         }
     }
 
-    IEnumerator CorutineFindNearestEnemyNode()
-    {
-        float Delay = 0.25f;
-        while (true)
-        {
-            NearestEnemyNode = FindNearestNode();
-            //Debug.Log("Nearest Node: " + NearestNode);
-            yield return new WaitForSeconds(Delay);
-        }
-    }
+  
 
     private Node_Script_OP2 FindNearestNode()
     {
@@ -172,7 +161,7 @@ public class TeamFlockingBase : EnemigoBase
         float NearestVal = float.MaxValue;
         foreach (Node_Script_OP2 CurrentNode in pathfindingManager._NodeList)
         {
-            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, transform.position);
+            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, _transform.position);
             if (CurrentDis < NearestVal)
             {
                 NearestVal = CurrentDis;
@@ -212,6 +201,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void FleeTime()
     {
+        NearestEnemyNode = FindNearestNode();
         if (!isActionExecuting)
         {
             isActionExecuting = true;
@@ -237,21 +227,7 @@ public class TeamFlockingBase : EnemigoBase
     #endregion
 
     #region FOV
-    //public bool InFieldOfView(Vector3 targetPosition)
-    //{
-    //    Vector3 directionToTarget = (targetPosition - _transform.position).normalized;
-    //    float angle = Vector3.Angle(_transform.forward, directionToTarget);
-
-    //    if (angle <= _viewAngle / 2)
-    //    {
-    //        if (!Physics.Raycast(_transform.position, directionToTarget, Vector3.Distance(_transform.position, targetPosition), _obstacle))
-    //        {
-    //           FindTargetsWithDelay(0.1f);
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
+ 
 
     private void FindVisibleTargets()
     {
@@ -273,7 +249,6 @@ public class TeamFlockingBase : EnemigoBase
     private bool InFieldOfView(Vector3 targetPosition)
     {
         Vector3 directionToTarget = (targetPosition - _transform.position).normalized;
-        directionToTarget.z = 0;
         float angle = Vector3.Angle(_transform.forward, directionToTarget);
 
         if (angle <= _viewAngle / 2)
@@ -311,26 +286,7 @@ public class TeamFlockingBase : EnemigoBase
         }
     }
 
-    //private void FindVisibleTargets()
-    //{
-    //    visibleTargets.Clear();
-    //    Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _enemy);
-
-    //    for (int i = 0; i < targetsInViewRadius.Length; i++)
-    //    {
-    //        Transform targetTransform = targetsInViewRadius[i].transform;
-    //        Vector3 dirToTarget = (targetTransform.position - transform.position).normalized;
-    //        if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
-    //        {
-    //            float dstToTarget = Vector3.Distance(transform.position, targetTransform.position);
-    //            if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacle))
-    //            {
-    //                visibleTargets.Add(targetTransform);
-    //                Debug.Log("Enemy Spotted");
-    //            }
-    //        }
-    //    }
-    //}
+  
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
