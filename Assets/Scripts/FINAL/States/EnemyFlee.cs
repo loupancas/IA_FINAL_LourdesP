@@ -31,6 +31,7 @@ public class EnemyFlee : IState
     public void OnEnter() 
     {
         Debug.Log("Flee");
+        //NearestEnemyNode = _pathfindingManager.FindNodeNearPoint(_me.position);
         FleeTime(_target);
 
     }
@@ -40,7 +41,7 @@ public class EnemyFlee : IState
     public void OnUpdate()
     {
         Console.WriteLine("EnemyFlee");
-        MoveAlongPath();
+       // MoveAlongPath();
     }
 
   
@@ -48,8 +49,10 @@ public class EnemyFlee : IState
     void FleeTime(Transform targetPosition)
     {
         // Obtener los nodos inicial y final
-        Node_Script_OP2 startNode = _pathfindingManager.FindNodeNearPoint(_me.position);
+        Node_Script_OP2 startNode =_pathfindingManager.FindNodeNearPoint(_me.position);
+        Debug.Log("StartNode: " + startNode);
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
+        Debug.Log("EndNode: " + endNode);
 
         if (startNode == null )
         {
@@ -71,8 +74,9 @@ public class EnemyFlee : IState
         }
         // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
+        Debug.Log("Path calculated and pathQueue filled with waypoints");
         //pathQueue.Clear();
-
+        MoveAlongPath();
 
     }
     void MoveAlongPath()
@@ -92,10 +96,10 @@ public class EnemyFlee : IState
         else
         {
             pathQueue.Dequeue();
+            Debug.Log("Reached a waypoint, moving to the next one");
         }
 
     }
-
 
 
 

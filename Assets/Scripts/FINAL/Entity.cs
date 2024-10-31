@@ -5,7 +5,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] protected int _vidaMax;
     [SerializeField] protected int _vida;
 
-    protected int Vida
+    public int Vida
     {
         get { return _vida; }
         set { _vida = value; }

@@ -56,7 +56,7 @@ public class TeamFlockingBase : EnemigoBase
 
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-        NearestEnemyNode = FindNearestNode();
+        //NearestEnemyNode = FindNearestNode();
     }
 
     
@@ -74,13 +74,9 @@ public class TeamFlockingBase : EnemigoBase
 
     protected virtual void Update()
     {
-        _actualLife = _vida;
+        
 
-        if (_actualLife <= 0)
-        {
-            Morir();
-        }
-        NearestEnemyNode = FindNearestNode();
+        
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
@@ -98,16 +94,17 @@ public class TeamFlockingBase : EnemigoBase
 
         Debug.Log($"isActionExecuting: {isActionExecuting}, _actualLife: {_actualLife}, healthThreshold: {healthThreshold}");
 
-        if (!isActionExecuting)
-        {
-            _fsmm.Execute();
-        }
+        //if (!isActionExecuting)
+        //{
+
+        //    _fsmm.Execute();
+        //}
             
        
 
     }
 
-   
+    #region ForceArrive
 
 
 
@@ -137,6 +134,7 @@ public class TeamFlockingBase : EnemigoBase
         return Seek(targetPos, _maxVelocity);
     }
 
+    #endregion
     public override void Morir()
     {
         gameObject.SetActive(false);
@@ -149,6 +147,7 @@ public class TeamFlockingBase : EnemigoBase
         {
             NearestNode = pathfindingManager.FindNodeNearPoint(_Leader.position);
             //Debug.Log("Nearest Node: " + NearestNode);
+            //NearestEnemyNode = pathfindingManager.FindNodeNearPoint(_home.position);
             yield return new WaitForSeconds(Delay);
         }
     }
@@ -201,12 +200,12 @@ public class TeamFlockingBase : EnemigoBase
 
     public void FleeTime()
     {
-        NearestEnemyNode = FindNearestNode();
         if (!isActionExecuting)
         {
             isActionExecuting = true;
             
             _fsmm.Execute();
+            //NearestEnemyNode = pathfindingManager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
             Debug.Log("FleeTime");
             isActionExecuting = false;

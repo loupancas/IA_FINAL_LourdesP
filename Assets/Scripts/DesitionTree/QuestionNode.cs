@@ -14,7 +14,7 @@ public class QuestionNode : DecisionNode
         {
 
             case Questions.Life:
-                if (teamFlockingBase._actualLife <= teamFlockingBase.healthThreshold)
+                if (teamFlockingBase.Vida <= teamFlockingBase.healthThreshold)
                 {
                     Debug.Log("Executing trueNode for Life question");
                     trueNode.Execute(teamFlockingBase);
