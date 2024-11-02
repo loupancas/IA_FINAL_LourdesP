@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerComp_Pink : EnemigoBase
+public class LeaderBase : EnemigoBase
 {
     [SerializeField] TP2_Manager_ProfeAestrella _Manager;
     public Node_Script_OP2 NearestNode;
@@ -12,17 +12,20 @@ public class PlayerComp_Pink : EnemigoBase
     private Queue<Vector3> pathQueue;
     public LayerMask LayerMask;
     public Team Team { get; set; }
-
-    public DecisionNode decisionTree;
+    public bool EnemyLeader=false;
+    public LeaderDecisionNode decisionTree;
     private FSM _fsmm;
     [SerializeField] Projectile _proyectil;
     [SerializeField] Transform _spawnBullet;
     public float _cdShot;
     public Transform _home;
     [SerializeField] LayerMask _obstacle;
+    [SerializeField] LayerMask _enemy;
     public Node_Script_OP2 NearestHomwNode;
     private bool isActionExecuting = false;
     private bool notFleeing = true;
+    public float healthThreshold;
+    public List<Transform> visibleTargets = new List<Transform>();
 
     public void Start()
     {
@@ -30,8 +33,6 @@ public class PlayerComp_Pink : EnemigoBase
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
-
-
         InitializeFSM();
 
     }
@@ -49,6 +50,7 @@ public class PlayerComp_Pink : EnemigoBase
         }
 
         _Manager._NearestPlayerNode = NearestNode;
+        FindVisibleTargets();
     }
 
     private void HandleMouseClick()
@@ -181,7 +183,49 @@ public class PlayerComp_Pink : EnemigoBase
 
     #endregion
 
+    private void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _enemy);
 
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        {
+            Transform targetTransform = targetsInViewRadius[i].transform;
+            if (InFieldOfView(targetTransform.position))
+            {
+                //visibleTargets.Add(targetTransform);
+                //Debug.Log("Enemy Spotted");
+
+                if (targetTransform.CompareTag("Leader")) // Verificar si el enemigo es un líder
+                {
+                    EnemyLeader = true;
+                    Debug.Log("Enemy Leader Spotted");
+                }
+                else
+                {
+                    visibleTargets.Add(targetTransform);
+                    Debug.Log("Enemy Spotted");
+                }
+
+            }
+        }
+    }
+
+    private bool InFieldOfView(Vector3 targetPosition)
+    {
+        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        float angle = Vector3.Angle(transform.up, directionToTarget);
+
+        if (angle <= _viewAngle / 2)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacle))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public override void Morir()
     {

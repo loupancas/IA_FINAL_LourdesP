@@ -11,12 +11,9 @@ public class EnemyFlee : IState
     Transform _target;
     LayerMask _maskObstacle;
     private Queue<Vector3> pathQueue;
-    private bool isMoving;
     private TP2_Manager_ProfeAestrella _pathfindingManager;
     float _velocity;
     public Node_Script_OP2 NearesHomwNode;
-    private float _timeSinceLastUpdate = 0f;
-    private float _updateInterval = 0.25f;
 
     public EnemyFlee(Transform target, Transform me, float velocity, LayerMask layerMask, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node)
     {
@@ -43,26 +40,14 @@ public class EnemyFlee : IState
 
     public void OnUpdate()
     {
-        //_timeSinceLastUpdate += Time.deltaTime;
-        //if (_timeSinceLastUpdate >= _updateInterval)
-        //{
-        //    NearestEnemyNode = FindNearestNode();
-        //    _timeSinceLastUpdate = 0f;
-        //}
-
-        //FleeTime(_target);
+     
         Console.WriteLine("EnemyFlee");
-        //if (isMoving && pathQueue.Count > 0)
-        //{
-        //    MoveAlongPath();
-        //    isMoving = false;
-        //}
+     
         if (pathQueue.Count > 0)
         {
             MoveAlongPath();
          
         }
-        //_pathfindingManager._NearestEnemyNode = NearestEnemyNode;
 
     }
 
@@ -105,8 +90,7 @@ public class EnemyFlee : IState
             Debug.Log("Nodo en pathQueue: " + pos);
         }
 
-        //pathQueue.Clear();
-        //MoveAlongPath();
+      
 
     }
     void MoveAlongPath()
@@ -116,25 +100,7 @@ public class EnemyFlee : IState
         Vector3 targetPos = pathQueue.Peek();
         float distanceToNode = Vector3.Distance(_me.position, targetPos);
         Debug.Log($"Distancia: {distanceToNode}");
-        //Debug.Log("Posición actual: " + _me.position + ", Nodo objetivo: " + targetPos + ", Distancia al nodo: " + distanceToTarget);
-        //if (distanceToTarget > 0.1f)
-        //{
-        //    //Vector3 moveDirection = (targetPos - _me.position).normalized;
-        //    //_me.position += moveDirection * _velocity * Time.deltaTime;
-        //    //_me.forward = moveDirection;
-        //    //Debug.Log("Moving along path");
-
-        //    _me.position = Vector3.MoveTowards(_me.position, targetPos, _velocity * Time.deltaTime);
-        //    _me.forward = (targetPos - _me.position).normalized;
-        //    Debug.Log("Moving along path");
-
-
-        //}
-        //else
-        //{
-        //    pathQueue.Dequeue();
-        //    Debug.Log("Reached a waypoint, moving to the next one");
-        //}
+        
 
         if (Vector3.Distance(_me.position, targetPos) > 0.2f)
         {
@@ -151,7 +117,6 @@ public class EnemyFlee : IState
 
 
 
-        // Movimiento hacia el nodo objetivo
       
     }
 

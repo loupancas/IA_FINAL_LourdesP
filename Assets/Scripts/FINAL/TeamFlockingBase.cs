@@ -58,7 +58,6 @@ public class TeamFlockingBase : EnemigoBase
 
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-        //NearestEnemyNode = FindNearestNode();
     }
 
     
