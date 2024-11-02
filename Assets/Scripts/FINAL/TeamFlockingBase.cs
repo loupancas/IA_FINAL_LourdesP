@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +38,8 @@ public class TeamFlockingBase : EnemigoBase
 
     protected virtual void Start()
     {
+       
+
         OnUpdate = NormalUpdate;
         _vida = _vidaMax;
         healthThreshold = 0.3f*_vidaMax;
@@ -80,7 +83,11 @@ public class TeamFlockingBase : EnemigoBase
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
         FindVisibleTargets();
-       
+        Vector3 fixedRotation = _transform.eulerAngles;
+        fixedRotation.z = 0;
+        fixedRotation.y = 0;
+        fixedRotation.x = 90;
+        _transform.eulerAngles = fixedRotation;
 
     }
 

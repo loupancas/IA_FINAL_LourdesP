@@ -52,7 +52,6 @@ public class EnemyFollow : IState
         if (Vector3.Distance(me.position, _Leader.position) > 1f)
         {
             Vector3 moveDirection = (_Leader.position - me.position).normalized;
-            moveDirection.z = 0;
             me.position += moveDirection * _maxVelocity * Time.deltaTime;
         }
         else
@@ -72,7 +71,6 @@ public class EnemyFollow : IState
 
     protected Vector3 Arrive(Vector3 targetPos)
     {
-        targetPos.z = _transform.position.z;
         float dist = Vector3.Distance(_transform.position, targetPos);
         if (dist > _viewRadius) return Seek(targetPos);
 
@@ -81,7 +79,6 @@ public class EnemyFollow : IState
 
     protected Vector3 Seek(Vector3 targetPos, float speed)
     {
-        targetPos.z = _transform.position.z;
         Vector3 desired = (targetPos - _transform.position).normalized * speed;
         Vector3 steering = desired - _velocity;
         steering = Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);

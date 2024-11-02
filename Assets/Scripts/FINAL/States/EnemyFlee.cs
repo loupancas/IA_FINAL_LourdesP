@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class EnemyFlee : IState
 {
@@ -54,6 +55,7 @@ public class EnemyFlee : IState
         if (isMoving && pathQueue.Count > 0)
         {
             MoveAlongPath();
+            isMoving = false;
         }
 
         _pathfindingManager._NearestEnemyNode = NearestEnemyNode;
@@ -109,6 +111,7 @@ public class EnemyFlee : IState
             return;
         Vector3 targetPos = pathQueue.Peek();
         float distanceToNode = Vector3.Distance(_me.position, targetPos);
+        Debug.Log($"Distancia: {distanceToNode}");
         //Debug.Log("Posición actual: " + _me.position + ", Nodo objetivo: " + targetPos + ", Distancia al nodo: " + distanceToTarget);
         //if (distanceToTarget > 0.1f)
         //{
@@ -128,13 +131,14 @@ public class EnemyFlee : IState
         //    pathQueue.Dequeue();
         //    Debug.Log("Reached a waypoint, moving to the next one");
         //}
-        if (distanceToNode < 0.1f)
+        if (distanceToNode < 0.2f)
         {
             // Si está cerca, retira el nodo alcanzado y pasa al siguiente
             pathQueue.Dequeue();
             if (pathQueue.Count > 0)
             {
                 targetPos = pathQueue.Peek(); // Nuevo objetivo
+                Debug.Log("nuevo objetivo");
             }
             else
             {
@@ -147,7 +151,8 @@ public class EnemyFlee : IState
         // Movimiento hacia el nodo objetivo
         Vector3 direction = (targetPos - _me.position).normalized;
         _me.position += direction * (_velocity * Time.deltaTime);
-        Debug.Log($"Moviendo hacia el nodo: {targetPos}, Distancia: {distanceToNode}");
+        _me.up = direction;
+        Debug.Log($"Moviendo hacia el nodo: {targetPos} ");
     }
 
     IEnumerator CorutineFindNearestNode()

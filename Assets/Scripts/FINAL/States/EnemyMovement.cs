@@ -91,7 +91,7 @@ public class EnemyMovement : IState
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
             _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-            _transform.forward = moveDirection;
+            _transform.up = moveDirection;
             //Debug.Log("Moving");
         }
         else
