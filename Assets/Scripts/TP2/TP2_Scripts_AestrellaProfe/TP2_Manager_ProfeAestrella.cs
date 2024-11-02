@@ -12,7 +12,7 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     public Node_Script_OP2 StartNode, EndNode;
     //public List<Transform> _Path = new List<Transform>();   
     public Node_Script_OP2 _NearestPlayerNode;
-    //public Node_Script_OP2 _NearestEnemyNode;
+    public Node_Script_OP2 _NearestEnemyNode;
     public LayerMask _ObstacleLayer;
     public static TP2_Manager_ProfeAestrella Instance;
 

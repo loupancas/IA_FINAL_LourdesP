@@ -10,10 +10,12 @@ public class EnemyFlee : IState
     Transform _target;
     LayerMask _maskObstacle;
     private Queue<Vector3> pathQueue;
-  
+    private bool isMoving;
     private TP2_Manager_ProfeAestrella _pathfindingManager;
     float _velocity;
     public Node_Script_OP2 NearestEnemyNode;
+    private float _timeSinceLastUpdate = 0f;
+    private float _updateInterval = 0.25f;
 
     public EnemyFlee(Transform target, Transform me, float velocity, LayerMask layerMask, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node)
     {
@@ -22,8 +24,8 @@ public class EnemyFlee : IState
         _maskObstacle = layerMask;
         _target = target;
         _pathfindingManager = pathfindingManager;
-        _velocity = velocity;
-         NearestEnemyNode = node;
+        _velocity = velocity > 0 ? velocity : 1.0f;
+        NearestEnemyNode = node;
          pathQueue = new Queue<Vector3>();
 
     }
@@ -31,8 +33,8 @@ public class EnemyFlee : IState
     public void OnEnter() 
     {
         Debug.Log("Flee");
-        //NearestEnemyNode = _pathfindingManager.FindNodeNearPoint(_me.position);
-        FleeTime(_target);
+        NearestEnemyNode = FindNearestNode();
+        //FleeTime(_target);
 
     }
 
@@ -40,8 +42,22 @@ public class EnemyFlee : IState
 
     public void OnUpdate()
     {
+        _timeSinceLastUpdate += Time.deltaTime;
+        if (_timeSinceLastUpdate >= _updateInterval)
+        {
+            NearestEnemyNode = FindNearestNode();
+            _timeSinceLastUpdate = 0f;
+        }
+
+        FleeTime(_target);
         Console.WriteLine("EnemyFlee");
-       // MoveAlongPath();
+        if (isMoving && pathQueue.Count > 0)
+        {
+            MoveAlongPath();
+        }
+
+        _pathfindingManager._NearestEnemyNode = NearestEnemyNode;
+
     }
 
   
@@ -49,7 +65,7 @@ public class EnemyFlee : IState
     void FleeTime(Transform targetPosition)
     {
         // Obtener los nodos inicial y final
-        Node_Script_OP2 startNode =_pathfindingManager.FindNodeNearPoint(_me.position);
+        Node_Script_OP2 startNode =NearestEnemyNode;
         Debug.Log("StartNode: " + startNode);
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
         Debug.Log("EndNode: " + endNode);
@@ -74,9 +90,17 @@ public class EnemyFlee : IState
         }
         // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
-        Debug.Log("Path calculated and pathQueue filled with waypoints");
+        Debug.Log("Camino calculado:");
+     
+        isMoving = true;
+        
+        foreach (var pos in pathQueue)
+        {
+            Debug.Log("Nodo en pathQueue: " + pos);
+        }
+
         //pathQueue.Clear();
-        MoveAlongPath();
+        //MoveAlongPath();
 
     }
     void MoveAlongPath()
@@ -84,23 +108,77 @@ public class EnemyFlee : IState
         if (pathQueue.Count == 0)
             return;
         Vector3 targetPos = pathQueue.Peek();
+        float distanceToNode = Vector3.Distance(_me.position, targetPos);
+        //Debug.Log("Posición actual: " + _me.position + ", Nodo objetivo: " + targetPos + ", Distancia al nodo: " + distanceToTarget);
+        //if (distanceToTarget > 0.1f)
+        //{
+        //    //Vector3 moveDirection = (targetPos - _me.position).normalized;
+        //    //_me.position += moveDirection * _velocity * Time.deltaTime;
+        //    //_me.forward = moveDirection;
+        //    //Debug.Log("Moving along path");
 
-        if (Vector3.Distance(_me.position, targetPos) > 0.1f)
-        {
-            Vector3 moveDirection = (targetPos - _me.position).normalized;
-            _me.position += moveDirection * _velocity * Time.deltaTime;
-            _me.forward = moveDirection;
-            Debug.Log("Moving along path");
+        //    _me.position = Vector3.MoveTowards(_me.position, targetPos, _velocity * Time.deltaTime);
+        //    _me.forward = (targetPos - _me.position).normalized;
+        //    Debug.Log("Moving along path");
 
-        }
-        else
+
+        //}
+        //else
+        //{
+        //    pathQueue.Dequeue();
+        //    Debug.Log("Reached a waypoint, moving to the next one");
+        //}
+        if (distanceToNode < 0.1f)
         {
+            // Si está cerca, retira el nodo alcanzado y pasa al siguiente
             pathQueue.Dequeue();
-            Debug.Log("Reached a waypoint, moving to the next one");
+            if (pathQueue.Count > 0)
+            {
+                targetPos = pathQueue.Peek(); // Nuevo objetivo
+            }
+            else
+            {
+                Debug.Log("Destination reached");
+                // Puedes agregar un cambio de estado o cualquier otra acción al llegar
+                return;
+            }
         }
 
+        // Movimiento hacia el nodo objetivo
+        Vector3 direction = (targetPos - _me.position).normalized;
+        _me.position += direction * (_velocity * Time.deltaTime);
+        Debug.Log($"Moviendo hacia el nodo: {targetPos}, Distancia: {distanceToNode}");
+    }
+
+    IEnumerator CorutineFindNearestNode()
+    {
+        float Delay = 0.25f;
+        WaitForSeconds wait = new WaitForSeconds(Delay);
+
+        while (true)
+        {
+            yield return wait;
+            NearestEnemyNode = FindNearestNode();
+        }
     }
 
 
+
+
+    private Node_Script_OP2 FindNearestNode()
+    {
+        Node_Script_OP2 nearest = null;
+        float NearestVal = float.MaxValue;
+        foreach (Node_Script_OP2 CurrentNode in _pathfindingManager._NodeList)
+        {
+            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, _me.position);
+            if (CurrentDis < NearestVal)
+            {
+                NearestVal = CurrentDis;
+                nearest = CurrentNode;
+            }
+        }
+        return nearest;
+    }
 
 }

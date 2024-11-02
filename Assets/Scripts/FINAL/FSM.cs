@@ -7,6 +7,7 @@ public class FSM
     Dictionary<string, IState> _states = new Dictionary<string, IState>();
 
     IState _actualState;
+    private bool isActionExecuting;
 
     public void CreateState(string name, IState state)
     {
@@ -17,6 +18,12 @@ public class FSM
     public void Execute()
     {
         _actualState.OnUpdate();
+        //if (_actualState != null)
+        //{
+        //    isActionExecuting = true;  // Evita cambios de estado durante la ejecución
+        //    _actualState.OnUpdate();
+        //    isActionExecuting = false; // Permite cambios de estado tras la ejecución
+        //}
     }
 
     public void ChangeState(string name)

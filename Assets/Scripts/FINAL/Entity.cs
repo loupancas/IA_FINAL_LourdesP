@@ -14,16 +14,22 @@ public abstract class Entity : MonoBehaviour
     {
         _vida -= Damage;
         HealthBar healthBar = GetComponent<HealthBar>();
-        healthBar.UpdateHPBar(_vida);
+        if (healthBar != null)
+        {
+           healthBar.UpdateHPBar(_vida, _vidaMax);
+        }
+        else
+        {
+            Debug.LogError("HealthBar component not found on the entity.");
+        }
 
-      
-            if (_vida < 0)
-            {
-                Morir();
-            }
-        
+        if (_vida < 0)
+        {
+            Morir();
+        }
 
-       
+
+
     }
 
     public abstract void Morir();

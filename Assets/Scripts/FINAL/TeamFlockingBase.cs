@@ -11,7 +11,6 @@ public class TeamFlockingBase : EnemigoBase
     public bool LiderSpotted;
     public DecisionNode decisionTree;
     public float healthThreshold;
-    public float _actualLife;
     [SerializeField] LayerMask _obstacle;
     [SerializeField] LayerMask _enemy;
     public List<Transform> visibleTargets = new List<Transform>();
@@ -88,19 +87,18 @@ public class TeamFlockingBase : EnemigoBase
     public void NormalUpdate()
     {
         Debug.Log("NormalUpdate");
+        Debug.Log("Estado actual del FSM: " + _fsmm.ToString());
 
-       
-         decisionTree?.Execute(this);
+        decisionTree?.Execute(this);
 
-        Debug.Log($"isActionExecuting: {isActionExecuting}, _actualLife: {_actualLife}, healthThreshold: {healthThreshold}");
 
-        //if (!isActionExecuting)
-        //{
+        if (!isActionExecuting)
+        {
 
-        //    _fsmm.Execute();
-        //}
-            
-       
+            _fsmm.Execute();
+        }
+
+
 
     }
 
@@ -214,7 +212,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void AttackTime()
     {
-        if (!isActionExecuting && _actualLife > healthThreshold)
+        if (!isActionExecuting && _vida > healthThreshold)
         {
             isActionExecuting = true;
             _fsmm.Execute();

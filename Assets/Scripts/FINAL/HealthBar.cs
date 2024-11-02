@@ -10,11 +10,14 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         _hPBar = gameObject.GetComponentInChildren<Image>();
+        
     }
 
-    public void UpdateHPBar(int vidaActual)
+    public void UpdateHPBar(int vidaActual, int vidaMax)
     {
-        _hPBar.fillAmount = vidaActual / 100f;
+        _hPBar.fillAmount = (float)vidaActual / vidaMax;
+        Debug.Log("Vida actual: " +(float) vidaActual / vidaMax);
+
     }
 
 }
