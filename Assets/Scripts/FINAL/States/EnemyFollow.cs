@@ -74,7 +74,7 @@ public class EnemyFollow : IState
         float dist = Vector3.Distance(_transform.position, targetPos);
         if (dist > _viewRadius) return Seek(targetPos);
 
-        return Seek(targetPos, _maxVelocity * (dist / _viewRadius));
+        return Seek(targetPos, _maxVelocity * (dist / (_viewRadius+0.3f)));
     }
 
     protected Vector3 Seek(Vector3 targetPos, float speed)

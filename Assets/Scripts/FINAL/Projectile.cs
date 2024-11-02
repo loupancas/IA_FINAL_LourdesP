@@ -80,7 +80,7 @@ public class Projectile : ProyectilesBase
     public void NormalUpdate()
     {
         var distanceToTravel = _modifiedSpeed * Time.deltaTime;
-        transform.position += transform.forward * distanceToTravel;
+        transform.position += transform.up * distanceToTravel;
 
         _currentDistance += distanceToTravel;
         if (_currentDistance > _maxDistance)

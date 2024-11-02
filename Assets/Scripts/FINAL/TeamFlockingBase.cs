@@ -24,12 +24,12 @@ public class TeamFlockingBase : EnemigoBase
     Transform _targetEnemy;
     public float _cdShot;
     public TP2_Manager_ProfeAestrella pathfindingManager;
-
+    private bool notFleeing = true;
     private Queue<Vector3> pathQueue;
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
     public Node_Script_OP2 NearestNode;
-    public Node_Script_OP2 NearestEnemyNode;
+    public Node_Script_OP2 NearestHomwNode;
     protected Vector3 _velocity;
     [SerializeField] private Transform _transform;
     private FSM _fsmm;
@@ -67,7 +67,7 @@ public class TeamFlockingBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestEnemyNode));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestHomwNode));
         _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
         _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
         _fsmm.ChangeState("Movement");
@@ -83,20 +83,18 @@ public class TeamFlockingBase : EnemigoBase
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
         FindVisibleTargets();
-        Vector3 fixedRotation = _transform.eulerAngles;
-        fixedRotation.z = 0;
-        fixedRotation.y = 0;
-        fixedRotation.x = 90;
-        _transform.eulerAngles = fixedRotation;
+       
 
     }
 
     public void NormalUpdate()
     {
         Debug.Log("NormalUpdate");
-        Debug.Log("Estado actual del FSM: " + _fsmm.ToString());
 
-        decisionTree?.Execute(this);
+        if(notFleeing)
+        {
+            decisionTree?.Execute(this);
+        }
 
 
         if (!isActionExecuting)
@@ -159,21 +157,7 @@ public class TeamFlockingBase : EnemigoBase
 
   
 
-    private Node_Script_OP2 FindNearestNode()
-    {
-        Node_Script_OP2 nearest = null;
-        float NearestVal = float.MaxValue;
-        foreach (Node_Script_OP2 CurrentNode in pathfindingManager._NodeList)
-        {
-            float CurrentDis = Vector3.Distance(CurrentNode.NodeTransform.position, _transform.position);
-            if (CurrentDis < NearestVal)
-            {
-                NearestVal = CurrentDis;
-                nearest = CurrentNode;
-            }
-        }
-        return nearest;
-    }
+  
 
     #region Decision Tree Methods
     public void SearchTime()
@@ -208,9 +192,9 @@ public class TeamFlockingBase : EnemigoBase
         if (!isActionExecuting)
         {
             isActionExecuting = true;
-            
+            notFleeing = false;
             _fsmm.Execute();
-            //NearestEnemyNode = pathfindingManager.FindNodeNearPoint(_home.position);
+            NearestHomwNode = pathfindingManager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
             Debug.Log("FleeTime");
             isActionExecuting = false;
@@ -219,7 +203,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void AttackTime()
     {
-        if (!isActionExecuting && _vida > healthThreshold)
+        if (!isActionExecuting)
         {
             isActionExecuting = true;
             _fsmm.Execute();
@@ -253,7 +237,7 @@ public class TeamFlockingBase : EnemigoBase
     private bool InFieldOfView(Vector3 targetPosition)
     {
         Vector3 directionToTarget = (targetPosition - _transform.position).normalized;
-        float angle = Vector3.Angle(_transform.forward, directionToTarget);
+        float angle = Vector3.Angle(_transform.up, directionToTarget);
 
         if (angle <= _viewAngle / 2)
         {
