@@ -3,39 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerComp_Pink : EnemigoBase
+public class PlayerComp_Pink : LeaderBase
 {
-    [SerializeField] TP2_Manager_ProfeAestrella _Manager;
-    public Node_Script_OP2 NearestNode;
-    public float speed;
-    private bool isMoving;
+    //TP2_Manager_ProfeAestrella _ManagerL;
+    
     private Queue<Vector3> pathQueue;
-    public LayerMask LayerMask;
-    public Team Team { get; set; }
 
-    public DecisionNode decisionTree;
     private FSM _fsmm;
-    [SerializeField] Projectile _proyectil;
-    [SerializeField] Transform _spawnBullet;
-    public float _cdShot;
-    public Transform _home;
-    [SerializeField] LayerMask _obstacle;
-    public Node_Script_OP2 NearestHomwNode;
-    private bool isActionExecuting = false;
-    private bool notFleeing = true;
+    //[SerializeField] Projectile _proyectil;
+    //[SerializeField] Transform _spawnBullet;
+    //[SerializeField] LayerMask _obstacle;
+    //private bool isActionExecuting = false;
+    //private bool notFleeing = true;
 
     public void Start()
     {
         Team = Team.Pink;
+        _vida = _vidaMax;
+        healthThreshold = 0.3f * _vidaMax;
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
-
-
         InitializeFSM();
 
     }
 
+   
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -62,7 +55,7 @@ public class PlayerComp_Pink : EnemigoBase
                 _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
                 _Manager.StartNode = NearestNode;
                 List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
-                pathQueue.Clear();
+                //pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(path.Select(node => node.position)); // Usar path en lugar de _Manager._Path
                 isMoving = true;
             }
@@ -85,7 +78,7 @@ public class PlayerComp_Pink : EnemigoBase
         if (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - transform.position).normalized;
-            transform.position += moveDirection * speed * Time.deltaTime;
+            transform.position += moveDirection * _maxVelocity * Time.deltaTime;
         }
         else
         {
@@ -136,50 +129,50 @@ public class PlayerComp_Pink : EnemigoBase
         Debug.Log("FSM Initialized");
     }
 
-    #region Decision Tree Methods
+    //#region Decision Tree Methods
   
 
-    public void FleeTime()
-    {
-        if (!isActionExecuting)
-        {
-            isActionExecuting = true;
-            notFleeing = false;
-            _fsmm.Execute();
-            NearestHomwNode = _Manager.FindNodeNearPoint(_home.position);
-            _fsmm.ChangeState("Flee");
-            Debug.Log("FleeTime");
-            isActionExecuting = false;
-        }
-    }
+    //public void FleeTime()
+    //{
+    //    if (!isActionExecuting)
+    //    {
+    //        isActionExecuting = true;
+    //        notFleeing = false;
+    //        _fsmm.Execute();
+    //        NearestHomwNode = _Manager.FindNodeNearPoint(_home.position);
+    //        _fsmm.ChangeState("Flee");
+    //        Debug.Log("FleeTime");
+    //        isActionExecuting = false;
+    //    }
+    //}
 
-    public void AttackTime()
-    {
-        if (!isActionExecuting)
-        {
-            isActionExecuting = true;
-            _fsmm.Execute();
-            _fsmm.ChangeState("Attack");
-            Debug.Log("AttackTime");
-            isActionExecuting = false;
-        }
-    }
-
-
-    public void EspecialAttackTime()
-    {
-        if (!isActionExecuting)
-        {
-            isActionExecuting = true;
-            _fsmm.Execute();
-            _fsmm.ChangeState("EspecialAttack");
-            Debug.Log("EspecialAttackTime");
-            isActionExecuting = false;
-        }
-    }
+    //public void AttackTime()
+    //{
+    //    if (!isActionExecuting)
+    //    {
+    //        isActionExecuting = true;
+    //        _fsmm.Execute();
+    //        _fsmm.ChangeState("Attack");
+    //        Debug.Log("AttackTime");
+    //        isActionExecuting = false;
+    //    }
+    //}
 
 
-    #endregion
+    //public void EspecialAttackTime()
+    //{
+    //    if (!isActionExecuting)
+    //    {
+    //        isActionExecuting = true;
+    //        _fsmm.Execute();
+    //        _fsmm.ChangeState("EspecialAttack");
+    //        Debug.Log("EspecialAttackTime");
+    //        isActionExecuting = false;
+    //    }
+    //}
+
+
+    //#endregion
 
 
 
