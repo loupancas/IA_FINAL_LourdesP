@@ -7,7 +7,6 @@ public class FSM
     Dictionary<string, IState> _states = new Dictionary<string, IState>();
 
     IState _actualState;
-    private bool isActionExecuting;
 
     public void CreateState(string name, IState state)
     {

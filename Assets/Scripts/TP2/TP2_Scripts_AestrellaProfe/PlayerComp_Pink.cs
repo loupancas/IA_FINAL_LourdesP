@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class PlayerComp_Pink : LeaderBase
 {
-    //TP2_Manager_ProfeAestrella _ManagerL;
-    
+    //[SerializeField] TP2_Manager_ProfeAestrella _Manager;
+    public Node_Script_OP2 NearestNode;
     private Queue<Vector3> pathQueue;
-
-    private FSM _fsmm;
+    //private bool isMoving;
+    //private FSM _fsmm;
     //[SerializeField] Projectile _proyectil;
     //[SerializeField] Transform _spawnBullet;
-    //[SerializeField] LayerMask _obstacle;
+    [SerializeField] LayerMask LayerMask;
     //private bool isActionExecuting = false;
     //private bool notFleeing = true;
 
@@ -24,7 +24,9 @@ public class PlayerComp_Pink : LeaderBase
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
+
         InitializeFSM();
+
 
     }
 
@@ -41,7 +43,8 @@ public class PlayerComp_Pink : LeaderBase
             MoveAlongPath();
         }
 
-        _Manager._NearestPlayerNode = NearestNode;
+         _Manager._NearestPlayerNode = NearestNode;
+        FindVisibleTargets();
     }
 
     private void HandleMouseClick()
@@ -55,7 +58,8 @@ public class PlayerComp_Pink : LeaderBase
                 _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
                 _Manager.StartNode = NearestNode;
                 List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
-                //pathQueue.Clear();
+                Debug.Log("Path: " + path.Count);
+                pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(path.Select(node => node.position)); // Usar path en lugar de _Manager._Path
                 isMoving = true;
             }
@@ -119,65 +123,5 @@ public class PlayerComp_Pink : LeaderBase
     }
 
 
-    private void InitializeFSM()
-    {
-        _fsmm = new FSM();
-        _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, _Manager, NearestHomwNode));
-        _fsmm.CreateState("EspecialAttack", new EnemyEspecialAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.ChangeState("EspecialAttack");
-        Debug.Log("FSM Initialized");
-    }
-
-    //#region Decision Tree Methods
-  
-
-    //public void FleeTime()
-    //{
-    //    if (!isActionExecuting)
-    //    {
-    //        isActionExecuting = true;
-    //        notFleeing = false;
-    //        _fsmm.Execute();
-    //        NearestHomwNode = _Manager.FindNodeNearPoint(_home.position);
-    //        _fsmm.ChangeState("Flee");
-    //        Debug.Log("FleeTime");
-    //        isActionExecuting = false;
-    //    }
-    //}
-
-    //public void AttackTime()
-    //{
-    //    if (!isActionExecuting)
-    //    {
-    //        isActionExecuting = true;
-    //        _fsmm.Execute();
-    //        _fsmm.ChangeState("Attack");
-    //        Debug.Log("AttackTime");
-    //        isActionExecuting = false;
-    //    }
-    //}
-
-
-    //public void EspecialAttackTime()
-    //{
-    //    if (!isActionExecuting)
-    //    {
-    //        isActionExecuting = true;
-    //        _fsmm.Execute();
-    //        _fsmm.ChangeState("EspecialAttack");
-    //        Debug.Log("EspecialAttackTime");
-    //        isActionExecuting = false;
-    //    }
-    //}
-
-
-    //#endregion
-
-
-
-    public override void Morir()
-    {
-        gameObject.SetActive(false);
-    }
+   
 }

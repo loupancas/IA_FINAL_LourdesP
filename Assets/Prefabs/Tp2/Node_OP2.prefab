@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2076749459}
   m_Layer: 7
   m_Name: Node_OP2
-  m_TagString: Untagged
+  m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,13 +102,13 @@ MonoBehaviour:
   _Obstacles:
     serializedVersion: 2
     m_Bits: 1024
-  _RayLenght: 0
+  _RayLenght: 10
   _Renderer: {fileID: 0}
   StartingNode: 0
   EndingNode: 0
   NodeTransform: {fileID: 0}
   Collider: {fileID: 0}
-  _Weight: 0
+  _Weight: 1
 --- !u!58 &2076749459
 CircleCollider2D:
   m_ObjectHideFlags: 0
