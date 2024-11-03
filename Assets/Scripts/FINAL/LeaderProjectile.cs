@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Projectile : ProyectilesBase
+public class LeaderProjectile : Projectile
 {
-    public delegate void DelegateUpdate();
-    public DelegateUpdate delegateUpdate;
-    public bool isEnemyProjectile;
-    [SerializeField] public Team teams;
+    //public delegate void DelegateUpdate();
+    //public DelegateUpdate delegateUpdate;
+    //public bool isEnemyProjectile;
+    //[SerializeField] private Team teams;
     
     void Start()
     {
@@ -31,14 +31,14 @@ public class Projectile : ProyectilesBase
         delegateUpdate = NormalUpdate;
     }
 
-    public static void TurnOnOff(Projectile p, bool active = true)
-    {
-        if (active)
-        {
-            p.Reset();
-        }
-        p.gameObject.SetActive(active);
-    }
+    //public static void TurnOnOff(Projectile p, bool active = true)
+    //{
+    //    if (active)
+    //    {
+    //        p.Reset();
+    //    }
+    //    p.gameObject.SetActive(active);
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -72,17 +72,17 @@ public class Projectile : ProyectilesBase
         Debug.Log("Disparo proyectil"+p.teams);
     }
 
-    public void NormalUpdate()
-    {
-        var distanceToTravel = _modifiedSpeed * Time.deltaTime;
-        transform.position += transform.up * distanceToTravel;
+    //public void NormalUpdate()
+    //{
+    //    var distanceToTravel = _modifiedSpeed * Time.deltaTime;
+    //    transform.position += transform.up * distanceToTravel;
 
-        _currentDistance += distanceToTravel;
-        if (_currentDistance > _maxDistance)
-        {
-            ProjectileFactory.Instance.ReturnProjectile(this);
-        }
-    }
+    //    _currentDistance += distanceToTravel;
+    //    if (_currentDistance > _maxDistance)
+    //    {
+    //        ProjectileFactory.Instance.ReturnProjectile(this);
+    //    }
+    //}
 
    
    

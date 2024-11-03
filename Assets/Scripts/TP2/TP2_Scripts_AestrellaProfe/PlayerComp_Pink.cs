@@ -45,6 +45,8 @@ public class PlayerComp_Pink : LeaderBase
 
          _Manager._NearestPlayerNode = NearestNode;
         FindVisibleTargets("KCyan");
+
+        NormalUpdate();
     }
 
     private void HandleMouseClick()

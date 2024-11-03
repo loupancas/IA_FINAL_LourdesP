@@ -45,19 +45,19 @@ public class LeaderBase : EnemigoBase
     //    }
     //}
 
-    protected virtual void start()
-    {
-        //_Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-        //pathQueue = new Queue<Vector3>();
-        ////StartCoroutine(CorutineFindNearestNode());
-        //InitializeFSM();
+    //protected virtual void start()
+    //{
+    //    //_Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
+    //    //pathQueue = new Queue<Vector3>();
+    //    ////StartCoroutine(CorutineFindNearestNode());
+    //    //InitializeFSM();
 
-        //if (decisionTree == null)
-        //{
-        //    Debug.LogError("DecisionTree not assigned.");
-        //    return;
-        //}
-    }
+    //    //if (decisionTree == null)
+    //    //{
+    //    //    Debug.LogError("DecisionTree not assigned.");
+    //    //    return;
+    //    //}
+    //}
 
     
 
@@ -107,6 +107,7 @@ public class LeaderBase : EnemigoBase
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
         _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, _Manager, NearestHomwNode));
         _fsmm.CreateState("EspecialAttack", new EnemyEspecialAttack(_proyectil, _spawnBullet, _cdShot));
+        _fsmm.CreateState("Wait", new EnemyWait());
         _fsmm.ChangeState("EspecialAttack");
         Debug.Log("FSM Initialized");
     }
@@ -152,6 +153,18 @@ public class LeaderBase : EnemigoBase
             isActionExecuting = false;
         }
     }
+    
+    public void Wait()
+    {
+        if (!isActionExecuting)
+        {
+            isActionExecuting = true;
+            _fsmm.Execute();
+            _fsmm.ChangeState("Wait");
+            Debug.Log("EnemyWait");
+            isActionExecuting = false;
+        }
+    }
 
 
     #endregion
@@ -180,6 +193,10 @@ public class LeaderBase : EnemigoBase
                     Debug.Log("Enemy Spotted");
                 }
 
+            }
+            else
+            {
+                Debug.Log("Enemy not in view");
             }
         }
     }
