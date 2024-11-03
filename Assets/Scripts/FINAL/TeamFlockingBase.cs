@@ -52,7 +52,7 @@ public class TeamFlockingBase : EnemigoBase
         // Verificar y asignar decisionTree
         if (decisionTree == null)
         {
-            Debug.LogError("DecisionTree not assigned.");
+            //Debug.LogError("DecisionTree not assigned.");
             return;
         }
 
@@ -70,7 +70,7 @@ public class TeamFlockingBase : EnemigoBase
         _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
         _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
         _fsmm.ChangeState("Movement");
-        Debug.Log("FSM Initialized");
+        //Debug.Log("FSM Initialized");
     }
 
     protected virtual void Update()
@@ -88,7 +88,7 @@ public class TeamFlockingBase : EnemigoBase
 
     public void NormalUpdate()
     {
-        Debug.Log("NormalUpdate");
+        //Debug.Log("NormalUpdate");
 
         if(notFleeing)
         {
@@ -166,7 +166,7 @@ public class TeamFlockingBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Movement");
-            Debug.Log("SearchTime");
+            //Debug.Log("SearchTime");
             isActionExecuting = false;
         }
     }
@@ -179,7 +179,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             _fsmm.ChangeState("Follow");
           
-            Debug.Log("FollowTime");
+            //Debug.Log("FollowTime");
             isActionExecuting = false;
         }
 
@@ -195,7 +195,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             NearestHomwNode = pathfindingManager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
-            Debug.Log("FleeTime");
+            //Debug.Log("FleeTime");
             isActionExecuting = false;
         }
     }
@@ -207,7 +207,7 @@ public class TeamFlockingBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Attack");
-            Debug.Log("AttackTime");
+            //Debug.Log("AttackTime");
             isActionExecuting = false;
         }
     }

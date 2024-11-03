@@ -29,7 +29,7 @@ public class EnemyFollow : IState
 
     public void OnEnter() 
     { 
-      Debug.Log("EnemyFollow");
+      //Debug.Log("EnemyFollow");
 
     }
 
@@ -38,7 +38,7 @@ public class EnemyFollow : IState
     public void OnUpdate()
     {
        
-        Console.WriteLine("EnemyFollow");
+        //Console.WriteLine("EnemyFollow");
        FollowLeader(_target, _transform);
 
 

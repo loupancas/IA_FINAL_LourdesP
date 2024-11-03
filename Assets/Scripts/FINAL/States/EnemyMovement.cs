@@ -31,7 +31,7 @@ public class EnemyMovement : IState
 
     public void OnEnter() 
     { 
-      Debug.Log("EnemyMovement");
+      //Debug.Log("EnemyMovement");
         CalculatePath(_target);
 
     }
@@ -41,7 +41,7 @@ public class EnemyMovement : IState
     public void OnUpdate()
     {
        
-        Console.WriteLine("EnemyMovement");
+        //Console.WriteLine("EnemyMovement");
         MoveAlongPath();
         
 

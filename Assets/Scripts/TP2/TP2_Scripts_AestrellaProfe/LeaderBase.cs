@@ -27,18 +27,29 @@ public class LeaderBase : EnemigoBase
     public float healthThreshold;
     public List<Transform> visibleTargets = new List<Transform>();
 
-    public void Start()
+  
+
+    protected virtual void start()
     {
         Team = Team.Pink;
+        _vida = _vidaMax;
+        healthThreshold = 0.3f * _vidaMax;
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
         InitializeFSM();
 
+        if (decisionTree == null)
+        {
+            Debug.LogError("DecisionTree not assigned.");
+            return;
+        }
     }
 
-    void Update()
+
+    protected virtual void Update()
     {
+        NearestNode = FindNearestNode();
         if (Input.GetMouseButtonDown(0))
         {
             HandleMouseClick();
@@ -49,9 +60,30 @@ public class LeaderBase : EnemigoBase
             MoveAlongPath();
         }
 
-        _Manager._NearestPlayerNode = NearestNode;
+        //_Manager._NearestPlayerNode = NearestNode;
         FindVisibleTargets();
     }
+
+    public void NormalUpdate()
+    {
+        Debug.Log("NormalUpdate");
+
+        if (notFleeing)
+        {
+            decisionTree?.Execute(this);
+        }
+
+
+        if (!isActionExecuting)
+        {
+
+            _fsmm.Execute();
+        }
+
+
+
+    }
+
 
     private void HandleMouseClick()
     {
@@ -61,12 +93,20 @@ public class LeaderBase : EnemigoBase
             Vector3 hitPoint = hit.point;
             if (Vector3.Distance(transform.position, hitPoint) > 0.1f)
             {
-                _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
-                _Manager.StartNode = NearestNode;
-                List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
-                pathQueue.Clear();
-                pathQueue = new Queue<Vector3>(path.Select(node => node.position)); // Usar path en lugar de _Manager._Path
-                isMoving = true;
+                Node_Script_OP2 endNode = _Manager.FindNodeNearPoint(hitPoint);
+                if (endNode != null && NearestNode != null)
+                {
+                    _Manager.EndNode = endNode;
+                    _Manager.StartNode = NearestNode;
+                    List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
+                    //pathQueue.Clear();
+                    pathQueue = new Queue<Vector3>(path.Select(node => node.position)); // Usar path en lugar de _Manager._Path
+                    isMoving = true;
+                }
+                else
+                {
+                    Debug.LogError("Start or End node is null.");
+                }
             }
             else
             {
@@ -124,6 +164,7 @@ public class LeaderBase : EnemigoBase
                 nearest = CurrentNode;
             }
         }
+        Debug.Log("Nearest Node: " + nearest);
         return nearest;
     }
 

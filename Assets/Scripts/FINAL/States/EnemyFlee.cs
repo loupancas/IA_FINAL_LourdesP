@@ -30,7 +30,7 @@ public class EnemyFlee : IState
 
     public void OnEnter() 
     {
-        Debug.Log("Flee");
+        //Debug.Log("Flee");
         //NearesHomwNode = FindNearestNode();
         FleeTime(_target);
 
@@ -41,7 +41,7 @@ public class EnemyFlee : IState
     public void OnUpdate()
     {
      
-        Console.WriteLine("EnemyFlee");
+        //Console.WriteLine("EnemyFlee");
      
         if (pathQueue.Count > 0)
         {
@@ -57,9 +57,9 @@ public class EnemyFlee : IState
     {
         // Obtener los nodos inicial y final
         Node_Script_OP2 startNode = FindNearestNode();
-        Debug.Log("StartNode: " + startNode);
+       // Debug.Log("StartNode: " + startNode);
         Node_Script_OP2 endNode = _pathfindingManager.FindNodeNearPoint(targetPosition.position);
-        Debug.Log("EndNode: " + endNode);
+        //Debug.Log("EndNode: " + endNode);
 
         if (startNode == null )
         {
@@ -81,7 +81,7 @@ public class EnemyFlee : IState
         }
         // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
-        Debug.Log("Camino calculado:" + pathQueue.Count);
+        //Debug.Log("Camino calculado:" + pathQueue.Count);
      
         //isMoving = true;
         
@@ -99,7 +99,7 @@ public class EnemyFlee : IState
             return;
         Vector3 targetPos = pathQueue.Peek();
         float distanceToNode = Vector3.Distance(_me.position, targetPos);
-        Debug.Log($"Distancia: {distanceToNode}");
+        //Debug.Log($"Distancia: {distanceToNode}");
         
 
         if (Vector3.Distance(_me.position, targetPos) > 0.2f)
@@ -107,7 +107,7 @@ public class EnemyFlee : IState
             Vector3 moveDirection = (targetPos - _me.position).normalized;
            _me .position += moveDirection * _velocity * Time.deltaTime;
             _me.up = moveDirection;
-            Debug.Log("Moving");
+            //Debug.Log("Moving");
         }
         else
         {
