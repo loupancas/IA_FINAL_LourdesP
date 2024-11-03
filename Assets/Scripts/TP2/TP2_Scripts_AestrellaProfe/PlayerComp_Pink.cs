@@ -24,7 +24,7 @@ public class PlayerComp_Pink : LeaderBase
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
-
+       
         InitializeFSM();
 
 
@@ -44,7 +44,7 @@ public class PlayerComp_Pink : LeaderBase
         }
 
          _Manager._NearestPlayerNode = NearestNode;
-        FindVisibleTargets();
+        FindVisibleTargets("KCyan");
     }
 
     private void HandleMouseClick()

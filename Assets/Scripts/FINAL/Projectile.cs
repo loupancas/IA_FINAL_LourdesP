@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Projectile : ProyectilesBase
 {
@@ -46,7 +43,6 @@ public class Projectile : ProyectilesBase
     private void OnCollisionEnter(Collision collision)
     {
         EnemigoBase enemigo = collision.collider.GetComponent<EnemigoBase>();
-
         if (enemigo != null)
         {
             Debug.Log("Colisión con enemigo del equipo: " + enemigo.team);
@@ -61,7 +57,6 @@ public class Projectile : ProyectilesBase
         {
             Debug.Log("Colisión detectada con un objeto no enemigo.");
         }
-
 
     }
 

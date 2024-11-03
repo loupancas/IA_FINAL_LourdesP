@@ -59,20 +59,7 @@ public class LeaderBase : EnemigoBase
         //}
     }
 
-    //void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        HandleMouseClick();
-    //    }
-
-    //    if (isMoving && pathQueue.Count > 0)
-    //    {
-    //        MoveAlongPath();
-    //    }
-
-    //    _Manager._NearestPlayerNode = NearestNode;
-    //}
+    
 
     //protected virtual void Update()
     //{
@@ -112,9 +99,6 @@ public class LeaderBase : EnemigoBase
 
 
     }
-
-
-
 
 
     public void InitializeFSM()
@@ -172,7 +156,7 @@ public class LeaderBase : EnemigoBase
 
     #endregion
 
-    public void FindVisibleTargets()
+    public void FindVisibleTargets(string LeaderTag)
     {
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _enemy);
@@ -185,7 +169,7 @@ public class LeaderBase : EnemigoBase
                 //visibleTargets.Add(targetTransform);
                 //Debug.Log("Enemy Spotted");
 
-                if (targetTransform.CompareTag("Leader")) // Verificar si el enemigo es un líder
+                if (targetTransform.CompareTag(LeaderTag)) // Verificar si el enemigo es un líder
                 {
                     EnemyLeader = true;
                     Debug.Log("Enemy Leader Spotted");
@@ -215,6 +199,32 @@ public class LeaderBase : EnemigoBase
         }
         return false;
     }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, _viewRadius);
+
+        Vector3 DirA = DirFromAngle(_viewAngle / 2, false);
+        Vector3 DirB = DirFromAngle(-_viewAngle / 2, false);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + DirA.normalized * _viewRadius);
+        Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
+    }
+
+
+
+    public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
+    {
+        if (!angleIsGlobal)
+        {
+            angleInDegrees += transform.eulerAngles.y;
+        }
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
+    }
+
+
 
     public override void Morir()
     {
