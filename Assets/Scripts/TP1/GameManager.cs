@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public List<EnemigoBase> allAgents = new List<EnemigoBase>();
     public List<TeamFlockingBase> pinkAgents = new List<TeamFlockingBase>();
     public List<TeamFlockingBase> cyanAgents = new List<TeamFlockingBase>();   
-    public PlayerComp_Pink _pinkLeader;
+    public PlayerComp_Leader _pinkLeader;
     public PlayerComp_Blue _blueLeader;
     public Transform pinkBase;
     public Transform blueBase;
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         InitializeAllAgents();
-        _pinkLeader = FindObjectOfType<PlayerComp_Pink>();
+        _pinkLeader = FindObjectOfType<PlayerComp_Leader>();
         _blueLeader = FindObjectOfType<PlayerComp_Blue>();
     }
     void Start()

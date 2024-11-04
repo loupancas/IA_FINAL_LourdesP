@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerComp_Pink : LeaderBase
+public class PlayerComp_Leader : LeaderBase
 {
     //[SerializeField] TP2_Manager_ProfeAestrella _Manager;
     public Node_Script_OP2 NearestNode;
@@ -15,7 +15,8 @@ public class PlayerComp_Pink : LeaderBase
     [SerializeField] LayerMask LayerMask;
     //private bool isActionExecuting = false;
     //private bool notFleeing = true;
-
+    public int buttton;
+    public string targetTag;
     public void Start()
     {
         Team = Team.Pink;
@@ -24,7 +25,7 @@ public class PlayerComp_Pink : LeaderBase
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
         pathQueue = new Queue<Vector3>();
         StartCoroutine(CorutineFindNearestNode());
-       
+        OnUpdate = NormalUpdate;
         InitializeFSM();
 
 
@@ -33,7 +34,7 @@ public class PlayerComp_Pink : LeaderBase
    
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(buttton))
         {
             HandleMouseClick();
         }
@@ -44,9 +45,9 @@ public class PlayerComp_Pink : LeaderBase
         }
 
          _Manager._NearestPlayerNode = NearestNode;
-        FindVisibleTargets("KCyan");
+        FindVisibleTargets(targetTag);
 
-        NormalUpdate();
+        OnUpdate.Invoke();
     }
 
     private void HandleMouseClick()

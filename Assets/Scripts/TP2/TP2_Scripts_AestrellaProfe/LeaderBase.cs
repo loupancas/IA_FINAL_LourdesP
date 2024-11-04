@@ -26,58 +26,10 @@ public class LeaderBase : EnemigoBase
     private bool notFleeing = true;
     public float healthThreshold;
     public List<Transform> visibleTargets = new List<Transform>();
+    public delegate void DelegateUpdate();
+    public DelegateUpdate OnUpdate;
 
 
-    //private void Start()
-    //{
-    //    Team = Team.Pink;
-    //    _vida = _vidaMax;
-    //    healthThreshold = 0.3f * _vidaMax;
-    //    _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-    //    pathQueue = new Queue<Vector3>();
-    //    StartCoroutine(CorutineFindNearestNode());
-    //    InitializeFSM();
-
-    //    if (decisionTree == null)
-    //    {
-    //        Debug.LogError("DecisionTree not assigned.");
-    //        return;
-    //    }
-    //}
-
-    //protected virtual void start()
-    //{
-    //    //_Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
-    //    //pathQueue = new Queue<Vector3>();
-    //    ////StartCoroutine(CorutineFindNearestNode());
-    //    //InitializeFSM();
-
-    //    //if (decisionTree == null)
-    //    //{
-    //    //    Debug.LogError("DecisionTree not assigned.");
-    //    //    return;
-    //    //}
-    //}
-
-    
-
-    //protected virtual void Update()
-    //{
-    //    //NearestNode = FindNearestNode();
-    //    //NearestNode = _Manager._NearestPlayerNode;
-    //    //if (Input.GetMouseButtonDown(0))
-    //    //{
-    //    //    HandleMouseClick();
-    //    //}
-
-    //    //if (isMoving && pathQueue.Count > 0)
-    //    //{
-    //    //    MoveAlongPath();
-    //    //}
-
-    //    //_Manager._NearestPlayerNode = NearestNode;
-    //    FindVisibleTargets();
-    //}
 
     public void NormalUpdate()
     {
@@ -190,21 +142,18 @@ public class LeaderBase : EnemigoBase
                 else
                 {
                     visibleTargets.Add(targetTransform);
-                    Debug.Log("Enemy Spotted");
+                    Debug.Log("Enemies Spotted");
                 }
 
             }
-            else
-            {
-                Debug.Log("Enemy not in view");
-            }
+          
         }
     }
 
     private bool InFieldOfView(Vector3 targetPosition)
     {
         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
-        float angle = Vector3.Angle(transform.up, directionToTarget);
+        float angle = Vector3.Angle(transform.forward, directionToTarget);
 
         if (angle <= _viewAngle / 2)
         {

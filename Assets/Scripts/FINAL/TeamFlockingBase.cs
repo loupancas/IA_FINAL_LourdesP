@@ -227,7 +227,7 @@ public class TeamFlockingBase : EnemigoBase
             if (InFieldOfView(targetTransform.position))
             {
                 visibleTargets.Add(targetTransform);
-                Debug.Log("Enemy Spotted");
+                //Debug.Log("Enemy Spotted");
                 //AttackTime();
             }
         }

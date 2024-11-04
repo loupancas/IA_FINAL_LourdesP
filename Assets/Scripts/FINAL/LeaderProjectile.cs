@@ -42,7 +42,7 @@ public class LeaderProjectile : Projectile
 
     private void OnCollisionEnter(Collision collision)
     {
-        EnemigoBase enemigo = collision.collider.GetComponent<EnemigoBase>();
+        LeaderBase enemigo = collision.collider.GetComponent<LeaderBase>();
         if (enemigo != null)
         {
             Debug.Log("Colisión con enemigo del equipo: " + enemigo.team);
@@ -60,16 +60,16 @@ public class LeaderProjectile : Projectile
 
     }
 
-    public override void SpawnProyectile(UnityEngine.Transform spawnPoint)
+    public override void SpawnProyectile(Transform spawnPoint)
     {
         var p = ProjectileFactory.Instance.pool.GetObject();
-        EnemigoBase shooter = spawnPoint.GetComponentInParent<EnemigoBase>();
+        LeaderBase shooter = spawnPoint.GetComponentInParent<LeaderBase>();
         if (shooter != null)
         {
             p.teams = shooter.team;
         }        
         p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
-        Debug.Log("Disparo proyectil"+p.teams);
+        Debug.Log("Disparo proyectil especial"+p.teams);
     }
 
     //public void NormalUpdate()
