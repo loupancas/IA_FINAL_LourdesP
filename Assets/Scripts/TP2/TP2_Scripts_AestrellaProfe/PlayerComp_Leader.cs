@@ -19,7 +19,7 @@ public class PlayerComp_Leader : LeaderBase
     public string targetTag;
     public void Start()
     {
-        Team = Team.Pink;
+       
         _vida = _vidaMax;
         healthThreshold = 0.3f * _vidaMax;
         _Manager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
