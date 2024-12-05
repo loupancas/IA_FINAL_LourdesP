@@ -33,6 +33,7 @@ public class TeamFlockingBase : EnemigoBase
     private FSM _fsmm;
     public bool isEvadeObstacles;
     private bool isActionExecuting = false;
+    public float _maxSpeed;
 
     protected virtual void Start()
     {
@@ -62,17 +63,14 @@ public class TeamFlockingBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestHomwNode));
-        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestHomwNode,_obstacle, _viewRadius, isEvadeObstacles));
+        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); ;
         _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
         _fsmm.ChangeState("Movement");
     }
 
     protected virtual void Update()
-    {
-        
-
-        
+    {                   
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
@@ -100,37 +98,9 @@ public class TeamFlockingBase : EnemigoBase
 
     }
 
-    #region ForceArrive
 
 
 
-    protected void AddForce(Vector3 force)
-    {
-        _velocity = Vector3.ClampMagnitude(_velocity + force, _maxVelocity);
-    }
-
-    protected Vector3 Arrive(Vector3 targetPos)
-    {
-        float dist = Vector3.Distance(transform.position, targetPos);
-        if (dist > _viewRadius) return Seek(targetPos);
-
-        return Seek(targetPos, _maxVelocity * (dist / _viewRadius));
-    }
-
-    protected Vector3 Seek(Vector3 targetPos, float speed)
-    {
-        Vector3 desired = (targetPos - transform.position).normalized * speed;
-        Vector3 steering = desired - _velocity;
-        steering = Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);
-        return steering;
-    }
-
-    protected Vector3 Seek(Vector3 targetPos)
-    {
-        return Seek(targetPos, _maxVelocity);
-    }
-
-    #endregion
     public override void Morir()
     {
         gameObject.SetActive(false);

@@ -9,29 +9,33 @@ public class EnemyMovement : IState
     
     Transform _transform;
     float _maxVelocity;
+    float _viewRadius;
     Vector3 _velocity;
     Transform _target;
     LayerMask _wallLayer;
+    LayerMask _obstacle;
     private Queue<Vector3> pathQueue;
     private TP2_Manager_ProfeAestrella _pathfindingManager;
     public Node_Script_OP2 NearestNode;
-
-    public EnemyMovement(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node)
+    bool _evade;
+    public EnemyMovement(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node, LayerMask obstacle, float viewRadius, bool evade)
     {
        
         _maxVelocity = maxVelocity;
         _wallLayer = wallLayer;
+        _obstacle = obstacle;
         _pathfindingManager = pathfindingManager;
         _target = target;
         NearestNode = node;
         _transform = me;
         pathQueue = new Queue<Vector3>();
+        _viewRadius = viewRadius;
+        _evade = evade;
     }
     
 
     public void OnEnter() 
     { 
-      //Debug.Log("EnemyMovement");
         CalculatePath(_target);
 
     }
@@ -41,7 +45,6 @@ public class EnemyMovement : IState
     public void OnUpdate()
     {
        
-        //Console.WriteLine("EnemyMovement");
         MoveAlongPath();
         
 
@@ -59,49 +62,80 @@ public class EnemyMovement : IState
 
     void CalculatePath(Transform targetPosition)
     {
-        // Obtener los nodos inicial y final
         Node_Script_OP2 startNode =_pathfindingManager.FindNodeNearPoint(_transform.position);
         Node_Script_OP2 endNode =_pathfindingManager.FindNodeNearPoint(targetPosition.position);
 
-        // Calcular el camino con Theta*
-        //_pathfindingManager.PathFinding(_pathfindingManager._Path, startNode, endNode, _wallLayer);
         List<Transform> path = _pathfindingManager.CalculatePath(startNode, endNode, _wallLayer);
 
 
-        // Convertir el camino a una cola de posiciones
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
-        //pathQueue.Clear();
 
-        //Debug.Log("Path Calculated" + targetPosition);
 
     }
 
     void MoveAlongPath()
     {
-        if (pathQueue.Count == 0)
+        Vector3 avoidanceForce = ObstacleAvoidance();
+
+        if (avoidanceForce != Vector3.zero)
         {
+            if (pathQueue.Count > 0)
+            {
+                Vector3 targetPosS = pathQueue.Peek();
+                Vector3 moveDirection = (targetPosS - _transform.position).normalized;
+                avoidanceForce += moveDirection * 0.5f; 
+            }
 
-            //Debug.Log("PathQueue is empty");
-
+            AddForce(avoidanceForce);
+            _transform.position += _velocity * Time.deltaTime; 
             return;
         }
+
+        if (pathQueue.Count == 0)
+        {
+            return; 
+        }
+
         Vector3 targetPos = pathQueue.Peek();
-        //Debug.Log("Moving to next waypoint");
         if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
             _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
             _transform.up = moveDirection;
-            //Debug.Log("Moving");
         }
         else
         {
             pathQueue.Dequeue();
-            //Debug.Log("Reached waypoint, dequeuing next point.");
         }
-
     }
 
-   
+    protected Vector3 ObstacleAvoidance()
+    {
+        Vector3 avoidanceForce = Vector3.zero;
+
+        float[] angles = { -45, -30, -15, 0, 15, 30, 45 }; 
+        foreach (float angle in angles)
+        {
+            Vector3 direction = Quaternion.Euler(0, 0, angle) * _transform.right;
+
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(_transform.position, direction, out hit, _viewRadius, _obstacle))
+            {
+                Vector3 awayFromObstacle = (_transform.position - hit.point).normalized;
+                avoidanceForce += awayFromObstacle;
+            }
+
+
+        }
+
+        if (avoidanceForce != Vector3.zero)
+        {
+            _evade = true;
+            return avoidanceForce.normalized * _maxVelocity; 
+        }
+
+        _evade = false;
+        return Vector3.zero; 
+    }
 
 }

@@ -41,9 +41,16 @@ public class EnemyFollow : IState
 
     public void OnUpdate()
     {
-       
-        //Console.WriteLine("EnemyFollow");
-       FollowLeader(_target, _transform);
+
+        Vector3 avoidanceForce = ObstacleAvoidance();
+        if (avoidanceForce != Vector3.zero)
+        {
+            AddForce(avoidanceForce);
+        }
+        else
+        {
+            FollowLeader(_target, _transform);
+        }
 
 
 

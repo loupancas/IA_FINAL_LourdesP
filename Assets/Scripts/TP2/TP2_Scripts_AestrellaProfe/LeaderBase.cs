@@ -54,7 +54,7 @@ public class LeaderBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("NormalAttack", new NormalAttack(_leaderProjectile, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, _Manager, NearestHomwNode));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, _Manager, NearestHomwNode, _obstacle, _viewRadius, isEvadeObstacles));
         _fsmm.CreateState("EspecialAttack", new EnemyEspecialAttack(_leaderProjectile, _spawnBullet, _cdShot));
         _fsmm.CreateState("Wait", new EnemyWait());
         _fsmm.ChangeState("EspecialAttack");
