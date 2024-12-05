@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 22459172}
   - component: {fileID: 22459171}
   - component: {fileID: 22459170}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Fill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 169047265}
   - component: {fileID: 169047267}
   - component: {fileID: 169047266}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,9 +1153,9 @@ GameObject:
   - component: {fileID: 238404924}
   - component: {fileID: 238404923}
   - component: {fileID: 238404922}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Capsule
-  m_TagString: Pink
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1580,7 +1580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299283591
 Transform:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334668463}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Spawn
   m_TagString: Pink
   m_Icon: {fileID: 0}
@@ -2565,7 +2565,7 @@ GameObject:
   - component: {fileID: 389982439}
   - component: {fileID: 389982438}
   - component: {fileID: 389982441}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Fill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2763,7 +2763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 421625552}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Spawn
   m_TagString: KPink
   m_Icon: {fileID: 0}
@@ -2797,7 +2797,7 @@ GameObject:
   - component: {fileID: 430206969}
   - component: {fileID: 430206968}
   - component: {fileID: 430206967}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Pink
   m_Icon: {fileID: 0}
@@ -3056,7 +3056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &476893800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3149,6 +3149,9 @@ MonoBehaviour:
   healthThreshold: 0.15
   _obstacle:
     serializedVersion: 2
+    m_Bits: 8
+  _wall:
+    serializedVersion: 2
     m_Bits: 1024
   _enemy:
     serializedVersion: 2
@@ -3208,7 +3211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &478530739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3394,9 +3397,9 @@ GameObject:
   - component: {fileID: 497554596}
   - component: {fileID: 497554595}
   - component: {fileID: 497554594}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: 'Canvas '
-  m_TagString: KPink
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3496,9 +3499,9 @@ GameObject:
   - component: {fileID: 526753197}
   - component: {fileID: 526753196}
   - component: {fileID: 526753195}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Capsule
-  m_TagString: Cyan
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3908,7 +3911,7 @@ GameObject:
   - component: {fileID: 569349036}
   - component: {fileID: 569349035}
   - component: {fileID: 569349034}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Cyan
   m_Icon: {fileID: 0}
@@ -4005,7 +4008,7 @@ GameObject:
   - component: {fileID: 578817579}
   - component: {fileID: 578817581}
   - component: {fileID: 578817580}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Fill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4082,7 +4085,7 @@ GameObject:
   - component: {fileID: 596353670}
   - component: {fileID: 596353669}
   - component: {fileID: 596353668}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Canvas  (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4847,7 +4850,7 @@ GameObject:
   - component: {fileID: 839105447}
   - component: {fileID: 839105446}
   - component: {fileID: 839105445}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Fill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4921,7 +4924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853639716}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Spawn
   m_TagString: KCyan
   m_Icon: {fileID: 0}
@@ -5001,7 +5004,7 @@ GameObject:
   - component: {fileID: 856721884}
   - component: {fileID: 856721886}
   - component: {fileID: 856721885}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Fill (1)
   m_TagString: Cyan
   m_Icon: {fileID: 0}
@@ -5429,6 +5432,9 @@ MonoBehaviour:
   _home: {fileID: 1617876536}
   _obstacle:
     serializedVersion: 2
+    m_Bits: 8
+  _wall:
+    serializedVersion: 2
     m_Bits: 1024
   _enemy:
     serializedVersion: 2
@@ -5440,9 +5446,6 @@ MonoBehaviour:
   _healingRate: 0
   isEvadeObstacles: 0
   NearestNode: {fileID: 0}
-  LayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   buttton: 1
   _KTag: Leader
 --- !u!1001 &895975525
@@ -5672,7 +5675,7 @@ GameObject:
   - component: {fileID: 944765652}
   - component: {fileID: 944765654}
   - component: {fileID: 944765653}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Fill (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5865,9 +5868,9 @@ GameObject:
   - component: {fileID: 953345604}
   - component: {fileID: 953345603}
   - component: {fileID: 953345602}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Cube
-  m_TagString: KCyan
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6428,7 +6431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1014853791}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Spawn
   m_TagString: Cyan
   m_Icon: {fileID: 0}
@@ -6508,9 +6511,9 @@ GameObject:
   - component: {fileID: 1033268679}
   - component: {fileID: 1033268678}
   - component: {fileID: 1033268677}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Canvas
-  m_TagString: Pink
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6610,9 +6613,9 @@ GameObject:
   - component: {fileID: 1037943676}
   - component: {fileID: 1037943675}
   - component: {fileID: 1037943674}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Cube
-  m_TagString: KPink
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7888,7 +7891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1301495013}
   - component: {fileID: 1301495012}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Pink
   m_Icon: {fileID: 0}
@@ -8150,7 +8153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1373536407}
   - component: {fileID: 1373536408}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8771,7 +8774,7 @@ GameObject:
   - component: {fileID: 1486414036}
   - component: {fileID: 1486414035}
   - component: {fileID: 1486414034}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9708,7 +9711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1646369053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9800,6 +9803,9 @@ MonoBehaviour:
   decisionTree: {fileID: 2016156827}
   healthThreshold: 0.15
   _obstacle:
+    serializedVersion: 2
+    m_Bits: 8
+  _wall:
     serializedVersion: 2
     m_Bits: 1024
   _enemy:
@@ -10109,7 +10115,7 @@ GameObject:
   - component: {fileID: 1683988413}
   - component: {fileID: 1683988415}
   - component: {fileID: 1683988414}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10376,7 +10382,7 @@ GameObject:
   - component: {fileID: 1731360773}
   - component: {fileID: 1731360775}
   - component: {fileID: 1731360774}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Fill (1)
   m_TagString: Pink
   m_Icon: {fileID: 0}
@@ -10453,7 +10459,7 @@ GameObject:
   - component: {fileID: 1755496201}
   - component: {fileID: 1755496203}
   - component: {fileID: 1755496202}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Fill (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10784,9 +10790,9 @@ GameObject:
   - component: {fileID: 1776256822}
   - component: {fileID: 1776256821}
   - component: {fileID: 1776256820}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: 'Canvas '
-  m_TagString: Cyan
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11452,6 +11458,9 @@ MonoBehaviour:
   _home: {fileID: 1611455940}
   _obstacle:
     serializedVersion: 2
+    m_Bits: 8
+  _wall:
+    serializedVersion: 2
     m_Bits: 1024
   _enemy:
     serializedVersion: 2
@@ -11463,9 +11472,6 @@ MonoBehaviour:
   _healingRate: 0
   isEvadeObstacles: 0
   NearestNode: {fileID: 0}
-  LayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   buttton: 0
   _KTag: Leader
 --- !u!1 &1944592523
@@ -12271,7 +12277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2052909569}
   - component: {fileID: 2052909570}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12648,7 +12654,7 @@ GameObject:
   - component: {fileID: 2084013285}
   - component: {fileID: 2084013286}
   - component: {fileID: 2084013287}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

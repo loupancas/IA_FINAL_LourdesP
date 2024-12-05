@@ -106,11 +106,13 @@ public class EnemyFollow : IState
         if (Physics2D.Raycast(_transform.position + _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
         {
             _evade = true;
+            Debug.Log("Evade");
             return Seek(_transform.position - _transform.up);
         }
         else if (Physics2D.Raycast(_transform.position - _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
         {
            _evade = true;
+            Debug.Log("Evade");
             return Seek(_transform.position + _transform.up);
         }
 

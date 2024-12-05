@@ -131,6 +131,7 @@ public class EnemyMovement : IState
         if (avoidanceForce != Vector3.zero)
         {
             _evade = true;
+            Debug.Log("Evade");
             return avoidanceForce.normalized * _maxVelocity; 
         }
 

@@ -12,6 +12,7 @@ public class TeamFlockingBase : EnemigoBase
     public DecisionNode decisionTree;
     public float healthThreshold;
     [SerializeField] LayerMask _obstacle;
+    [SerializeField] LayerMask _wall;
     [SerializeField] LayerMask _enemy;
     public List<Transform> visibleTargets = new List<Transform>();
     public bool isFlocking;
@@ -63,9 +64,9 @@ public class TeamFlockingBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestHomwNode,_obstacle, _viewRadius, isEvadeObstacles));
-        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); ;
-        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _wall, pathfindingManager, NearestHomwNode,_obstacle, _viewRadius, isEvadeObstacles));
+        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _wall, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); ;
+        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _wall, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
         _fsmm.ChangeState("Movement");
     }
 

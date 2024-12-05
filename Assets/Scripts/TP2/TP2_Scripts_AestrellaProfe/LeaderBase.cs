@@ -15,6 +15,7 @@ public class LeaderBase : EnemigoBase
     public float _cdShot;
     public Transform _home;
     public LayerMask _obstacle;
+    public LayerMask _wall;
     [SerializeField] LayerMask _enemy;
     public Node_Script_OP2 NearestHomwNode;
     private bool isActionExecuting = false;
@@ -54,7 +55,7 @@ public class LeaderBase : EnemigoBase
     {
         _fsmm = new FSM();
         _fsmm.CreateState("NormalAttack", new NormalAttack(_leaderProjectile, _spawnBullet, _cdShot));
-        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, _Manager, NearestHomwNode, _obstacle, _viewRadius, isEvadeObstacles));
+        _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _wall, _Manager, NearestHomwNode, _obstacle, _viewRadius, isEvadeObstacles));
         _fsmm.CreateState("EspecialAttack", new EnemyEspecialAttack(_leaderProjectile, _spawnBullet, _cdShot));
         _fsmm.CreateState("Wait", new EnemyWait());
         _fsmm.ChangeState("EspecialAttack");

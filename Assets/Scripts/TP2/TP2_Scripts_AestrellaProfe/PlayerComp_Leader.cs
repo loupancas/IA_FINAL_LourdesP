@@ -7,7 +7,6 @@ public class PlayerComp_Leader : LeaderBase
 {
     public Node_Script_OP2 NearestNode;
     private Queue<Vector3> pathQueue;
-    [SerializeField] LayerMask LayerMask;
     public int buttton;   
     public string _KTag;
     public void Start()
@@ -53,7 +52,7 @@ public class PlayerComp_Leader : LeaderBase
             {
                 _Manager.EndNode = _Manager.FindNodeNearPoint(hitPoint);
                 _Manager.StartNode = NearestNode;
-                List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
+                List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, _wall);
                 Debug.Log("Path: " + path.Count);
                 pathQueue.Clear();
                 pathQueue = new Queue<Vector3>(path.Select(node => node.position)); 
