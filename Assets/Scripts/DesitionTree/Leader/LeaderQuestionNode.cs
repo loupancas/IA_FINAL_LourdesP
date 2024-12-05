@@ -50,6 +50,8 @@ public class LeaderQuestionNode : LeaderDecisionNode
                 }
                 break;
 
+            
+
 
         }
     }
@@ -58,7 +60,8 @@ public class LeaderQuestionNode : LeaderDecisionNode
     {
         Life,
         IsEnemyLeaderNear,
-        AreEnemiesVisible
+        AreEnemiesVisible,
+        
     }
 
 

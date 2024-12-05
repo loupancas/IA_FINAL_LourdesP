@@ -14,8 +14,8 @@ public class LeaderActionNode : LeaderDecisionNode
             case Actions.EspecialAttack:
                 LeaderBase.EspecialAttackTime();
                 break;
-            case Actions.Attack:
-                LeaderBase.AttackTime();
+            case Actions.NormalAttack:
+                LeaderBase.NormalAttack();
                 break;
             case Actions.Wait:
                 LeaderBase.Wait();
@@ -27,7 +27,7 @@ public class LeaderActionNode : LeaderDecisionNode
     {
         
         Flee,
-        Attack,
+        NormalAttack,
         Wait,
         EspecialAttack
     }

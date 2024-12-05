@@ -15,8 +15,8 @@ public class PlayerComp_Leader : LeaderBase
     [SerializeField] LayerMask LayerMask;
     //private bool isActionExecuting = false;
     //private bool notFleeing = true;
-    public int buttton;
-    public string targetTag;
+    public int buttton;   
+    public string _KTag;
     public void Start()
     {
        
@@ -27,7 +27,7 @@ public class PlayerComp_Leader : LeaderBase
         StartCoroutine(CorutineFindNearestNode());
         OnUpdate = NormalUpdate;
         InitializeFSM();
-
+        _leaderTag = _KTag;
 
     }
 
@@ -45,7 +45,7 @@ public class PlayerComp_Leader : LeaderBase
         }
 
          _Manager._NearestPlayerNode = NearestNode;
-        FindVisibleTargets(targetTag);
+        FindVisibleTargets();
 
         OnUpdate.Invoke();
     }

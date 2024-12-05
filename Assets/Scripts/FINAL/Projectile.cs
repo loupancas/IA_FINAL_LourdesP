@@ -5,6 +5,7 @@ public class Projectile : ProyectilesBase
     public delegate void DelegateUpdate();
     public DelegateUpdate delegateUpdate;
     public bool isEnemyProjectile;
+    
     [SerializeField] public Team teams;
     
     void Start()
@@ -69,6 +70,7 @@ public class Projectile : ProyectilesBase
             p.teams = shooter.team;
         }        
         p.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.rotation.normalized);
+      
         Debug.Log("Disparo proyectil"+p.teams);
     }
 

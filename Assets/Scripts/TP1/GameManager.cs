@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<TeamFlockingBase> pinkAgents = new List<TeamFlockingBase>();
     public List<TeamFlockingBase> cyanAgents = new List<TeamFlockingBase>();   
     public PlayerComp_Leader _pinkLeader;
-    public PlayerComp_Blue _blueLeader;
+    public PlayerComp_Leader _blueLeader;
     public Transform pinkBase;
     public Transform blueBase;
     void Awake()
@@ -20,13 +20,15 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         InitializeAllAgents();
-        _pinkLeader = FindObjectOfType<PlayerComp_Leader>();
-        _blueLeader = FindObjectOfType<PlayerComp_Blue>();
+        SeparateAgentsIntoTeams();
+
+      
+
+
     }
     void Start()
     {
-        SeparateAgentsIntoTeams();
-
+       
 
 
     }
@@ -49,6 +51,8 @@ public class GameManager : MonoBehaviour
                     cyanAgents.Add(teamAgent);
                 }
             }
+            
+
         }
     }
 

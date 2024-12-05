@@ -13,6 +13,7 @@ TagManager:
   - KPink
   - Cyan
   - Pink
+  - Leader
   layers:
   - Default
   - TransparentFX

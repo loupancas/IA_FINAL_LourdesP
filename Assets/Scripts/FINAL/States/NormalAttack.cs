@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyEspecialAttack : IState
+public class NormalAttack : IState
 {
     LeaderProjectile _proyectil;
     Transform _bulletSpawn;   
@@ -10,7 +10,7 @@ public class EnemyEspecialAttack : IState
     float _currCdShot;
     
 
-    public EnemyEspecialAttack(LeaderProjectile proyectil, Transform bulletSpawn, float cdShot)
+    public NormalAttack(LeaderProjectile proyectil, Transform bulletSpawn, float cdShot)
     {
         _proyectil = proyectil;
         _bulletSpawn = bulletSpawn;       
