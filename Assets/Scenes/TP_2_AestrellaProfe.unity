@@ -3155,7 +3155,7 @@ MonoBehaviour:
     m_Bits: 20480
   visibleTargets: []
   isFlocking: 0
-  _home: {fileID: 1220098531}
+  _home: {fileID: 1617876536}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 1014853791}
   _Leader: {fileID: 881421629}
@@ -3165,6 +3165,7 @@ MonoBehaviour:
   NearestHomwNode: {fileID: 0}
   _transform: {fileID: 0}
   isEvadeObstacles: 0
+  _maxSpeed: 0
 --- !u!135 &476893806
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3850,7 +3851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7057650418638761212, guid: fd1f2fe9d89b7f94f9399e06f7a4099f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.77
+      value: 17.4
       objectReference: {fileID: 0}
     - target: {fileID: 7057650418638761212, guid: fd1f2fe9d89b7f94f9399e06f7a4099f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5425,7 +5426,7 @@ MonoBehaviour:
   _leaderProjectile: {fileID: -7911695551389026646, guid: 917488194464444448058cdd50a6d271, type: 3}
   _spawnBullet: {fileID: 853639716}
   _cdShot: 3
-  _home: {fileID: 1220098531}
+  _home: {fileID: 1617876536}
   _obstacle:
     serializedVersion: 2
     m_Bits: 1024
@@ -9806,7 +9807,7 @@ MonoBehaviour:
     m_Bits: 10240
   visibleTargets: []
   isFlocking: 0
-  _home: {fileID: 952214372}
+  _home: {fileID: 1611455940}
   _proyectil: {fileID: 6656307244308792933, guid: eba050647c2384942917a01c92ab3597, type: 3}
   _spawnBullet: {fileID: 334668463}
   _Leader: {fileID: 1939941589}
@@ -9816,6 +9817,7 @@ MonoBehaviour:
   NearestHomwNode: {fileID: 0}
   _transform: {fileID: 0}
   isEvadeObstacles: 0
+  _maxSpeed: 0
 --- !u!135 &1646369061
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11447,7 +11449,7 @@ MonoBehaviour:
   _leaderProjectile: {fileID: -7911695551389026646, guid: 917488194464444448058cdd50a6d271, type: 3}
   _spawnBullet: {fileID: 421625552}
   _cdShot: 3
-  _home: {fileID: 952214372}
+  _home: {fileID: 1611455940}
   _obstacle:
     serializedVersion: 2
     m_Bits: 1024
@@ -11500,8 +11502,8 @@ MonoBehaviour:
   cyanAgents: []
   _pinkLeader: {fileID: 1939941592}
   _blueLeader: {fileID: 881421632}
-  pinkBase: {fileID: 952214372}
-  blueBase: {fileID: 1220098531}
+  pinkBase: {fileID: 1611455940}
+  blueBase: {fileID: 1617876536}
 --- !u!4 &1944592525
 Transform:
   m_ObjectHideFlags: 0
