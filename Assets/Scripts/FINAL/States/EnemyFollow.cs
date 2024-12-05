@@ -15,7 +15,9 @@ public class EnemyFollow : IState
     LayerMask _wallLayer;
     float _viewRadius;
     float _maxForce;
-    public EnemyFollow(UnityEngine.Transform target, UnityEngine.Transform me, float maxVelocity,  LayerMask wallLayer, float viewRadius, float maxForce)
+    bool _evade;
+    LayerMask _obstacle;
+    public EnemyFollow(UnityEngine.Transform target, UnityEngine.Transform me, float maxVelocity,  LayerMask wallLayer, float viewRadius, float maxForce, LayerMask obstacle, bool evade)
     {
        
         _maxVelocity = maxVelocity;
@@ -24,6 +26,8 @@ public class EnemyFollow : IState
         _transform = me;
         _viewRadius = viewRadius;
         _maxForce = maxForce;
+        _evade = evade;
+        _obstacle = obstacle;
     }
     
 
@@ -88,6 +92,23 @@ public class EnemyFollow : IState
     protected Vector3 Seek(Vector3 targetPos)
     {
         return Seek(targetPos, _maxVelocity);
+    }
+
+    protected Vector3 ObstacleAvoidance()
+    {
+        if (Physics2D.Raycast(_transform.position + _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
+        {
+            _evade = true;
+            return Seek(_transform.position - _transform.up);
+        }
+        else if (Physics2D.Raycast(_transform.position - _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
+        {
+           _evade = true;
+            return Seek(_transform.position + _transform.up);
+        }
+
+        _evade = false;
+        return Vector3.zero;
     }
 
 }

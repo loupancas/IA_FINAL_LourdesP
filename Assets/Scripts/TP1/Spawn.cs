@@ -7,12 +7,12 @@ public class Spawn : MonoBehaviour
     [SerializeField] Camera _camera;
     [SerializeField] int _offsetX;
     [SerializeField] int _offsetY;
-    [SerializeField] GameObject _foodPrefab;
+    //[SerializeField] GameObject _foodPrefab;
     [SerializeField] GameObject _obstaclePrefab;
     [SerializeField] Transform _parentContainer;
     [SerializeField] float checkRadius = 0.5f; // Radio de verificación para comprobar superposiciones
-    public int maxFood = 5;
-    public int minFood = 3;
+    //public int maxFood = 5;
+    //public int minFood = 3;
 
     public int maxObstacle = 5;
     public int minObstacle = 3;
@@ -21,15 +21,15 @@ public class Spawn : MonoBehaviour
     {
         List<GameObject> allSpawnedObjects = new List<GameObject>();
 
-        int instantiateCountFood = Random.Range(minFood, maxFood);
+        //int instantiateCountFood = Random.Range(minFood, maxFood);
         int instantiateCountObstacles = Random.Range(minObstacle, maxObstacle);
 
-        for (int i = 0; i < instantiateCountFood; i++)
-        {
-            GameObject food = Spawner(_foodPrefab);
-            if (food != null)
-                allSpawnedObjects.Add(food);
-        }
+        //for (int i = 0; i < instantiateCountFood; i++)
+        //{
+        //    GameObject food = Spawner(_foodPrefab);
+        //    if (food != null)
+        //        allSpawnedObjects.Add(food);
+        //}
 
         for (int i = 0; i < instantiateCountObstacles; i++)
         {

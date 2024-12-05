@@ -1,16 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class LeaderBase : EnemigoBase
 {
     public TP2_Manager_ProfeAestrella _Manager;
-    //public Node_Script_OP2 NearestNode;
-    //public float speed;
     public bool isMoving;
     private Queue<Vector3> pathQueue;
-    //public LayerMask LayerMask;
     public Team Team { get; set; }
     public bool EnemyLeader=false;
     public LeaderDecisionNode decisionTree;
@@ -30,6 +25,8 @@ public class LeaderBase : EnemigoBase
     public DelegateUpdate OnUpdate;
     public string _leaderTag;
     public float _healingRate;
+    public bool isEvadeObstacles;
+
 
     public void NormalUpdate()
     {
@@ -76,7 +73,8 @@ public class LeaderBase : EnemigoBase
             _fsmm.Execute();
             NearestHomwNode = _Manager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
-            Debug.Log("FleeTime");
+            behaviorText.text = "Fleeing";
+            //Debug.Log("FleeTime");
             isActionExecuting = false;
         }
     }
@@ -88,7 +86,8 @@ public class LeaderBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("NormalAttack");
-            Debug.Log("NormalAttack");
+            behaviorText.text = "NormalAttack";
+            //Debug.Log("NormalAttack");
             isActionExecuting = false;
         }
     }
@@ -101,7 +100,8 @@ public class LeaderBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("EspecialAttack");
-            Debug.Log("EspecialAttackTime");
+            behaviorText.text = "EspecialAttack";
+            //Debug.Log("EspecialAttackTime");
             isActionExecuting = false;
         }
     }
@@ -113,7 +113,8 @@ public class LeaderBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Wait");
-            Debug.Log("EnemyWait");
+            behaviorText.text = "Wait";
+            //Debug.Log("EnemyWait");
             isActionExecuting = false;
         }
     }

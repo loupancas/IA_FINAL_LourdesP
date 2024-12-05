@@ -5,16 +5,9 @@ using UnityEngine;
 
 public class PlayerComp_Leader : LeaderBase
 {
-    //[SerializeField] TP2_Manager_ProfeAestrella _Manager;
     public Node_Script_OP2 NearestNode;
     private Queue<Vector3> pathQueue;
-    //private bool isMoving;
-    //private FSM _fsmm;
-    //[SerializeField] Projectile _proyectil;
-    //[SerializeField] Transform _spawnBullet;
     [SerializeField] LayerMask LayerMask;
-    //private bool isActionExecuting = false;
-    //private bool notFleeing = true;
     public int buttton;   
     public string _KTag;
     public void Start()
@@ -63,7 +56,7 @@ public class PlayerComp_Leader : LeaderBase
                 List<Transform> path = _Manager.CalculatePath(NearestNode, _Manager.EndNode, LayerMask);
                 Debug.Log("Path: " + path.Count);
                 pathQueue.Clear();
-                pathQueue = new Queue<Vector3>(path.Select(node => node.position)); // Usar path en lugar de _Manager._Path
+                pathQueue = new Queue<Vector3>(path.Select(node => node.position)); 
                 isMoving = true;
             }
             else

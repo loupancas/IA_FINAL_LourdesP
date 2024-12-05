@@ -1,5 +1,6 @@
-using UnityEditor;
+using TMPro;
 using UnityEngine;
+
 
 public abstract class EnemigoBase : Entity
 {
@@ -11,8 +12,9 @@ public abstract class EnemigoBase : Entity
     [Range(0, 360)]
     [SerializeField] protected float _viewAngle;
     public Team team;
+    [SerializeField] protected TextMeshProUGUI behaviorText;
 
-   
+
 
 }
 

@@ -7,7 +7,6 @@ public class TeamFlockingBase : EnemigoBase
 {
     public Team Team { get; set; }
 
-    // Variables del árbol de decisiones
     
     public bool LiderSpotted;
     public DecisionNode decisionTree;
@@ -15,7 +14,6 @@ public class TeamFlockingBase : EnemigoBase
     [SerializeField] LayerMask _obstacle;
     [SerializeField] LayerMask _enemy;
     public List<Transform> visibleTargets = new List<Transform>();
-    // Variables del FSM y movimiento
     public bool isFlocking;
     public Transform _home;
     [SerializeField] Projectile _proyectil;
@@ -33,7 +31,7 @@ public class TeamFlockingBase : EnemigoBase
     protected Vector3 _velocity;
     [SerializeField] private Transform _transform;
     private FSM _fsmm;
-    
+    public bool isEvadeObstacles;
     private bool isActionExecuting = false;
 
     protected virtual void Start()
@@ -49,10 +47,8 @@ public class TeamFlockingBase : EnemigoBase
         _transform = transform;
         InitializeFSM();
 
-        // Verificar y asignar decisionTree
         if (decisionTree == null)
         {
-            //Debug.LogError("DecisionTree not assigned.");
             return;
         }
 
@@ -68,9 +64,8 @@ public class TeamFlockingBase : EnemigoBase
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
         _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _obstacle, pathfindingManager, NearestHomwNode));
         _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _obstacle, pathfindingManager, NearestNode));
-        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce));
+        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _obstacle, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
         _fsmm.ChangeState("Movement");
-        //Debug.Log("FSM Initialized");
     }
 
     protected virtual void Update()
@@ -88,7 +83,6 @@ public class TeamFlockingBase : EnemigoBase
 
     public void NormalUpdate()
     {
-        //Debug.Log("NormalUpdate");
 
         if(notFleeing)
         {
@@ -148,8 +142,6 @@ public class TeamFlockingBase : EnemigoBase
         while (true)
         {
             NearestNode = pathfindingManager.FindNodeNearPoint(_Leader.position);
-            //Debug.Log("Nearest Node: " + NearestNode);
-            //NearestEnemyNode = pathfindingManager.FindNodeNearPoint(_home.position);
             yield return new WaitForSeconds(Delay);
         }
     }
@@ -167,6 +159,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             _fsmm.ChangeState("Movement");
             //Debug.Log("SearchTime");
+            behaviorText.text = "Searching";
             isActionExecuting = false;
         }
     }
@@ -178,7 +171,7 @@ public class TeamFlockingBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Follow");
-          
+            behaviorText.text = "Follow";
             //Debug.Log("FollowTime");
             isActionExecuting = false;
         }
@@ -195,6 +188,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             NearestHomwNode = pathfindingManager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
+            behaviorText.text = "Flee";
             //Debug.Log("FleeTime");
             isActionExecuting = false;
         }
@@ -207,6 +201,7 @@ public class TeamFlockingBase : EnemigoBase
             isActionExecuting = true;
             _fsmm.Execute();
             _fsmm.ChangeState("Attack");
+            behaviorText.text = "Attack";
             //Debug.Log("AttackTime");
             isActionExecuting = false;
         }
@@ -227,8 +222,6 @@ public class TeamFlockingBase : EnemigoBase
             if (InFieldOfView(targetTransform.position))
             {
                 visibleTargets.Add(targetTransform);
-                //Debug.Log("Enemy Spotted");
-                //AttackTime();
             }
         }
     }
@@ -262,16 +255,6 @@ public class TeamFlockingBase : EnemigoBase
         Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
     }
 
-
-
-    IEnumerator FindTargetsWithDelay(float v)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(v);
-            FindVisibleTargets();
-        }
-    }
 
   
 

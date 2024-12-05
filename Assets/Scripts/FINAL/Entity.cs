@@ -4,7 +4,8 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField] protected int _vidaMax;
     [SerializeField] protected int _vida;
-
+    MeshRenderer _meshRenderer;
+    Color _color;
     public int Vida
     {
         get { return _vida; }
@@ -17,6 +18,7 @@ public abstract class Entity : MonoBehaviour
         if (healthBar != null)
         {
            healthBar.UpdateHPBar(_vida, _vidaMax);
+            
         }
         else
         {
