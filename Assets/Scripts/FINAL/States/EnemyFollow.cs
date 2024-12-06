@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+﻿using UnityEngine;
 
 public class EnemyFollow : IState
 {
@@ -83,9 +78,12 @@ public class EnemyFollow : IState
     protected Vector3 Arrive(Vector3 targetPos)
     {
         float dist = Vector3.Distance(_transform.position, targetPos);
+        float stopRadius = 1.0f;
         if (dist > _viewRadius) return Seek(targetPos);
+        if (dist < stopRadius)
+            return Vector3.zero;
 
-        return Seek(targetPos, _maxVelocity * (dist / (_viewRadius+0.3f)));
+        return Seek(targetPos, _maxVelocity * (dist / (_viewRadius+5f)));
     }
 
     protected Vector3 Seek(Vector3 targetPos, float speed)

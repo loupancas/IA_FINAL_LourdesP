@@ -26,7 +26,7 @@ public class QuestionNode : DecisionNode
                 }
                 break;
             case Questions.IsLeaderNear:
-                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) > 3f)
+                if (Vector3.Distance(teamFlockingBase.transform.position, teamFlockingBase._Leader.transform.position) < 2f)
                 {
                     //Debug.Log("Executing trueNode for IsLeaderNear question");
                     trueNode.Execute(teamFlockingBase);

@@ -13,7 +13,8 @@ public class EnemyFlee : IState
     LayerMask _obstacle;
     private Queue<Vector3> pathQueue;
     private TP2_Manager_ProfeAestrella _pathfindingManager;
-    float _velocity;
+    Vector3 _velocity;
+    float _maxVelocity;
     public Node_Script_OP2 NearesHomwNode;
     public bool _evade;
     public float _viewRadius;
@@ -25,7 +26,7 @@ public class EnemyFlee : IState
         _maskObstacle = layerMask;
         _target = target;
         _pathfindingManager = pathfindingManager;
-        _velocity = velocity > 0 ? velocity : 1.0f;
+        _maxVelocity = velocity > 0 ? velocity : 1.0f;
         NearesHomwNode = node;
          pathQueue = new Queue<Vector3>();
         _obstacle = obstacle;
@@ -89,29 +90,29 @@ public class EnemyFlee : IState
       
 
     }
-    void MoveAlongPath()
-    {
-        if (pathQueue.Count == 0)
-            return;
-        Vector3 targetPos = pathQueue.Peek();
-        float distanceToNode = Vector3.Distance(_me.position, targetPos);
+    //void MoveAlongPath()
+    //{
+    //    if (pathQueue.Count == 0)
+    //        return;
+    //    Vector3 targetPos = pathQueue.Peek();
+    //    float distanceToNode = Vector3.Distance(_me.position, targetPos);
         
 
-        if (Vector3.Distance(_me.position, targetPos) > 0.2f)
-        {
-            Vector3 moveDirection = (targetPos - _me.position).normalized;
-           _me .position += moveDirection * _velocity * Time.deltaTime;
-            _me.up = moveDirection;
-        }
-        else
-        {
-            pathQueue.Dequeue();
-        }
+    //    if (Vector3.Distance(_me.position, targetPos) > 0.2f)
+    //    {
+    //        Vector3 moveDirection = (targetPos - _me.position).normalized;
+    //       _me .position += moveDirection * _velocity * Time.deltaTime;
+    //        _me.up = moveDirection;
+    //    }
+    //    else
+    //    {
+    //        pathQueue.Dequeue();
+    //    }
 
 
 
       
-    }
+    //}
 
     private Node_Script_OP2 FindNearestNode()
     {
@@ -129,70 +130,77 @@ public class EnemyFlee : IState
         return nearest;
     }
 
-    //void MoveAlongPath()
-    //{
-    //    Vector3 avoidanceForce = ObstacleAvoidance();
+    void AddForce(Vector3 dir)
+    {
+        _velocity += dir;
 
-    //    if (avoidanceForce != Vector3.zero)
-    //    {
-    //        if (pathQueue.Count > 0)
-    //        {
-    //            Vector3 targetPosS = pathQueue.Peek();
-    //            Vector3 moveDirection = (targetPosS - _me.position).normalized;
-    //            avoidanceForce += moveDirection * 0.5f;
-    //        }
+        _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
+    }
 
-    //        AddForce(avoidanceForce);
-    //        _me.position += _velocity * Time.deltaTime;
-    //        return;
-    //    }
+    void MoveAlongPath()
+    {
+        Vector3 avoidanceForce = ObstacleAvoidance();
 
-    //    if (pathQueue.Count == 0)
-    //    {
-    //        return;
-    //    }
+        if (avoidanceForce != Vector3.zero)
+        {
+            if (pathQueue.Count > 0)
+            {
+                Vector3 targetPosS = pathQueue.Peek();
+                Vector3 moveDirection = (targetPosS - _me.position).normalized;
+                avoidanceForce += moveDirection * 0.5f;
+            }
 
-    //    Vector3 targetPos = pathQueue.Peek();
-    //    if (Vector3.Distance(_me.position, targetPos) > 0.1f)
-    //    {
-    //        Vector3 moveDirection = (targetPos - _me.position).normalized;
-    //        _me.position += moveDirection * _velocity * Time.deltaTime;
-    //        _me.up = moveDirection;
-    //    }
-    //    else
-    //    {
-    //        pathQueue.Dequeue();
-    //    }
-    //}
+            AddForce(avoidanceForce);
+            _me.position += _velocity * Time.deltaTime;
+            return;
+        }
 
-    //protected Vector3 ObstacleAvoidance()
-    //{
-    //    Vector3 avoidanceForce = Vector3.zero;
+        if (pathQueue.Count == 0)
+        {
+            return;
+        }
 
-    //    float[] angles = { -45, -30, -15, 0, 15, 30, 45 };
-    //    foreach (float angle in angles)
-    //    {
-    //        Vector3 direction = Quaternion.Euler(0, 0, angle) * _me.right;
+        Vector3 targetPos = pathQueue.Peek();
+        if (Vector3.Distance(_me.position, targetPos) > 0.1f)
+        {
+            Vector3 moveDirection = (targetPos - _me.position).normalized;
+            _me.position += moveDirection * _maxVelocity * Time.deltaTime;
+            _me.up = moveDirection;
+        }
+        else
+        {
+            pathQueue.Dequeue();
+        }
+    }
 
-    //        RaycastHit hit = new RaycastHit();
-    //        if (Physics.Raycast(_me.position, direction, out hit, _viewRadius, _obstacle))
-    //        {
-    //            Vector3 awayFromObstacle = (_me.position - hit.point).normalized;
-    //            avoidanceForce += awayFromObstacle;
-    //        }
+    protected Vector3 ObstacleAvoidance()
+    {
+        Vector3 avoidanceForce = Vector3.zero;
+
+        float[] angles = { -45, -30, -15, 0, 15, 30, 45 };
+        foreach (float angle in angles)
+        {
+            Vector3 direction = Quaternion.Euler(0, 0, angle) * _me.right;
+
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(_me.position, direction, out hit, _viewRadius, _obstacle))
+            {
+                Vector3 awayFromObstacle = (_me.position - hit.point).normalized;
+                avoidanceForce += awayFromObstacle;
+            }
 
 
-    //    }
+        }
 
-    //    if (avoidanceForce != Vector3.zero)
-    //    {
-    //        _evade = true;
-    //        return avoidanceForce.normalized * _maxVelocity;
-    //    }
+        if (avoidanceForce != Vector3.zero)
+        {
+            _evade = true;
+            return avoidanceForce.normalized * _maxVelocity;
+        }
 
-    //    _evade = false;
-    //    return Vector3.zero;
-    //}
+        _evade = false;
+        return Vector3.zero;
+    }
 
 
 

@@ -76,6 +76,7 @@ public class EnemyMovement : IState
     void MoveAlongPath()
     {
         Vector3 avoidanceForce = ObstacleAvoidance();
+        float stopDistance = 1.5f;
 
         if (avoidanceForce != Vector3.zero)
         {
@@ -97,7 +98,7 @@ public class EnemyMovement : IState
         }
 
         Vector3 targetPos = pathQueue.Peek();
-        if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
+        if (Vector3.Distance(_transform.position, targetPos) > stopDistance)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
             _transform.position += moveDirection * _maxVelocity * Time.deltaTime;

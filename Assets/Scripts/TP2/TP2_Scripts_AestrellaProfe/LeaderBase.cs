@@ -129,6 +129,9 @@ public class LeaderBase : EnemigoBase
         EnemyLeader = false;
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _enemy);
 
+        Transform closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform targetTransform = targetsInViewRadius[i].transform;
@@ -143,29 +146,56 @@ public class LeaderBase : EnemigoBase
                     Debug.Log("Enemy Leader Spotted");
                 }
                
-
-
             }
           
-        }
+        
+          else // Si no está en el campo de visión, determinar el objetivo más cercano fuera del FoV
+          {
+            float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
+            if (distanceToTarget < closestDistance)
+            {
+                closestDistance = distanceToTarget;
+                closestTarget = targetTransform;
+            }
+          }
 
-       
+
+            if (closestTarget != null)
+            {
+                RotateTowardsTarget2D(closestTarget.position);
+            }
+
+        }
     }
 
     private bool InFieldOfView(Vector3 targetPosition)
     {
         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, directionToTarget);
+        float angle = Vector3.Angle(transform.up, directionToTarget);
 
         if (angle <= _viewAngle / 2)
         {
             float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacle))
+            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _wall))
             {
                 return true;
             }
         }
         return false;
+    }
+
+
+    private void RotateTowardsTarget2D(Vector3 targetPosition)
+    {
+        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90f;
+
+        float currentAngle = transform.eulerAngles.z;
+        float newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, 180f * Time.deltaTime);
+
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+
+        Debug.Log($"Rotating towards target on Z axis... Current Angle: {currentAngle}, Target Angle: {targetAngle}");
     }
 
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerComp_Leader : LeaderBase
 {
@@ -9,6 +10,8 @@ public class PlayerComp_Leader : LeaderBase
     private Queue<Vector3> pathQueue;
     public int buttton;   
     public string _KTag;
+    public float _rotationSpeed;
+
     public void Start()
     {
        
@@ -74,9 +77,13 @@ public class PlayerComp_Leader : LeaderBase
         }
 
         Vector3 targetPos = pathQueue.Peek();
+
+
         if (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - transform.position).normalized;
+
+
             transform.position += moveDirection * _maxVelocity * Time.deltaTime;
         }
         else

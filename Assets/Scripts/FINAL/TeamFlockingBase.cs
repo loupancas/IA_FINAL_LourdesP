@@ -34,7 +34,6 @@ public class TeamFlockingBase : EnemigoBase
     private FSM _fsmm;
     public bool isEvadeObstacles;
     private bool isActionExecuting = false;
-    public float _maxSpeed;
 
     protected virtual void Start()
     {
@@ -205,7 +204,7 @@ public class TeamFlockingBase : EnemigoBase
         if (angle <= _viewAngle / 2)
         {
             float distanceToTarget = Vector3.Distance(_transform.position, targetPosition);
-            if (!Physics.Raycast(_transform.position, directionToTarget, distanceToTarget, _obstacle))
+            if (!Physics.Raycast(_transform.position, directionToTarget, distanceToTarget, _wall))
             {
                 return true;
             }
