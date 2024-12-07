@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class TeamFlockingBase : EnemigoBase
 {
-    public Team Team { get; set; }
 
-    
+
+    [SerializeField]    private Team _team;
     public bool LiderSpotted;
     public DecisionNode decisionTree;
     public float healthThreshold;
@@ -56,8 +56,12 @@ public class TeamFlockingBase : EnemigoBase
 
         pathfindingManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
     }
+    public Team Team
+    {
+        get { return team; }
+        set { team = value; }
+    }
 
-    
 
     private void InitializeFSM()
     {
