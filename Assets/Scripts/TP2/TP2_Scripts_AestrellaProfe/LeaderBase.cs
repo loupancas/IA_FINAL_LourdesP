@@ -31,7 +31,7 @@ public class LeaderBase : EnemigoBase
 
     public void NormalUpdate()
     {
-        Debug.Log("NormalUpdate");
+       
 
         if (!isMoving)
         {
@@ -59,7 +59,7 @@ public class LeaderBase : EnemigoBase
         _fsmm.CreateState("EspecialAttack", new EnemyEspecialAttack(_leaderProjectile, _spawnBullet, _cdShot));
         _fsmm.CreateState("Wait", new EnemyWait());
         _fsmm.ChangeState("EspecialAttack");
-        Debug.Log("FSM Initialized");
+        //Debug.Log("FSM Initialized");
     }
 
     #region Decision Tree Methods
@@ -140,16 +140,16 @@ public class LeaderBase : EnemigoBase
                 visibleTargets.Add(targetTransform);
                 Debug.Log("Enemy Spotted");
 
-                if (targetTransform.CompareTag(_leaderTag="Leader")) // Verificar si el enemigo es un líder
+                if (targetTransform.CompareTag(_leaderTag="Leader")) 
                 {
                     EnemyLeader = true;
-                    Debug.Log("Enemy Leader Spotted");
+                    //Debug.Log("Enemy Leader Spotted");
                 }
                
             }
           
         
-          else // Si no está en el campo de visión, determinar el objetivo más cercano fuera del FoV
+          else 
           {
             float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
             if (distanceToTarget < closestDistance)

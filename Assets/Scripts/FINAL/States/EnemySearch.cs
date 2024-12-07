@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyMovement : IState
+public class EnemySearch : IState
 {
     
     Transform _transform;
@@ -18,7 +18,7 @@ public class EnemyMovement : IState
     private TP2_Manager_ProfeAestrella _pathfindingManager;
     public Node_Script_OP2 NearestNode;
     bool _evade;
-    public EnemyMovement(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node, LayerMask obstacle, float viewRadius, bool evade)
+    public EnemySearch(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node, LayerMask obstacle, float viewRadius, bool evade)
     {
        
         _maxVelocity = maxVelocity;
@@ -44,8 +44,9 @@ public class EnemyMovement : IState
 
     public void OnUpdate()
     {
-       
-        MoveAlongPath();
+        
+            MoveAlongPath();
+        
         
 
 
@@ -63,13 +64,20 @@ public class EnemyMovement : IState
     void CalculatePath(Transform targetPosition)
     {
         Node_Script_OP2 startNode =_pathfindingManager.FindNodeNearPoint(_transform.position);
+        Debug.Log("StartNode: " + startNode);
         Node_Script_OP2 endNode =_pathfindingManager.FindNodeNearPoint(targetPosition.position);
-
+        Debug.Log("EndNode: " + endNode);
         List<Transform> path = _pathfindingManager.CalculatePath(startNode, endNode, _wallLayer);
 
 
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
 
+        Debug.Log("Path queue successfully created with " + pathQueue.Count + " nodes.");
+
+        foreach (var pos in pathQueue)
+        {
+            Debug.Log("Nodo en pathQueue: " + pos);
+        }
 
     }
 
@@ -77,47 +85,38 @@ public class EnemyMovement : IState
 
     void MoveAlongPath()
     {
+        //Vector3 avoidanceForce = ObstacleAvoidance();
+
+        //if (avoidanceForce != Vector3.zero)
+        //{
+        //    if (pathQueue.Count > 0)
+        //    {
+        //        Vector3 targetPosS = pathQueue.Peek();
+        //        Vector3 moveDirection = (targetPosS - _transform.position).normalized;
+        //        avoidanceForce += moveDirection * 0.5f;
+        //    }
+
+        //    AddForce(avoidanceForce);
+        //    _transform.position += _velocity * Time.deltaTime;
+        //    return;
+        //}
+
         if (pathQueue.Count == 0)
         {
             return;
         }
 
         Vector3 targetPos = pathQueue.Peek();
-        Vector3 avoidanceForce = ObstacleAvoidance();
-        float stopDistance = 1.5f;
-
-        //Vector3 targetPos = Vector3.zero; // Declara aquí para que esté disponible en todo el método
         if (Vector3.Distance(_transform.position, targetPos) > 0.1f)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
-
-            if (avoidanceForce != Vector3.zero)
-            {
-
-                //Vector3 moveDirection = (targetPos - _transform.position).normalized;
-                avoidanceForce += moveDirection * 0.5f;
-                AddForce(avoidanceForce);
-                _transform.position += _velocity * Time.deltaTime;
-                //return;
-            }
-            else
-            {
-                _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-                _transform.up = moveDirection;
-            }
-          
+            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+            _transform.up = moveDirection;
         }
         else
         {
             pathQueue.Dequeue();
         }
-       
-        
-           
-
-      
-
-    
     }
 
 

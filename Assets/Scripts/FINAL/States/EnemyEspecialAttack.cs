@@ -20,14 +20,14 @@ public class EnemyEspecialAttack : IState
 
     public void OnEnter() 
     {
-        Debug.Log("EnemyEspecialAttack");
+        //Debug.Log("EnemyEspecialAttack");
     }
 
     public void OnExit() { }
 
     public void OnUpdate()
     {
-        Console.WriteLine("EnemyEspecialAttack");
+        //Console.WriteLine("EnemyEspecialAttack");
        
             if (_currCdShot <= 0)
             {

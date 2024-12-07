@@ -16,36 +16,36 @@ public class LeaderQuestionNode : LeaderDecisionNode
             case Questions.Life:
                 if (LeaderBase.Vida <= LeaderBase.healthThreshold)
                 {
-                    Debug.Log("Executing trueNode for Life question");
+                    //Debug.Log("Executing trueNode for Life question");
                     trueNode.Execute(LeaderBase);
                 }
                 else
                 {
-                    Debug.Log("Executing falseNode for Life question");
+                    //Debug.Log("Executing falseNode for Life question");
                     falseNode.Execute(LeaderBase);
                 }
                 break;
             case Questions.IsEnemyLeaderNear:
                 if (LeaderBase.EnemyLeader == true)
                 {
-                    Debug.Log("Executing trueNode for IsLeaderNear question");
+                   //Debug.Log("Executing trueNode for IsLeaderNear question");
                     trueNode.Execute(LeaderBase);
                 }
                 else
                 {
-                    Debug.Log("Executing falseNode for IsLeaderNear question");
+                    //Debug.Log("Executing falseNode for IsLeaderNear question");
                     falseNode.Execute(LeaderBase);
                 }
                 break;
             case Questions.AreEnemiesVisible:
                 if (LeaderBase.visibleTargets.Count > 0)
                 {
-                    Debug.Log("Executing trueNode for AreEnemiesVisible question");
+                    //Debug.Log("Executing trueNode for AreEnemiesVisible question");
                     trueNode.Execute(LeaderBase);
                 }
                 else
                 {
-                    Debug.Log("Executing falseNode for AreEnemiesVisible question");
+                    //Debug.Log("Executing falseNode for AreEnemiesVisible question");
                     falseNode.Execute(LeaderBase);
                 }
                 break;

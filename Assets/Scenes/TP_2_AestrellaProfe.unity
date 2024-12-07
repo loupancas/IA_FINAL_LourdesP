@@ -194,6 +194,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Pink (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8293297622808111093, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8293297623337730573, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -532,6 +536,10 @@ PrefabInstance:
     - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: m_Name
       value: Enemy Blue (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2074750155695396715, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: _home
@@ -940,6 +948,10 @@ PrefabInstance:
     - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: m_Name
       value: Enemy Blue (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2074750155695396715, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: _home
@@ -1890,6 +1902,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Pink (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8293297622808111093, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8293297623337730573, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -2824,7 +2840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447325034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.42, y: -2.45, z: -0.36}
+  m_LocalPosition: {x: 3.89, y: -0.44, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2843,7 +2859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c519a64a3ab16624da911102084e6000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falseNode: {fileID: 1767350952}
+  falseNode: {fileID: 855174300}
   trueNode: {fileID: 1179040105}
   question: 0
 --- !u!4 &476893803 stripped
@@ -4369,6 +4385,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Pink (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8293297622808111093, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8293297623337730573, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -4507,7 +4527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855174298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.48, y: -0.43, z: -0.36}
+  m_LocalPosition: {x: 4.75, y: -1.45, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4526,7 +4546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c519a64a3ab16624da911102084e6000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falseNode: {fileID: 447325036}
+  falseNode: {fileID: 1767350952}
   trueNode: {fileID: 1085813133}
   question: 2
 --- !u!1001 &856987713
@@ -4599,6 +4619,10 @@ PrefabInstance:
     - target: {fileID: 8293297622808111093, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_Name
       value: Enemy Pink (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293297622808111093, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8293297623337730573, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_TagString
@@ -6409,7 +6433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085813131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.57, y: -1.98, z: -0.36}
+  m_LocalPosition: {x: 3.64, y: -2.38, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6691,6 +6715,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Blue (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2074750155695396715, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: _home
       value: 
@@ -6879,7 +6907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179040103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.85, y: -4.35, z: -0.36}
+  m_LocalPosition: {x: 2.44, y: -1.61, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9903,7 +9931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767350950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: -4.38, z: -0.36}
+  m_LocalPosition: {x: 5.58, y: -2.38, z: -0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10086,6 +10114,10 @@ PrefabInstance:
     - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: m_Name
       value: Enemy Blue (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2074750155695396715, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: _home
@@ -11422,7 +11454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c519a64a3ab16624da911102084e6000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falseNode: {fileID: 855174300}
+  falseNode: {fileID: 447325036}
   trueNode: {fileID: 66859903}
   question: 1
 --- !u!1 &2020902210
@@ -12265,6 +12297,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Blue
       objectReference: {fileID: 0}
+    - target: {fileID: 2074750155695396707, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2074750155695396715, guid: 9048a57c9410b904ab5c72b3fb689371, type: 3}
       propertyPath: _home
       value: 
@@ -12470,11 +12506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8293297622808111055, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.48
+      value: -8.4
       objectReference: {fileID: 0}
     - target: {fileID: 8293297622808111055, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.57
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8293297622808111055, guid: c5d3a653a2b92fd428b6cbe853a92074, type: 3}
       propertyPath: m_LocalPosition.z

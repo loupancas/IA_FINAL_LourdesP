@@ -68,9 +68,9 @@ public class TeamFlockingBase : EnemigoBase
         _fsmm = new FSM();
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
         _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _wall, pathfindingManager, NearestHomwNode,_obstacle, _viewRadius, isEvadeObstacles));
-        _fsmm.CreateState("Follow", new EnemyMovement(_Leader, transform, _maxVelocity, _wall, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); ;
-        _fsmm.CreateState("Movement", new EnemyFollow(_Leader, transform, _maxVelocity, _wall, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
-        _fsmm.ChangeState("Movement");
+        _fsmm.CreateState("Search", new EnemySearch(_Leader,  transform, _maxVelocity, _wall, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); 
+        _fsmm.CreateState("Follow", new EnemyFollow(_Leader, transform, _maxVelocity, _wall, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
+        _fsmm.ChangeState("Attack");
     }
 
     protected virtual void Update()
@@ -78,9 +78,9 @@ public class TeamFlockingBase : EnemigoBase
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
+        Debug.Log("NearestNode: " + NearestNode);
         FindVisibleTargets();
        
-
     }
 
     public void NormalUpdate()
@@ -131,9 +131,10 @@ public class TeamFlockingBase : EnemigoBase
         {
             isActionExecuting = true;
             _fsmm.Execute();
-            _fsmm.ChangeState("Movement");
-            //Debug.Log("SearchTime");
-            behaviorText.text = "Searching";
+            _fsmm.ChangeState("Search");
+            //NearestNode = pathfindingManager.FindNodeNearPoint(_Leader.position);
+            Debug.Log("SearchTime");
+            behaviorText.text = "Search";
             isActionExecuting = false;
         }
     }
@@ -146,7 +147,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             _fsmm.ChangeState("Follow");
             behaviorText.text = "Follow";
-            //Debug.Log("FollowTime");
+            Debug.Log("FollowTime");
             isActionExecuting = false;
         }
 
@@ -163,7 +164,7 @@ public class TeamFlockingBase : EnemigoBase
             NearestHomwNode = pathfindingManager.FindNodeNearPoint(_home.position);
             _fsmm.ChangeState("Flee");
             behaviorText.text = "Flee";
-            //Debug.Log("FleeTime");
+            Debug.Log("FleeTime");
             isActionExecuting = false;
         }
     }
@@ -176,7 +177,7 @@ public class TeamFlockingBase : EnemigoBase
             _fsmm.Execute();
             _fsmm.ChangeState("Attack");
             behaviorText.text = "Attack";
-            //Debug.Log("AttackTime");
+            Debug.Log("AttackTime");
             isActionExecuting = false;
         }
     }
