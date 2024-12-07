@@ -73,42 +73,84 @@ public class EnemyMovement : IState
 
     }
 
+    //void MoveAlongPath()
+    //{
+    //    Vector3 avoidanceForce = ObstacleAvoidance();
+    //    float stopDistance = 1.5f;
+
+    //    if (avoidanceForce != Vector3.zero)
+    //    {
+    //        if (pathQueue.Count > 0)
+    //        {
+    //            Vector3 targetPos = pathQueue.Peek();
+    //            Vector3 moveDirection = (targetPos - _transform.position).normalized;
+    //            avoidanceForce += moveDirection * 0.5f; 
+    //        }
+
+    //        AddForce(avoidanceForce);
+    //        _transform.position += _velocity * Time.deltaTime; 
+    //        return;
+    //    }
+
+    //    if (pathQueue.Count == 0)
+    //    {
+    //        return; 
+    //    }
+    //    //Vector3 targetPos = pathQueue.Peek();
+
+    //    if (Vector3.Distance(_transform.position, targetPos) > stopDistance)
+    //    {
+    //        Vector3 moveDirection = (targetPos - _transform.position).normalized;
+    //        _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+    //        _transform.up = moveDirection;
+    //    }
+    //    else
+    //    {
+    //        pathQueue.Dequeue();
+    //    }
+    //}
+
+
     void MoveAlongPath()
     {
         Vector3 avoidanceForce = ObstacleAvoidance();
         float stopDistance = 1.5f;
 
-        if (avoidanceForce != Vector3.zero)
-        {
-            if (pathQueue.Count > 0)
-            {
-                Vector3 targetPosS = pathQueue.Peek();
-                Vector3 moveDirection = (targetPosS - _transform.position).normalized;
-                avoidanceForce += moveDirection * 0.5f; 
-            }
+        Vector3 targetPos = Vector3.zero; // Declara aquí para que esté disponible en todo el método
 
-            AddForce(avoidanceForce);
-            _transform.position += _velocity * Time.deltaTime; 
-            return;
-        }
+        if (pathQueue.Count > 0)
+        {
+            targetPos = pathQueue.Peek(); // Solo asigna el valor, no vuelvas a declarar
+
+            if (avoidanceForce != Vector3.zero)
+            {
+
+                Vector3 moveDirection = (targetPos - _transform.position).normalized;
+                avoidanceForce += moveDirection * 0.5f;
+                AddForce(avoidanceForce);
+                _transform.position += _velocity * Time.deltaTime;
+                //return;
+            }
+            if (Vector3.Distance(_transform.position, targetPos) > stopDistance)
+            {
+                Vector3 moveDirection = (targetPos - _transform.position).normalized;
+                _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+                _transform.up = moveDirection;
+            }
+            else
+            {
+                pathQueue.Dequeue();
+            }
+        }     
 
         if (pathQueue.Count == 0)
         {
-            return; 
+            return;
         }
 
-        Vector3 targetPos = pathQueue.Peek();
-        if (Vector3.Distance(_transform.position, targetPos) > stopDistance)
-        {
-            Vector3 moveDirection = (targetPos - _transform.position).normalized;
-            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-            _transform.up = moveDirection;
-        }
-        else
-        {
-            pathQueue.Dequeue();
-        }
+    
     }
+
 
     protected Vector3 ObstacleAvoidance()
     {
