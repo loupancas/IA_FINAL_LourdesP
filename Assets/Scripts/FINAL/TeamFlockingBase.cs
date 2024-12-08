@@ -78,7 +78,7 @@ public class TeamFlockingBase : EnemigoBase
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
-        Debug.Log("NearestNode: " + NearestNode);
+       
         FindVisibleTargets();
        
     }
