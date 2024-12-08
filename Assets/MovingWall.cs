@@ -28,14 +28,7 @@ public class MovingWall : MonoBehaviour
 
     private void Update()
     {
-        if (position1 == pos1.position)
-        {
-            moved = false;
-        }
-        else
-        {
-            moved = true;
-        }
+      
 
     }
 
@@ -54,6 +47,7 @@ public class MovingWall : MonoBehaviour
     {
         float elapsedTime = 0;
         Vector3 startingPos = _wall.transform.position;
+        moved = true;
         while (elapsedTime < moveTime)
         {
             _wall.transform.position = Vector3.Lerp(startingPos, target, (elapsedTime / moveTime));
@@ -61,6 +55,6 @@ public class MovingWall : MonoBehaviour
             yield return null;
         }
         _wall.transform.position = target;
-
+        moved = false;
     }
 }

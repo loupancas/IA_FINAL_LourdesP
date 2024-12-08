@@ -79,7 +79,6 @@ public class TeamFlockingBase : EnemigoBase
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
-       
         FindVisibleTargets();
        
     }
@@ -288,7 +287,6 @@ public class TeamFlockingBase : EnemigoBase
 
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
 
-        Debug.Log($"Rotating towards target on Z axis... Current Angle: {currentAngle}, Target Angle: {targetAngle}");
     }
 
 

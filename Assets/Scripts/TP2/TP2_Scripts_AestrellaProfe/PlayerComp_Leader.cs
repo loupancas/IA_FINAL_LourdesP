@@ -63,7 +63,7 @@ public class PlayerComp_Leader : LeaderBase
             }
             else
             {
-                Debug.Log("Hit point is too close to the NearestNode");
+                Debug.Log("Muy cerca al NearestNode");
             }
         }
     }

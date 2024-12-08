@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -14,6 +15,7 @@ public class EnemyFollow : IState
     float _maxForce;
     bool _evade;
     LayerMask _obstacle;
+    float _separationWeight = 1f;
     public EnemyFollow(UnityEngine.Transform target, UnityEngine.Transform me, float maxVelocity,  LayerMask wallLayer, float viewRadius, float maxForce, LayerMask obstacle, bool evade)
     {
        
@@ -61,7 +63,8 @@ public class EnemyFollow : IState
         {
             Vector3 moveDirection = (_Leader.position - me.position).normalized;
             me.position += moveDirection * _maxVelocity * Time.deltaTime;
-          
+            Flocking();
+
         }
         else
         {
@@ -70,7 +73,38 @@ public class EnemyFollow : IState
 
     }
 
-  
+    private void Flocking()
+    {
+        var boids = GameManager.instance.allAgents;
+        AddForce(Separation(boids) * _separationWeight);
+    }
+
+    protected Vector3 Separation(List<EnemigoBase> agents)
+    {
+        Vector3 desired = Vector3.zero;
+
+        foreach (var item in agents)
+        {
+            if (item.Equals(this)) continue;
+            Vector3 dist = item.transform.position - _transform.position;
+
+            if (dist.sqrMagnitude > _viewRadius * _viewRadius)
+            {
+                continue;
+            }
+
+            desired += dist;
+        }
+
+        if (desired == Vector3.zero) return Vector3.zero;
+        desired *= -1;
+        return CalculateSteering(desired.normalized * _maxVelocity);
+    }
+
+    protected Vector3 CalculateSteering(Vector3 desired)
+    {
+        return Vector3.ClampMagnitude(desired - _velocity, _maxForce * Time.deltaTime);
+    }
 
     void AddForce(Vector3 dir)
     {

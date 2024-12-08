@@ -20,6 +20,8 @@ public class Node_Script_OP2 : MonoBehaviour
     public Collider2D Collider;
     public float _Weight;
 
+
+
     private void Awake()
     {
         _PathManager = FindObjectOfType<TP2_Manager_ProfeAestrella>();
@@ -40,7 +42,14 @@ public class Node_Script_OP2 : MonoBehaviour
         }
 
         FindNeighbors();
+
     }
+
+    private void Update()
+    {
+      
+    }
+
 
     private void FindNeighbors()
     {

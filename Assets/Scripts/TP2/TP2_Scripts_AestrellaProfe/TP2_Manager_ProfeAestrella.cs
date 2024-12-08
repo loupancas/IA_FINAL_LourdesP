@@ -15,7 +15,6 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
     public Node_Script_OP2 _NearesHomeNode;
     public LayerMask _ObstacleLayer;
     public static TP2_Manager_ProfeAestrella Instance;
-
     private void Start()
     {
         if (Instance == null)
@@ -26,6 +25,8 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
         {
             Destroy(this);
         }
+
+
     }
 
     public void Update()
@@ -34,6 +35,9 @@ public class TP2_Manager_ProfeAestrella : MonoBehaviour
         //{
         //    PathFinding(_Path, StartNode, EndNode, _ObstacleLayer);
         //}
+
+        
+
     }
 
     public List<Transform> CalculatePath(Node_Script_OP2 start, Node_Script_OP2 goal, LayerMask obstacleLayer)

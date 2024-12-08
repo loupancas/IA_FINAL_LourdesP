@@ -21,7 +21,7 @@ public class EnemySearch : IState
     public EnemySearch(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node, LayerMask obstacle, float viewRadius, bool evade)
     {
 
-        _maxVelocity = maxVelocity; //> 0 ? maxVelocity : 5.0f;
+        _maxVelocity = maxVelocity; 
         _wallLayer = wallLayer;
         _obstacle = obstacle;
         _pathfindingManager = pathfindingManager;
@@ -76,71 +76,15 @@ public class EnemySearch : IState
 
         pathQueue = new Queue<Vector3>(path.Select(node => node.position));
 
-        Debug.Log("Path queue successfully created with " + pathQueue.Count + " nodes.");
-
-        foreach (var pos in pathQueue)
-        {
-            Debug.Log("Nodo en pathQueue: " + pos);
-          
-        }
+       
 
     }
-
-
-
-    void MoveAlongPath()
-    {
-        //Vector3 avoidanceForce = ObstacleAvoidance();
-
-        //if (avoidanceForce != Vector3.zero)
-        //{
-        //    if (pathQueue.Count > 0)
-        //    {
-        //        Vector3 targetPosS = pathQueue.Peek();
-        //        Vector3 moveDirection = (targetPosS - _transform.position).normalized;
-        //        avoidanceForce += moveDirection * 0.5f;
-        //    }
-
-        //    AddForce(avoidanceForce);
-        //    _transform.position += _velocity * Time.deltaTime;
-        //    return;
-        //}
-
-        Debug.Log("Moving along path.");
-        Debug.Log("Path queue count: " + pathQueue.Count);
-
-        if (pathQueue.Count == 0)
-        {
-            return;
-        }
-
-        Vector3 targetPos = pathQueue.Peek();
-        if (Vector3.Distance(_transform.position, targetPos) <= 2.5f)
-        {
-
-            pathQueue.Dequeue();
-            Debug.Log("Path dequeue count: " + pathQueue.Count);
-            //_transform.up = moveDirection;
-        }
-        else
-        {
-          
-
-            Vector3 moveDirection = (targetPos - _transform.position).normalized;
-            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-            Debug.Log("velocidad:" + _maxVelocity);
-
-            Debug.Log($"Distancia al nodo objetivo: {Vector3.Distance(_transform.position, targetPos)}");
-
-        }
-    }
-
 
     protected Vector3 ObstacleAvoidance()
     {
         Vector3 avoidanceForce = Vector3.zero;
 
-        float[] angles = { -45, -30, -15, 0, 15, 30, 45 }; 
+        float[] angles = { -45, -30, -15, 0, 15, 30, 45 };
         foreach (float angle in angles)
         {
             Vector3 direction = Quaternion.Euler(0, 0, angle) * _transform.right;
@@ -159,11 +103,53 @@ public class EnemySearch : IState
         {
             _evade = true;
             Debug.Log("Evade");
-            return avoidanceForce.normalized * _maxVelocity; 
+            return avoidanceForce.normalized * _maxVelocity;
         }
 
         _evade = false;
-        return Vector3.zero; 
+        return Vector3.zero;
     }
+
+
+    void MoveAlongPath()
+    {
+        Vector3 avoidanceForce = ObstacleAvoidance();
+
+           
+
+        if (pathQueue.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 targetPos = pathQueue.Peek();
+        if (Vector3.Distance(_transform.position, targetPos) <= 2.5f)
+        {
+
+            pathQueue.Dequeue();
+           
+        }
+        else
+        {
+            Vector3 moveDirection = (targetPos - _transform.position).normalized;
+            Debug.Log($"Distancia al nodo objetivo: {Vector3.Distance(_transform.position, targetPos)}");
+
+            if (avoidanceForce != Vector3.zero)
+            {
+                               
+                 avoidanceForce += moveDirection * 0.5f;                
+                 AddForce(avoidanceForce);
+                _transform.position += _velocity * Time.deltaTime;
+                return;
+            }
+
+            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+
+
+        }
+    }
+
+
+  
 
 }
