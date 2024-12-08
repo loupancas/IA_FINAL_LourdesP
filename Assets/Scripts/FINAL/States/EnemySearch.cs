@@ -114,7 +114,7 @@ public class EnemySearch : IState
         }
 
         Vector3 targetPos = pathQueue.Peek();
-        if (Vector3.Distance(_transform.position, targetPos) > 6f)
+        if (Vector3.Distance(_transform.position, targetPos) > 1f)
         {
             Vector3 moveDirection = (targetPos - _transform.position).normalized;
             _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
