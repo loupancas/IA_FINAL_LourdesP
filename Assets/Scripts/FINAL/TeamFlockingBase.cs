@@ -34,6 +34,7 @@ public class TeamFlockingBase : EnemigoBase
     private FSM _fsmm;
     public bool isEvadeObstacles;
     private bool isActionExecuting = false;
+    public float _separationWeight;
 
     protected virtual void Start()
     {
@@ -102,7 +103,46 @@ public class TeamFlockingBase : EnemigoBase
 
     }
 
+    private void Flocking()
+    {
+        var boids = GameManager.instance.allAgents;
+        AddForce(Separation(boids) * _separationWeight);
+    }
 
+    void AddForce(Vector3 dir)
+    {
+        _velocity += dir;
+
+        _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
+    }
+
+    protected Vector3 Separation(List<EnemigoBase> agents)
+    {
+        Vector3 desired = Vector3.zero;
+
+        foreach (var item in agents)
+        {
+            if (item == this) continue; 
+            Vector3 dist = item.transform.position - _transform.position;
+
+            if (dist.sqrMagnitude > _viewRadius * _viewRadius)
+            {
+                continue;
+            }
+
+            desired += dist;
+        }
+
+        if (desired == Vector3.zero) return Vector3.zero;
+        desired *= -1;
+        return CalculateSteering(desired.normalized * _maxVelocity);
+    }
+
+
+    protected Vector3 CalculateSteering(Vector3 desired)
+    {
+        return Vector3.ClampMagnitude(desired - _velocity, _maxForce * Time.deltaTime);
+    }
 
 
     public override void Morir()
@@ -131,8 +171,9 @@ public class TeamFlockingBase : EnemigoBase
         {
             isActionExecuting = true;
             _fsmm.Execute();
-            _fsmm.ChangeState("Search");
             //NearestNode = pathfindingManager.FindNodeNearPoint(_Leader.position);
+
+            _fsmm.ChangeState("Search");
             Debug.Log("SearchTime");
             behaviorText.text = "Search";
             isActionExecuting = false;

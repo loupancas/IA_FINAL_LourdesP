@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EnemyFollow : IState
 {
@@ -47,7 +49,7 @@ public class EnemyFollow : IState
             FollowLeader(_target, _transform);
         }
 
-
+        
 
 
     }
@@ -59,6 +61,7 @@ public class EnemyFollow : IState
         {
             Vector3 moveDirection = (_Leader.position - me.position).normalized;
             me.position += moveDirection * _maxVelocity * Time.deltaTime;
+          
         }
         else
         {
@@ -66,6 +69,8 @@ public class EnemyFollow : IState
         }
 
     }
+
+  
 
     void AddForce(Vector3 dir)
     {

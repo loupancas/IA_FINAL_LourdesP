@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class MovingWall : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MovingWall : MonoBehaviour
     public float moveTime = 2.0f;
     public Transform pos1;
     public Transform pos2;
-
+    public bool moved;
 
     private void Awake()
     {
@@ -22,6 +23,20 @@ public class MovingWall : MonoBehaviour
     {
         _wall = GetComponent<Transform>();
         StartCoroutine(MoveWall());
+
+    }
+
+    private void Update()
+    {
+        if (position1 == pos1.position)
+        {
+            moved = false;
+        }
+        else
+        {
+            moved = true;
+        }
+
     }
 
     IEnumerator MoveWall()
@@ -46,5 +61,6 @@ public class MovingWall : MonoBehaviour
             yield return null;
         }
         _wall.transform.position = target;
+
     }
 }

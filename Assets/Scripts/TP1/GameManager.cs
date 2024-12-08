@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public PlayerComp_Leader _blueLeader;
     public Transform pinkBase;
     public Transform blueBase;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -30,8 +31,19 @@ public class GameManager : MonoBehaviour
     {
        
 
+       
+
+
+
 
     }
+
+    private void Update()
+    {
+        
+    }
+
+
     void InitializeAllAgents()
     {
         allAgents = FindObjectsOfType<EnemigoBase>().ToList();

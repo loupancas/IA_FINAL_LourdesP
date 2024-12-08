@@ -20,8 +20,8 @@ public class EnemySearch : IState
     bool _evade;
     public EnemySearch(Transform target, Transform me, float maxVelocity,  LayerMask wallLayer, TP2_Manager_ProfeAestrella pathfindingManager, Node_Script_OP2 node, LayerMask obstacle, float viewRadius, bool evade)
     {
-       
-        _maxVelocity = maxVelocity > 0 ? maxVelocity : 5.0f;
+
+        _maxVelocity = maxVelocity; //> 0 ? maxVelocity : 5.0f;
         _wallLayer = wallLayer;
         _obstacle = obstacle;
         _pathfindingManager = pathfindingManager;
@@ -81,6 +81,7 @@ public class EnemySearch : IState
         foreach (var pos in pathQueue)
         {
             Debug.Log("Nodo en pathQueue: " + pos);
+          
         }
 
     }
@@ -114,18 +115,23 @@ public class EnemySearch : IState
         }
 
         Vector3 targetPos = pathQueue.Peek();
-        if (Vector3.Distance(_transform.position, targetPos) > 1f)
+        if (Vector3.Distance(_transform.position, targetPos) <= 2.5f)
         {
-            Vector3 moveDirection = (targetPos - _transform.position).normalized;
-            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
-            Debug.Log($"Distancia al nodo objetivo: {Vector3.Distance(_transform.position, targetPos)}");
 
+            pathQueue.Dequeue();
+            Debug.Log("Path dequeue count: " + pathQueue.Count);
             //_transform.up = moveDirection;
         }
         else
         {
-            pathQueue.Dequeue();
-            Debug.Log("Path dequeue count: " + pathQueue.Count);
+          
+
+            Vector3 moveDirection = (targetPos - _transform.position).normalized;
+            _transform.position += moveDirection * _maxVelocity * Time.deltaTime;
+            Debug.Log("velocidad:" + _maxVelocity);
+
+            Debug.Log($"Distancia al nodo objetivo: {Vector3.Distance(_transform.position, targetPos)}");
+
         }
     }
 
