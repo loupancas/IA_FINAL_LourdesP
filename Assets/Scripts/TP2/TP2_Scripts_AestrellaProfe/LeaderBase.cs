@@ -25,7 +25,6 @@ public class LeaderBase : EnemigoBase
     public delegate void DelegateUpdate();
     public DelegateUpdate OnUpdate;
     public string _leaderTag;
-    public float _healingRate;
     public bool isEvadeObstacles;
 
 
@@ -187,15 +186,14 @@ public class LeaderBase : EnemigoBase
 
     private void RotateTowardsTarget2D(Vector3 targetPosition)
     {
-        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        Vector3 directionToTarget = (targetPosition - _spawnBullet.position).normalized;
         float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90f;
 
-        float currentAngle = transform.eulerAngles.z;
+        float currentAngle = _spawnBullet.eulerAngles.z;
         float newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, 180f * Time.deltaTime);
 
-        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        _spawnBullet.rotation = Quaternion.Euler(0, 0, newAngle);
 
-        Debug.Log($"Rotating towards target on Z axis... Current Angle: {currentAngle}, Target Angle: {targetAngle}");
     }
 
 

@@ -30,7 +30,7 @@ public class TeamFlockingBase : EnemigoBase
     public Node_Script_OP2 NearestNode;
     public Node_Script_OP2 NearestHomwNode;
     protected Vector3 _velocity;
-    [SerializeField] private Transform _transform;
+    private Transform _transform;
     private FSM _fsmm;
     public bool isEvadeObstacles;
     private bool isActionExecuting = false;
@@ -70,7 +70,7 @@ public class TeamFlockingBase : EnemigoBase
         _fsmm.CreateState("Attack", new EnemyAttack(_proyectil, _spawnBullet, _cdShot));
         _fsmm.CreateState("Flee", new EnemyFlee(_home, transform, _maxVelocity, _wall, pathfindingManager, NearestHomwNode,_obstacle, _viewRadius, isEvadeObstacles));
         _fsmm.CreateState("Search", new EnemySearch(_Leader,  transform, _maxVelocity, _wall, pathfindingManager, NearestNode, _obstacle, _viewRadius,isEvadeObstacles)); 
-        _fsmm.CreateState("Follow", new EnemyFollow(_Leader, transform, _maxVelocity, _wall, _viewRadius, _maxForce, _obstacle, isEvadeObstacles));
+        _fsmm.CreateState("Follow", new EnemyFollow(_Leader, transform, _maxVelocity, _wall, _viewRadius, _maxForce, _obstacle, isEvadeObstacles, _separationWeight));
         _fsmm.ChangeState("Attack");
     }
 
@@ -79,8 +79,9 @@ public class TeamFlockingBase : EnemigoBase
 
         OnUpdate.Invoke();
         pathfindingManager._NearestPlayerNode = NearestNode;
-        FindVisibleTargets();
        
+        FindVisibleTargets();
+        
     }
 
     public void NormalUpdate()
@@ -279,13 +280,13 @@ public class TeamFlockingBase : EnemigoBase
 
     private void RotateTowardsTarget2D(Vector3 targetPosition)
     {
-        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        Vector3 directionToTarget = (targetPosition - _spawnBullet.position).normalized;
         float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90f;
 
-        float currentAngle = transform.eulerAngles.z;
+        float currentAngle = _spawnBullet.eulerAngles.z;
         float newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, 180f * Time.deltaTime);
 
-        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        _spawnBullet.rotation = Quaternion.Euler(0, 0, newAngle);
 
     }
 
@@ -295,15 +296,22 @@ public class TeamFlockingBase : EnemigoBase
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
-        Vector3 DirA = DirFromAngle(_viewAngle / 2 , false);
-        Vector3 DirB = DirFromAngle(-_viewAngle / 2 , false);
+        Vector3 DirA = DirFromAngle(_viewAngle / 2, false);
+        Vector3 DirB = DirFromAngle(-_viewAngle / 2, false);
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(transform.position, transform.position + DirA.normalized * _viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + DirB.normalized * _viewRadius);
+        DrawDebugGizmos();
     }
 
+    public void DrawDebugGizmos()
+    {
+       
 
-  
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + _velocity);
+    }
+
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

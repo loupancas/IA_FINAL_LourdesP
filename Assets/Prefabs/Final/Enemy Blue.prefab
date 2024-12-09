@@ -407,8 +407,8 @@ GameObject:
   - component: {fileID: 2074750155695396716}
   - component: {fileID: 2074750155695396718}
   - component: {fileID: 2074750155695396715}
-  - component: {fileID: 2074750155695396712}
   - component: {fileID: 2074750155695396713}
+  - component: {fileID: 5208249530005900785}
   m_Layer: 13
   m_Name: Enemy Blue
   m_TagString: Cyan
@@ -503,6 +503,7 @@ MonoBehaviour:
   _viewAngle: 250
   team: 1
   behaviorText: {fileID: 2074750155991986660}
+  _team: 0
   LiderSpotted: 0
   decisionTree: {fileID: 0}
   healthThreshold: 0.15
@@ -525,21 +526,8 @@ MonoBehaviour:
   pathfindingManager: {fileID: 0}
   NearestNode: {fileID: 0}
   NearestHomwNode: {fileID: 0}
-  _transform: {fileID: 0}
   isEvadeObstacles: 0
---- !u!135 &2074750155695396712
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2074750155695396707}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  _separationWeight: 0
 --- !u!114 &2074750155695396713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +541,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hPBar: {fileID: 2074750155035593947}
+--- !u!136 &5208249530005900785
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074750155695396707}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2074750155991986662
 GameObject:
   m_ObjectHideFlags: 0

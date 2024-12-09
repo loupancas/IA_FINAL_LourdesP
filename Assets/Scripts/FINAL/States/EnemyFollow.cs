@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EnemyFollow : IState
 {
@@ -15,8 +14,8 @@ public class EnemyFollow : IState
     float _maxForce;
     bool _evade;
     LayerMask _obstacle;
-    float _separationWeight = 1f;
-    public EnemyFollow(UnityEngine.Transform target, UnityEngine.Transform me, float maxVelocity,  LayerMask wallLayer, float viewRadius, float maxForce, LayerMask obstacle, bool evade)
+    float _separationWeight;
+    public EnemyFollow(UnityEngine.Transform target, UnityEngine.Transform me, float maxVelocity,  LayerMask wallLayer, float viewRadius, float maxForce, LayerMask obstacle, bool evade, float separation)
     {
        
         _maxVelocity = maxVelocity;
@@ -27,6 +26,7 @@ public class EnemyFollow : IState
         _maxForce = maxForce;
         _evade = evade;
         _obstacle = obstacle;
+        _separationWeight = separation;
     }
     
 
@@ -51,7 +51,7 @@ public class EnemyFollow : IState
             FollowLeader(_target, _transform);
         }
 
-        
+        _transform.position += _velocity * Time.deltaTime;
 
 
     }
@@ -62,7 +62,8 @@ public class EnemyFollow : IState
         if (Vector3.Distance(me.position, _Leader.position) > 1f)
         {
             Vector3 moveDirection = (_Leader.position - me.position).normalized;
-            me.position += moveDirection * _maxVelocity * Time.deltaTime;
+           
+            AddForce(moveDirection * _maxVelocity);
             Flocking();
 
         }
@@ -85,52 +86,62 @@ public class EnemyFollow : IState
 
         foreach (var item in agents)
         {
-            if (item.Equals(this)) continue;
-            Vector3 dist = item.transform.position - _transform.position;
+            if (item == null || item.transform == _transform) continue;
 
-            if (dist.sqrMagnitude > _viewRadius * _viewRadius)
+            Vector3 toAgent = _transform.position - item.transform.position;
+            float distSqr = toAgent.sqrMagnitude;
+
+            if (distSqr < _viewRadius * _viewRadius && distSqr > 0)
             {
-                continue;
+              
+                desired += toAgent.normalized / Mathf.Sqrt(distSqr);
             }
-
-            desired += dist;
         }
 
         if (desired == Vector3.zero) return Vector3.zero;
-        desired *= -1;
-        return CalculateSteering(desired.normalized * _maxVelocity);
+        desired.Normalize();
+        desired *= _maxVelocity;
+
+        return CalculateSteering(desired);
     }
 
     protected Vector3 CalculateSteering(Vector3 desired)
     {
-        return Vector3.ClampMagnitude(desired - _velocity, _maxForce * Time.deltaTime);
+        Vector3 steering = desired - _velocity;
+        return Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);
     }
 
-    void AddForce(Vector3 dir)
+    private void AddForce(Vector3 force)
     {
-        _velocity += dir;
-
+        _velocity += force;
         _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
     }
 
 
-    protected Vector3 Arrive(Vector3 targetPos)
+    private Vector3 Arrive(Vector3 targetPos)
     {
-        float dist = Vector3.Distance(_transform.position, targetPos);
-        float stopRadius = 1.0f;
-        if (dist > _viewRadius) return Seek(targetPos);
-        if (dist < stopRadius)
-            return Vector3.zero;
+        float distance = Vector3.Distance(_transform.position, targetPos);
+        float stopRadius = 2f;
 
-        return Seek(targetPos, _maxVelocity * (dist / (_viewRadius+5f)));
+        if (distance > _viewRadius)
+        {
+            return Seek(targetPos);
+        }
+
+        if (distance < stopRadius)
+        {
+            return Vector3.zero;
+        }
+
+        float speed = _maxVelocity * (distance / (_viewRadius + 5f));
+        return Seek(targetPos, speed);
     }
+
 
     protected Vector3 Seek(Vector3 targetPos, float speed)
     {
         Vector3 desired = (targetPos - _transform.position).normalized * speed;
-        Vector3 steering = desired - _velocity;
-        steering = Vector3.ClampMagnitude(steering, _maxForce * Time.deltaTime);
-        return steering;
+        return CalculateSteering(desired);
     }
 
     protected Vector3 Seek(Vector3 targetPos)
@@ -140,21 +151,22 @@ public class EnemyFollow : IState
 
     protected Vector3 ObstacleAvoidance()
     {
-        if (Physics2D.Raycast(_transform.position + _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
+        Vector3 leftRay = _transform.position - _transform.up * 0.5f;
+        Vector3 rightRay = _transform.position + _transform.up * 0.5f;
+
+        if (Physics2D.Raycast(rightRay, _transform.right, _viewRadius, _obstacle))
         {
-            _evade = true;
-            Debug.Log("Evade");
             return Seek(_transform.position - _transform.up);
         }
-        else if (Physics2D.Raycast(_transform.position - _transform.up * 0.5f, _transform.right, _viewRadius, _obstacle))
+        else if (Physics2D.Raycast(leftRay, _transform.right, _viewRadius, _obstacle))
         {
-           _evade = true;
-            Debug.Log("Evade");
             return Seek(_transform.position + _transform.up);
         }
 
-        _evade = false;
         return Vector3.zero;
     }
+
+  
+
 
 }
